@@ -1,0 +1,16 @@
+RICARDO:
+manual tecnico resultados tabuleiro
+
+TIAGO: 
+
+Comentar código projeto.lisp
+Manual técnico (funções projeto.lisp)
+Manual utilizador
+
+
+
+
+
+
+
+
