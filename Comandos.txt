@@ -1,0 +1,9 @@
+Correr emulador
+- C:\Android\sdk\tools\emulator.exe -netdelay none -netspeed full -avd Nexus_4_API_25
+
+Iniciar o react native packager:
+-cd FOLDER
+-react-native start
+
+Iniciar o react native no android:
+-react-native run-android
