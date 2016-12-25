@@ -1,9 +1,15 @@
-Correr emulador
-- C:\Android\sdk\tools\emulator.exe -netdelay none -netspeed full -avd Nexus_4_API_25
+Comandos Ricardo Morais:
 
-Iniciar o react native packager:
--cd FOLDER
--react-native start
+  Correr emulador
+  - C:\Android\sdk\tools\emulator.exe -netdelay none -netspeed full -avd S3
 
-Iniciar o react native no android:
--react-native run-android
+  Iniciar o react native packager:
+  - cd "C:\Users\Ricardo Morais\Documents\Projeto_CM_IA\Projeto\AwesomeProject"
+  - react-native start
+
+  Iniciar o react native no android:
+  - cd "C:\Users\Ricardo Morais\Documents\Projeto_CM_IA\Projeto\AwesomeProject"
+  - react-native run-android
+
+  Atalhos:
+  -Refresh -> carregar duas vezes no R
