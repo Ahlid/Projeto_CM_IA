@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, Text, TouchableHighlight, ToastAndroid } from 'react-native';
+import Dash from './Dash';
 
 export default class Edge extends Component {
 
@@ -40,23 +41,43 @@ export default class Edge extends Component {
         console.log("Render Edge");
 
         let stateStyle = {
-            top: this.props.centerY - Edge.EDGE_WIDTH/2,
-            left: this.props.centerX - Edge.EDGE_WIDTH/2,
-            width: this.state.orientation == 'horizontal' ? this.props.size : Edge.EDGE_WIDTH,
-            height: this.state.orientation == 'horizontal' ? Edge.EDGE_WIDTH : this.props.size,
-            backgroundColor: this.state.isClosed ? '#a82f26' : '#00000022'
+            top: this.state.orientation == 'horizontal' ? this.props.centerY - (Edge.EDGE_WIDTH + Edge.EDGE_BORDER) /2 : this.props.centerY - (Edge.EDGE_WIDTH) /2 ,
+            left: this.state.orientation == 'horizontal' ? this.props.centerX - (Edge.EDGE_WIDTH)/2 : this.props.centerX - (Edge.EDGE_WIDTH + Edge.EDGE_BORDER) /2 ,
+            width: this.state.orientation == 'horizontal' ? this.props.size : Edge.EDGE_WIDTH + Edge.EDGE_BORDER,
+            height: this.state.orientation == 'horizontal' ? Edge.EDGE_WIDTH + Edge.EDGE_BORDER: this.props.size,
+            backgroundColor: 'transparent'
         }
 
+
+
+        let lineStyle = {
+            backgroundColor: this.state.isClosed ? '#a82f26' : 'transparent',
+            width: this.state.orientation == 'horizontal' ? this.props.size : Edge.EDGE_WIDTH ,
+            height: this.state.orientation == 'horizontal' ? Edge.EDGE_WIDTH : this.props.size,
+        }
+
+        let dashStyle = {
+            width:1,
+            height:this.props.size,
+            flexDirection:'column'}
+
+            //  { this.state.orientation == 'horizontal' ? <Dash/> : <Dash style={[dashStyle]}/> }
         return (
-            <TouchableHighlight style={[styles.edgeBase, stateStyle]} onPress={this.props.onClick}>
-                <View/>
+
+            <TouchableHighlight style={[styles.edgeBase, stateStyle]}   onPress={this.props.onClick}>
+
+                    <View style={[lineStyle]}>
+                        { this.state.isClosed ? null :  (this.state.orientation == 'horizontal' ? <Dash dashColor="lightgrey" dashGap={10} dashLength={10} /> : <Dash style={dashStyle} dashColor="lightgrey" dashGap={10} dashLength={10} />) }
+                    </View>
+
+
             </TouchableHighlight>
         );
     }
 
 }
-Edge.EDGE_WIDTH = 18;
-
+Edge.EDGE_WIDTH = 5;
+Edge.EDGE_BORDER=30;
 
 const styles = StyleSheet.create({
     edgeBase: {
@@ -68,6 +89,22 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#a82f26',
+        backgroundColor: 'transparent',
+
     }
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

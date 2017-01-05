@@ -291,7 +291,7 @@ export default class Board extends Component {
 
         //Renders the board with the 3 arrays
         return (
-            <View style={{flex:1}} onLayout={onLayout}>
+            <View style={{flex:1,  margin : 20}} onLayout={onLayout}>
                 {[this.renderSquares(),this.renderEdges(),this.renderVertices()]}
             </View>
         );

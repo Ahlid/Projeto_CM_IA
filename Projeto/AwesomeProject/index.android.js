@@ -11,7 +11,7 @@ import {
 export default class AwesomeProject extends Component {
     render() {
         return (
-                <Board squaresHorizontal={7} squaresVertical={7}/>
+                <Board squaresHorizontal={4} squaresVertical={4}/>
         );
     }
 

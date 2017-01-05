@@ -1,0 +1,1 @@
+C:\Users\pcts\AppData\Local\Android\Sdk\tools\emulator.exe -netdelay none -netspeed full -avd Nexus_6_API_24

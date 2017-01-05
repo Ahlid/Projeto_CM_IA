@@ -23,7 +23,7 @@ export default class Vertex extends Component {
     }
 
 }
-Vertex.VERTEX_WIDTH = 24;
+Vertex.VERTEX_WIDTH = 25;
 
 const styles = StyleSheet.create({
 
@@ -36,6 +36,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
+        borderRadius: 20,
         backgroundColor: '#4285F4',
     },
 
