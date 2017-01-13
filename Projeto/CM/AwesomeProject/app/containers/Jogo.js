@@ -4,7 +4,7 @@
 import React, { Component } from 'react';
 import { Modal, Text, TouchableHighlight, View,TextInput,Button  } from 'react-native';
 import {connect} from 'react-redux';
-
+import Board from '../components/Board';
 class Jogo extends React.Component{
 
     constructor(props){
@@ -66,7 +66,8 @@ class Jogo extends React.Component{
         }
 
 
-        return <View><Text>JOGO</Text></View>;
+        return <Board squaresHorizontal={5} squaresVertical = {5} />
+        ;
     }
 
 }

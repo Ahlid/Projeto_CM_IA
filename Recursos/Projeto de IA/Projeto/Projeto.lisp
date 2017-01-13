@@ -26,16 +26,16 @@
 	)
 )
 (let ((diretoria nil))
-(defun pedir-directoria ()
-	"Pede a directoria dos ficheiros ao utilizador"
-	(cond
-	((null diretoria) (progn
-		(format t "Insira o diretório: ")
-		(setf diretoria (read))
-	))
-	(t diretoria)
+	(defun pedir-directoria ()
+		"Pede a directoria dos ficheiros ao utilizador"
+		(cond
+		((null diretoria) (progn
+			(format t "Insira o diretório: ")
+			(setf diretoria (read))
+		))
+		(t diretoria)
+		)
 	)
-)
 )
 
 

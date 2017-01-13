@@ -1,0 +1,18 @@
+TODO:
+
+Implementação Base:
+Criar o mecanismos de tranposition tables
+Gerar os sucessores
+
+
+
+PERFORMANCE:
+-Transposition tables. (importante)
+-Ter em conta as jogadas simétricas (importante)
+-Ter em conta que um jogador pode fazer duas jogadas seguidas quando seleciona um arco que fecha uma caixa
+-os valores de control do nó deverão guardar o o número de caixas completas por cada jogador
+
+
+
+
+

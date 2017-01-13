@@ -11,7 +11,6 @@ export default class Edge extends Component {
             isClosed: this.props.edge.isClosed,
             orientation: this.props.edge.orientation
         };
-
     }
 
     onChange(){
@@ -41,43 +40,60 @@ export default class Edge extends Component {
         console.log("Render Edge");
 
         let stateStyle = {
-            top: this.state.orientation == 'horizontal' ? this.props.centerY - (Edge.EDGE_WIDTH + Edge.EDGE_BORDER) /2 : this.props.centerY - (Edge.EDGE_WIDTH) /2 ,
-            left: this.state.orientation == 'horizontal' ? this.props.centerX - (Edge.EDGE_WIDTH)/2 : this.props.centerX - (Edge.EDGE_WIDTH + Edge.EDGE_BORDER) /2 ,
-            width: this.state.orientation == 'horizontal' ? this.props.size : Edge.EDGE_WIDTH + Edge.EDGE_BORDER,
-            height: this.state.orientation == 'horizontal' ? Edge.EDGE_WIDTH + Edge.EDGE_BORDER: this.props.size,
+            top: this.state.orientation == 'horizontal' ?
+                this.props.centerY - (Edge.EDGE_WIDTH + Edge.EDGE_BORDER) / 2 :
+                this.props.centerY - (Edge.EDGE_WIDTH) /2,
+            left: this.state.orientation == 'horizontal' ?
+                this.props.centerX - (Edge.EDGE_WIDTH)/2 :
+                this.props.centerX - (Edge.EDGE_WIDTH + Edge.EDGE_BORDER) / 2,
+            width: this.state.orientation == 'horizontal' ?
+                this.props.size :
+                Edge.EDGE_WIDTH + Edge.EDGE_BORDER,
+            height: this.state.orientation == 'horizontal' ?
+                Edge.EDGE_WIDTH + Edge.EDGE_BORDER :
+                this.props.size,
             backgroundColor: 'transparent'
         }
 
-
-
         let lineStyle = {
             backgroundColor: this.state.isClosed ? '#a82f26' : 'transparent',
-            width: this.state.orientation == 'horizontal' ? this.props.size : Edge.EDGE_WIDTH ,
+            width: this.state.orientation == 'horizontal' ? this.props.size : Edge.EDGE_WIDTH,
             height: this.state.orientation == 'horizontal' ? Edge.EDGE_WIDTH : this.props.size,
         }
 
-        let dashStyle = {
-            width:1,
-            height:this.props.size,
-            flexDirection:'column'}
+        let dashStyleHorizontal = {
+
+            width: this.props.size,
+            height: 2,
+            flexDirection:'row'
+        }
+
+        let dashStyleVertical = {
+
+            width: 2,
+            height: this.props.size,
+            flexDirection:'column',
+        }
 
             //  { this.state.orientation == 'horizontal' ? <Dash/> : <Dash style={[dashStyle]}/> }
         return (
 
             <TouchableHighlight style={[styles.edgeBase, stateStyle]}   onPress={this.props.onClick}>
-
-                    <View style={[lineStyle]}>
-                        { this.state.isClosed ? null :  (this.state.orientation == 'horizontal' ? <Dash dashColor="lightgrey" dashGap={10} dashLength={10} /> : <Dash style={dashStyle} dashColor="lightgrey" dashGap={10} dashLength={10} />) }
-                    </View>
-
-
+                <View style={[lineStyle]}>
+                    { this.state.isClosed ?
+                        null :
+                        (this.state.orientation == 'horizontal' ?
+                            <Dash style={dashStyleHorizontal} dashColor="lightgrey" dashGap={5} dashLength={10} /> :
+                            <Dash style={dashStyleVertical} dashColor="lightgrey" dashGap={5} dashLength={10} />)
+                    }
+                </View>
             </TouchableHighlight>
         );
     }
-
 }
+
 Edge.EDGE_WIDTH = 5;
-Edge.EDGE_BORDER=30;
+Edge.EDGE_BORDER = 30;
 
 const styles = StyleSheet.create({
     edgeBase: {
