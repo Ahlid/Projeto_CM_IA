@@ -4,6 +4,7 @@
 // Recipes
 export const LOGIN = 'LOGIN'
 
+export const TEST = 'TEST';
 
 export const CREATE_ROOM = 'CREATE_ROOM'
 export const VIEW_ROOMS = 'VIEW_ROOMS'

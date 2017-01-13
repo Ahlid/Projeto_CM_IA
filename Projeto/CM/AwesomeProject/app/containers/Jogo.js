@@ -4,6 +4,9 @@
 import React, { Component } from 'react';
 import { Modal, Text, TouchableHighlight, View,TextInput,Button  } from 'react-native';
 import {connect} from 'react-redux';
+import { ActionCreators } from '../actions'
+import { bindActionCreators } from 'redux'
+import Test from './Test';
 
 class Jogo extends React.Component{
 
@@ -52,6 +55,11 @@ class Jogo extends React.Component{
 
 
     render(){
+
+        return <View>
+            <Test index={0} ></Test>
+            <Test index={1} ></Test>
+        </View>
 
         if (this.state.winner){
             return <Winner/>
@@ -114,3 +122,4 @@ class Waiting extends React.Component {
     }
 
 }
+

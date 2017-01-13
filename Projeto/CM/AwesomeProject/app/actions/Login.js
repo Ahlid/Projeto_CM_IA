@@ -9,3 +9,11 @@ export function makeLogin(username) {
         username,
     }
 }
+
+export function test(name,index) {
+    return {
+        type: types.TEST,
+        name,
+        index,
+    }
+}
