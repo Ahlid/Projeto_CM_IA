@@ -23,7 +23,7 @@
 )
 
 
-im such a dumbass
+
 
 
 01 function negamax(node, depth, α, β, color)
