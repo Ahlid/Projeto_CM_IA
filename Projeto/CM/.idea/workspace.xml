@@ -21,34 +21,15 @@
       <file leaf-file-name="Salas.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/AwesomeProject/app/containers/Salas.js">
           <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
             <state relative-caret-position="1105">
               <caret line="72" column="0" lean-forward="false" selection-start-line="72" selection-start-column="0" selection-end-line="72" selection-end-column="0" />
+=======
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="128" selection-end-column="9" />
+>>>>>>> 13377cba15a55cef0d7070efd4cb8b0b2f530143
               <folding>
                 <element signature="e#41#80#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Room.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/AwesomeProject/app/components/Room.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="544">
-              <caret line="35" column="10" lean-forward="false" selection-start-line="35" selection-start-column="10" selection-end-line="35" selection-end-column="10" />
-              <folding>
-                <element signature="e#86#127#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Jogo.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/AwesomeProject/app/containers/Jogo.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1071">
-              <caret line="68" column="15" lean-forward="false" selection-start-line="68" selection-start-column="15" selection-end-line="68" selection-end-column="15" />
-              <folding>
-                <element signature="e#41#82#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -57,6 +38,41 @@
       <file leaf-file-name="index.android.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/AwesomeProject/index.android.js">
           <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
+            <state relative-caret-position="544">
+              <caret line="35" column="10" lean-forward="false" selection-start-line="35" selection-start-column="10" selection-end-line="35" selection-end-column="10" />
+=======
+            <state relative-caret-position="242">
+              <caret line="30" column="19" lean-forward="false" selection-start-line="30" selection-start-column="19" selection-end-line="30" selection-end-column="19" />
+>>>>>>> 13377cba15a55cef0d7070efd4cb8b0b2f530143
+              <folding>
+                <element signature="e#0#39#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Jogo.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/AwesomeProject/app/containers/Jogo.js">
+          <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
+            <state relative-caret-position="1071">
+              <caret line="68" column="15" lean-forward="false" selection-start-line="68" selection-start-column="15" selection-end-line="68" selection-end-column="15" />
+=======
+            <state relative-caret-position="306">
+              <caret line="59" column="10" lean-forward="false" selection-start-line="59" selection-start-column="10" selection-end-line="60" selection-end-column="36" />
+>>>>>>> 13377cba15a55cef0d7070efd4cb8b0b2f530143
+              <folding>
+                <element signature="e#41#82#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Test.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/AwesomeProject/app/containers/Test.js">
+          <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
             <state relative-caret-position="170">
               <caret line="19" column="6" lean-forward="false" selection-start-line="19" selection-start-column="6" selection-end-line="19" selection-end-column="6" />
               <folding />
@@ -92,6 +108,14 @@
             <state relative-caret-position="289">
               <caret line="17" column="11" lean-forward="false" selection-start-line="17" selection-start-column="11" selection-end-line="17" selection-end-column="11" />
               <folding />
+=======
+            <state relative-caret-position="374">
+              <caret line="26" column="45" lean-forward="false" selection-start-line="26" selection-start-column="45" selection-end-line="26" selection-end-column="45" />
+              <folding>
+                <element signature="e#41#81#0" expanded="false" />
+                <element signature="e#82#123#0" expanded="true" />
+              </folding>
+>>>>>>> 13377cba15a55cef0d7070efd4cb8b0b2f530143
             </state>
           </provider>
         </entry>
@@ -99,7 +123,11 @@
       <file leaf-file-name="AppContainer.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/AwesomeProject/app/containers/AppContainer.js">
           <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
             <state relative-caret-position="68">
+=======
+            <state relative-caret-position="238">
+>>>>>>> 13377cba15a55cef0d7070efd4cb8b0b2f530143
               <caret line="16" column="0" lean-forward="false" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
               <folding>
                 <element signature="e#41#80#0" expanded="true" />
@@ -108,11 +136,51 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Login.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/AwesomeProject/app/containers/Login.js">
+      <file leaf-file-name="Rooms.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/AwesomeProject/app/actions/Rooms.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="51">
-              <caret line="5" column="0" lean-forward="false" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="36" />
+            <state relative-caret-position="68">
+              <caret line="6" column="12" lean-forward="true" selection-start-line="6" selection-start-column="12" selection-end-line="6" selection-end-column="12" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Login.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/AwesomeProject/app/actions/Login.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="170">
+              <caret line="12" column="0" lean-forward="true" selection-start-line="12" selection-start-column="0" selection-end-line="18" selection-end-column="1" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="index.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/AwesomeProject/app/actions/index.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="85">
+              <caret line="8" column="2" lean-forward="true" selection-start-line="8" selection-start-column="2" selection-end-line="8" selection-end-column="2" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Types.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/AwesomeProject/app/actions/Types.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="102">
+              <caret line="6" column="27" lean-forward="false" selection-start-line="6" selection-start-column="27" selection-end-line="6" selection-end-column="27" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Reducers.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/AwesomeProject/app/reducers/Reducers.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="293">
+              <caret line="24" column="15" lean-forward="true" selection-start-line="24" selection-start-column="15" selection-end-line="24" selection-end-column="27" />
               <folding />
             </state>
           </provider>
@@ -133,9 +201,7 @@
         <option value="$PROJECT_DIR$/AwesomeProject/UserAgent.js" />
         <option value="$PROJECT_DIR$/AwesomeProject/package.json" />
         <option value="$PROJECT_DIR$/AwesomeProject/app/actions/RecipesActions.js" />
-        <option value="$PROJECT_DIR$/AwesomeProject/app/actions/Login.js" />
         <option value="$PROJECT_DIR$/AwesomeProject/app/containers/Login.js" />
-        <option value="$PROJECT_DIR$/AwesomeProject/app/actions/Types.js" />
         <option value="$PROJECT_DIR$/AwesomeProject/app/containers/Menu.js" />
         <option value="$PROJECT_DIR$/AwesomeProject/app/actions/updateRooms.js" />
         <option value="$PROJECT_DIR$/AwesomeProject/app/actions/Rooms.js" />
@@ -144,15 +210,19 @@
         <option value="$PROJECT_DIR$/AwesomeProject/app/reducers/login.js" />
         <option value="$PROJECT_DIR$/AwesomeProject/app/reducers/index.js" />
         <option value="$PROJECT_DIR$/AwesomeProject/app/lib/createReducer.js" />
-        <option value="$PROJECT_DIR$/AwesomeProject/app/reducers/Reducers.js" />
         <option value="$PROJECT_DIR$/AwesomeProject/app/containers/ModalAddSala.js" />
         <option value="$PROJECT_DIR$/AwesomeProject/app/containers/AddSala.js" />
         <option value="$PROJECT_DIR$/AwesomeProject/app/containers/AppContainer.js" />
         <option value="$PROJECT_DIR$/AwesomeProject/app/containers/SalaDeEspera.js" />
         <option value="$PROJECT_DIR$/AwesomeProject/app/components/Room.js" />
         <option value="$PROJECT_DIR$/AwesomeProject/app/containers/Salas.js" />
-        <option value="$PROJECT_DIR$/AwesomeProject/index.android.js" />
+        <option value="$PROJECT_DIR$/test.vue" />
+        <option value="$PROJECT_DIR$/AwesomeProject/app/actions/Types.js" />
         <option value="$PROJECT_DIR$/AwesomeProject/app/containers/Jogo.js" />
+        <option value="$PROJECT_DIR$/AwesomeProject/app/actions/Login.js" />
+        <option value="$PROJECT_DIR$/AwesomeProject/app/reducers/Reducers.js" />
+        <option value="$PROJECT_DIR$/AwesomeProject/index.android.js" />
+        <option value="$PROJECT_DIR$/AwesomeProject/app/containers/Test.js" />
       </list>
     </option>
   </component>
@@ -186,6 +256,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -199,6 +270,28 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="AwesomeProject" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="CM" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="CM" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="AwesomeProject" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="reducers" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -282,13 +375,12 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="components" />
+              <option name="myItemId" value="actions" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
       <pane id="Scratches" />
     </panes>
   </component>
@@ -384,14 +476,24 @@
       <workItem from="1484090351647" duration="15900000" />
       <workItem from="1484148940451" duration="10514000" />
       <workItem from="1484169501156" duration="6860000" />
+<<<<<<< HEAD
       <workItem from="1484233652100" duration="8589000" />
       <workItem from="1484255628648" duration="6782000" />
       <workItem from="1484351668969" duration="11000" />
+=======
+      <workItem from="1484233652100" duration="9185000" />
+      <workItem from="1484260536304" duration="608000" />
+      <workItem from="1484329589486" duration="8064000" />
+>>>>>>> 13377cba15a55cef0d7070efd4cb8b0b2f530143
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
+<<<<<<< HEAD
     <option name="totallyTimeSpent" value="48656000" />
+=======
+    <option name="totallyTimeSpent" value="51131000" />
+>>>>>>> 13377cba15a55cef0d7070efd4cb8b0b2f530143
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -406,12 +508,21 @@
     <frame x="1" y="1" width="1364" height="726" extended-state="0" />
     <editor active="true" />
     <layout>
+<<<<<<< HEAD
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24925816" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+=======
+      <window_info id="TypeScript" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24660634" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+>>>>>>> 13377cba15a55cef0d7070efd4cb8b0b2f530143
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3288364" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22372882" sideWeight="0.5059347" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+<<<<<<< HEAD
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22372882" sideWeight="0.49406528" order="7" side_tool="false" content_ui="tabs" />
+=======
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.8954469" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+>>>>>>> 13377cba15a55cef0d7070efd4cb8b0b2f530143
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -455,6 +566,7 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/AwesomeProject/app/models/EdgeModel.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="289">
@@ -501,6 +613,8 @@
         </state>
       </provider>
     </entry>
+=======
+>>>>>>> 13377cba15a55cef0d7070efd4cb8b0b2f530143
     <entry file="file://$PROJECT_DIR$/AwesomeProject/app/containers/Jogo.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -533,7 +647,13 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="51">
           <caret line="5" column="0" lean-forward="false" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="36" />
+<<<<<<< HEAD
           <folding />
+=======
+          <folding>
+            <element signature="e#41#80#0" expanded="true" />
+          </folding>
+>>>>>>> 13377cba15a55cef0d7070efd4cb8b0b2f530143
         </state>
       </provider>
     </entry>
@@ -595,7 +715,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="476">
           <caret line="35" column="48" lean-forward="false" selection-start-line="35" selection-start-column="30" selection-end-line="35" selection-end-column="48" />
-          <folding />
+          <folding>
+            <element signature="e#41#80#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -620,7 +742,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="527">
           <caret line="38" column="12" lean-forward="true" selection-start-line="38" selection-start-column="12" selection-end-line="38" selection-end-column="58" />
-          <folding />
+          <folding>
+            <element signature="e#41#80#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -654,7 +778,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1156">
           <caret line="75" column="30" lean-forward="true" selection-start-line="75" selection-start-column="30" selection-end-line="75" selection-end-column="30" />
-          <folding />
+          <folding>
+            <element signature="e#41#80#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -677,17 +803,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/AwesomeProject/app/actions/Types.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="6" column="0" lean-forward="false" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/AwesomeProject/app/containers/Menu.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="204">
           <caret line="14" column="33" lean-forward="false" selection-start-line="14" selection-start-column="33" selection-end-line="14" selection-end-column="33" />
+<<<<<<< HEAD
         </state>
       </provider>
     </entry>
@@ -695,6 +815,8 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="17">
           <caret line="3" column="0" lean-forward="false" selection-start-line="3" selection-start-column="0" selection-end-line="10" selection-end-column="1" />
+=======
+>>>>>>> 13377cba15a55cef0d7070efd4cb8b0b2f530143
         </state>
       </provider>
     </entry>
@@ -705,27 +827,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="187">
           <caret line="13" column="5" lean-forward="true" selection-start-line="13" selection-start-column="5" selection-end-line="13" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/AwesomeProject/app/reducers/Reducers.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="425">
-          <caret line="27" column="0" lean-forward="true" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/AwesomeProject/app/actions/Rooms.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="10" column="1" lean-forward="true" selection-start-line="10" selection-start-column="1" selection-end-line="10" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/AwesomeProject/app/actions/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="8" column="2" lean-forward="true" selection-start-line="8" selection-start-column="2" selection-end-line="8" selection-end-column="2" />
         </state>
       </provider>
     </entry>
@@ -743,16 +844,101 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/AwesomeProject/app/containers/AppContainer.js">
+    <entry file="file://$PROJECT_DIR$/test.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="16" column="0" lean-forward="false" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
+<<<<<<< HEAD
+        <state relative-caret-position="425">
+          <caret line="27" column="0" lean-forward="true" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
+=======
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="3" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/AwesomeProject/app/components/Board.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="429">
+          <caret line="297" column="5" lean-forward="true" selection-start-line="297" selection-start-column="5" selection-end-line="297" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/AwesomeProject/app/components/Dash.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-455">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#41#80#0" expanded="true" />
+            <element signature="n#!!doc" expanded="false" />
+          </folding>
+>>>>>>> 13377cba15a55cef0d7070efd4cb8b0b2f530143
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/AwesomeProject/app/components/Edge.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1421">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#41#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/AwesomeProject/app/components/MeasureMeHOC.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-81">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/AwesomeProject/app/components/Room.js">
+      <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
+        <state relative-caret-position="306">
+          <caret line="23" column="20" lean-forward="true" selection-start-line="23" selection-start-column="20" selection-end-line="23" selection-end-column="20" />
+=======
+        <state relative-caret-position="378">
+          <caret line="35" column="10" lean-forward="false" selection-start-line="35" selection-start-column="10" selection-end-line="35" selection-end-column="10" />
+          <folding>
+            <element signature="e#86#127#0" expanded="true" />
+          </folding>
+>>>>>>> 13377cba15a55cef0d7070efd4cb8b0b2f530143
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/AwesomeProject/app/components/Square.js">
+      <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
+        <state relative-caret-position="17">
+          <caret line="3" column="0" lean-forward="false" selection-start-line="3" selection-start-column="0" selection-end-line="4" selection-end-column="87" />
+=======
+        <state relative-caret-position="-1067">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#41#0" expanded="false" />
+          </folding>
+>>>>>>> 13377cba15a55cef0d7070efd4cb8b0b2f530143
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/AwesomeProject/app/components/Vertex.js">
+      <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
+        <state relative-caret-position="68">
+          <caret line="16" column="0" lean-forward="false" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
+=======
+        <state relative-caret-position="344">
+          <caret line="35" column="16" lean-forward="true" selection-start-line="35" selection-start-column="16" selection-end-line="35" selection-end-column="16" />
+>>>>>>> 13377cba15a55cef0d7070efd4cb8b0b2f530143
+          <folding>
+            <element signature="e#0#41#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/AwesomeProject/app/components/Room.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="544">
@@ -782,13 +968,27 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/AwesomeProject/app/containers/Login.js">
+=======
+    <entry file="file://$PROJECT_DIR$/AwesomeProject/app/containers/Salas.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="5" column="0" lean-forward="false" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="36" />
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="128" selection-end-column="9" />
+          <folding>
+            <element signature="e#41#80#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/AwesomeProject/app/actions/index.js">
+>>>>>>> 13377cba15a55cef0d7070efd4cb8b0b2f530143
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="8" column="2" lean-forward="true" selection-start-line="8" selection-start-column="2" selection-end-line="8" selection-end-column="2" />
           <folding />
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/AwesomeProject/app/containers/Jogo.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1071">
@@ -812,15 +1012,92 @@
         <state relative-caret-position="289">
           <caret line="17" column="11" lean-forward="false" selection-start-line="17" selection-start-column="11" selection-end-line="17" selection-end-column="11" />
           <folding />
+=======
+    <entry file="file://$PROJECT_DIR$/AwesomeProject/app/actions/Types.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="6" column="27" lean-forward="false" selection-start-line="6" selection-start-column="27" selection-end-line="6" selection-end-column="27" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/AwesomeProject/app/containers/Login.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="327">
+          <caret line="68" column="0" lean-forward="false" selection-start-line="68" selection-start-column="0" selection-end-line="76" selection-end-column="30" />
+          <folding>
+            <element signature="e#41#80#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/AwesomeProject/app/actions/Rooms.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="6" column="12" lean-forward="true" selection-start-line="6" selection-start-column="12" selection-end-line="6" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/AwesomeProject/app/containers/AppContainer.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="16" column="0" lean-forward="false" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
+          <folding>
+            <element signature="e#41#80#0" expanded="true" />
+          </folding>
+>>>>>>> 13377cba15a55cef0d7070efd4cb8b0b2f530143
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/AwesomeProject/app/components/Board.js">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state relative-caret-position="210">
           <caret line="85" column="0" lean-forward="true" selection-start-line="85" selection-start-column="0" selection-end-line="85" selection-end-column="0" />
+=======
+        <state relative-caret-position="306">
+          <caret line="59" column="10" lean-forward="false" selection-start-line="59" selection-start-column="10" selection-end-line="60" selection-end-column="36" />
+>>>>>>> 13377cba15a55cef0d7070efd4cb8b0b2f530143
           <folding>
             <element signature="e#0#41#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/AwesomeProject/index.android.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="242">
+          <caret line="30" column="19" lean-forward="false" selection-start-line="30" selection-start-column="19" selection-end-line="30" selection-end-column="19" />
+          <folding>
+            <element signature="e#0#39#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/AwesomeProject/app/reducers/Reducers.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="293">
+          <caret line="24" column="15" lean-forward="true" selection-start-line="24" selection-start-column="15" selection-end-line="24" selection-end-column="27" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/AwesomeProject/app/actions/Login.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="12" column="0" lean-forward="true" selection-start-line="12" selection-start-column="0" selection-end-line="18" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/AwesomeProject/app/containers/Test.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="374">
+          <caret line="26" column="45" lean-forward="false" selection-start-line="26" selection-start-column="45" selection-end-line="26" selection-end-column="45" />
+          <folding>
+            <element signature="e#41#81#0" expanded="false" />
+            <element signature="e#82#123#0" expanded="true" />
           </folding>
         </state>
       </provider>

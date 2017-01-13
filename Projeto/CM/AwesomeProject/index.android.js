@@ -28,8 +28,13 @@ const store = configureStore({
     username: "",
     rooms: [],
     game: {},
+<<<<<<< HEAD
 
     socket: socket
+=======
+    socket: socket,
+    manel : ["teste1","teste2"]
+>>>>>>> 13377cba15a55cef0d7070efd4cb8b0b2f530143
 });
 
 

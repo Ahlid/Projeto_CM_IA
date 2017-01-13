@@ -19,6 +19,13 @@ export default function reducer(state, action) {
                 rooms: action.rooms
             })
 
+        case types.TEST:
+
+            var mm = state.manel;
+            mm[action.index] = action.name;
+
+            return Object.assign({}, state, { manel: mm });
+
         default:
             return state
     }
