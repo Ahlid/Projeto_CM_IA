@@ -26,6 +26,20 @@ export default function reducer(state, action) {
 
             return Object.assign({}, state, { manel: mm });
 
+        case types.START_GAME:
+            var game = state.game;
+            game.hSquares = action.game.hSquares;
+            game.vSquares = action.game.vSquares;
+            game.hSquares = action.game.hSquares;
+            game.user1 = action.game.user1;
+            game.user2 = action.game.user2;
+            game.turn = action.game.turn;
+            game.caixas = action.game.board.caixas;
+            game.arestasVerticais = action.game.board.arestasVerticais;
+            game.arestasHorizontais = action.game.board.arestasHorizontais;
+
+            return Object.assign({}, state, {game : game});
+
         default:
             return state
     }

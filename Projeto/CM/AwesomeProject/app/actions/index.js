@@ -3,7 +3,8 @@
  */
 import * as Login from './Login';
 import * as Rooms from './Rooms';
+import * as Start from './Start';
 
 export const ActionCreators = Object.assign({},
-    Login,Rooms
+    Login,Rooms,Start
 );

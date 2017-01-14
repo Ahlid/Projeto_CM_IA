@@ -19,6 +19,9 @@ export default class Board extends Component {
         //Linear Arrays of squares and edges
         let squares = [];
         let edges = [];
+        let horizontalEdges = [];
+        let verticalEdges = [];
+
 
         //Simplified name variables for number of vertical and horizontal squares
         let h = this.props.squaresHorizontal;
@@ -30,6 +33,13 @@ export default class Board extends Component {
             //Create the square row
             squares[i] = [];
 
+            if(i == 0){
+                horizontalEdges[i] = [];
+            }
+            horizontalEdges[i+1] = [];
+
+            verticalEdges[i] = [];
+
             //Loop h times to create an array of squares and each respective edges
             for(let j=0; j < h; j++){
 
@@ -37,8 +47,10 @@ export default class Board extends Component {
                 //If the top Edge is shared than the edge was already created
                 if(i > 0) {
                     topEdge = squares[i-1][j].bottomEdge;
+
                 } else {
                     topEdge = new EdgeModel(false, 'horizontal');
+                    horizontalEdges[i][j] = topEdge;
                 }
 
                 let leftEdge;
@@ -47,10 +59,14 @@ export default class Board extends Component {
                     leftEdge = squares[i][j-1].rightEdge;
                 } else {
                     leftEdge = new EdgeModel(false, 'vertical');
+                    verticalEdges[i][j] = leftEdge;
                 }
 
                 let bottomEdge = new EdgeModel(false, 'horizontal');
                 let rightEdge = new EdgeModel(false, 'vertical');
+
+                horizontalEdges[i+1][j] = topEdge;
+                verticalEdges[i][j+1] = topEdge;
 
                 let square = new SquareModel(topEdge, leftEdge, bottomEdge, rightEdge);
 
@@ -77,6 +93,8 @@ export default class Board extends Component {
         this.state = {
             squares: squares,
             edges: edges,
+            horizontalEdges: horizontalEdges,
+            verticalEdges: verticalEdges,
             width: 0,
             height: 0,
         };

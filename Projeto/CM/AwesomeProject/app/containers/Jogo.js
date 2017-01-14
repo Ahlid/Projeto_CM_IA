@@ -50,19 +50,24 @@ class Jogo extends React.Component{
         });
     }
 
-    _startGame(){
+    _startGame(data){
         this.setState({
             serverConfirmationToStart:true
         });
+        this.gameStarted(data.game);
     }
 
 
     render(){
 
+        console.log('JOGOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO');
+        console.log(this.props);
+
+        /*
         return <View>
             <Test index={0} ></Test>
             <Test index={1} ></Test>
-        </View>
+        </View>*/
 
         if (this.state.winner){
             return <Winner/>
@@ -77,20 +82,13 @@ class Jogo extends React.Component{
         }
 
 
-        return <Board squaresHorizontal={5} squaresVertical = {5} />
-        ;
+        return <Board squaresHorizontal={5} squaresVertical = {5} />;
     }
 
 }
 
 
-export default connect((store)=>{
-    return {
-      socket:store.socket,
-      game:store.game,
-      username: store.username
-    };
-})(Jogo);
+
 
 
 
@@ -127,3 +125,19 @@ class Waiting extends React.Component {
 
 }
 
+
+function mapDispatchToPros(dispatch) {
+    return bindActionCreators(ActionCreators, dispatch);
+}
+
+export default  connect((store)=> {return {
+    hSquares : store.game.hSquares,//po posso só dar outro nome é que ai não sei que size estás a falar horizontalSquares ou size de width? 3x3 xSize = 3
+    vSquares : store.game.vSquares,
+    socket : store.socket,
+    username : store.username,
+    user1 : store.game.user1,
+    user2 : store.game.user2,
+    turn : store.game.turn
+
+
+}}, mapDispatchToPros)(Jogo);

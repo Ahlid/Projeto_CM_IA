@@ -71,7 +71,7 @@ function mapDispatchToPros(dispatch) {
 }
 
 export default  connect((state)=> {return {
-username: state.username,
-socket: state.socket
+    username: state.username,
+    socket: state.socket
 
 }}, mapDispatchToPros)(Login);
