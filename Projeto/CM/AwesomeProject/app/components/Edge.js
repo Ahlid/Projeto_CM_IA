@@ -64,7 +64,7 @@ export default class Edge extends Component {
             //  { this.state.orientation == 'horizontal' ? <Dash/> : <Dash style={[dashStyle]}/> }
         return (
 
-            <TouchableHighlight style={[styles.edgeBase, stateStyle]}   onPress={this.props.onClick}>
+            <TouchableHighlight style={[styles.edgeBase, stateStyle]} underlayColor ="transparent"   onPress={this.props.onClick}>
 
                     <View style={[lineStyle]}>
                         { this.state.isClosed ? null :  (this.state.orientation == 'horizontal' ? <Dash dashColor="lightgrey" dashGap={10} dashLength={10} /> : <Dash style={dashStyle} dashColor="lightgrey" dashGap={10} dashLength={10} />) }

@@ -34,9 +34,9 @@ export default function reducer(state, action) {
             game.user1 = action.game.user1;
             game.user2 = action.game.user2;
             game.turn = action.game.turn;
-            game.caixas = action.game.board.caixas;
-            game.arestasVerticais = action.game.board.arestasVerticais;
-            game.arestasHorizontais = action.game.board.arestasHorizontais;
+            game.caixas = action.game.caixas;
+            game.arestasVerticais = action.game.arestasVerticais;
+            game.arestasHorizontais = action.game.arestasHorizontais;
 
             return Object.assign({}, state, {game : game});
 

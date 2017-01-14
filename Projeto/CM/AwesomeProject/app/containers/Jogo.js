@@ -54,7 +54,10 @@ class Jogo extends React.Component{
         this.setState({
             serverConfirmationToStart:true
         });
-        this.gameStarted(data.game);
+        console.log("DATAAAAAAAAAAAAAA");
+        console.log(data);
+
+        this.props.gameStarted(JSON.parse(data).game);
     }
 
 
@@ -77,12 +80,12 @@ class Jogo extends React.Component{
             return <Loser/>
         }
 
-        if (!this.state.serverConfirmationToStart){
+        if (!this.state.serverConfirmationToStart || !this.props.hSquares ){
             return <Waiting/>
         }
 
 
-        return <Board squaresHorizontal={5} squaresVertical = {5} />;
+        return <Board squaresHorizontal={this.props.hSquares} squaresVertical = {this.props.vSquares} />;
     }
 
 }
