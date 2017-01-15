@@ -102,7 +102,7 @@ export default class Board extends Component {
                               centerY={i*height + maxSize/2}
                               size={width + Edge.EDGE_WIDTH}
                               edge={square.topEdge}
-                              onClick={square.topEdge.clickHandler.bind(square.topEdge)}/>
+                              />
                     );
                 }
 
@@ -114,7 +114,7 @@ export default class Board extends Component {
                               centerY={i*height + maxSize/2}
                               size={height}
                               edge={square.leftEdge}
-                              onClick={square.leftEdge.clickHandler.bind(square.leftEdge)}/>
+                              />
                     );
                 }
 
@@ -125,7 +125,7 @@ export default class Board extends Component {
                           centerY={i*height + height + maxSize/2}
                           size={width + Edge.EDGE_WIDTH}
                           edge={square.bottomEdge}
-                          onClick={square.bottomEdge.clickHandler.bind(square.bottomEdge)}/>
+                          />
                 );
 
                 //Render the bottom Edge
@@ -134,8 +134,7 @@ export default class Board extends Component {
                           centerX={j*width + width + maxSize/2}
                           centerY={i*height + maxSize/2}
                           size={height}
-                          edge={square.rightEdge}
-                          onClick={square.rightEdge.clickHandler.bind(square.rightEdge)}/>
+                          edge={square.rightEdge}/>
                 );
 
 

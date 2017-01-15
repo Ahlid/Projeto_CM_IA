@@ -45,8 +45,9 @@ export default class BoardModel {
                     topEdge = squares[i - 1][j].bottomEdge;
 
                 } else {
-                    topEdge = new EdgeModel(false, 'horizontal');
+                    topEdge = new EdgeModel(false, 'horizontal', i, j);
                     horizontalEdges[i][j] = topEdge;
+                    edges.push(topEdge);
                 }
 
                 let leftEdge;
@@ -54,12 +55,13 @@ export default class BoardModel {
                 if (j > 0) {
                     leftEdge = squares[i][j - 1].rightEdge;
                 } else {
-                    leftEdge = new EdgeModel(false, 'vertical');
+                    leftEdge = new EdgeModel(false, 'vertical', i, j);
                     verticalEdges[i][j] = leftEdge;
+                    edges.push(leftEdge);
                 }
 
-                let bottomEdge = new EdgeModel(false, 'horizontal');
-                let rightEdge = new EdgeModel(false, 'vertical');
+                let bottomEdge = new EdgeModel(false, 'horizontal', i + 1, j);
+                let rightEdge = new EdgeModel(false, 'vertical', i, j + 1);
 
                 horizontalEdges[i + 1][j] = topEdge;
                 verticalEdges[i][j + 1] = topEdge;
@@ -74,8 +76,6 @@ export default class BoardModel {
                 square.rightEdge.relatedSquares.push(square);
 
                 //Adds the edges to the array of edges
-                edges.push(topEdge);
-                edges.push(leftEdge);
                 edges.push(bottomEdge);
                 edges.push(rightEdge);
 
@@ -86,6 +86,27 @@ export default class BoardModel {
         }
     }
 
+    setEdgesOnClick(handler){
+        this.edges.forEach((edge) => {
+
+            edge.setOnClickHandler(handler);
+        });
+    }
+
+    disableEdges(){
+        this.edges.forEach((edge) => {
+            edge.disable();
+        });
+    }
+
+    enableEdges(){
+        this.edges.forEach((edge) => {
+            edge.enable();
+        });
+    }
+
+
+    /*
     //todo: Account for the fact that there are shared edges
     setSquares(squares){
 
@@ -119,5 +140,5 @@ export default class BoardModel {
 
             }
         }
-    }
+    }*/
 }

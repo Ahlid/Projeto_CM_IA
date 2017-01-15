@@ -25,7 +25,7 @@ export default class Edge extends Component {
     }
 
     componentWillUnmount() {
-        this.props.edge.changeListeners.remove(this.onChange.bind(this));
+        //this.props.edge.changeListeners.remove(this.onChange.bind(this));
     }
 
     static get defaultProps() {
@@ -63,7 +63,7 @@ export default class Edge extends Component {
             //  { this.state.orientation == 'horizontal' ? <Dash/> : <Dash style={[dashStyle]}/> }
         return (
 
-            <TouchableHighlight style={[styles.edgeBase, stateStyle]} underlayColor ="transparent"   onPress={this.props.onClick}>
+            <TouchableHighlight style={[styles.edgeBase, stateStyle]} underlayColor ="transparent"   onPress={this.props.edge.onClickHandler.bind(this.props.edge)}>
 
                     <View style={[lineStyle]}>
                         { this.state.isClosed ? null :  (this.state.orientation == 'horizontal' ? <Dash dashColor="lightgrey" dashGap={10} dashLength={10} /> : <Dash style={dashStyle} dashColor="lightgrey" dashGap={10} dashLength={10} />) }

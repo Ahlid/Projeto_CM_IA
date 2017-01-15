@@ -20,11 +20,42 @@ client.on("connect",function(){
 
     client.on('start',function(data){
         console.log(data);
-        client.emit('makeMove',{
-            gameID: data.gameInfo.id,
-            edge: 0,
-            row: 1,
-            column: 1,
-        })
+
+        client.on('ackMove', function(){
+            console.log("Move ack");
+        });
+
+        setTimeout( function(){
+            client.emit('makeMove',{
+                gameID: data.gameInfo.id,
+                edge: 0,
+                row: Math.floor((Math.random() * 3)),
+                column: Math.floor((Math.random() * 3)),
+            });
+        }, 1000 );
+
+
+
     });
+
+    client.on('receiveMove', function(move){
+
+        client.emit('ackReceiveMove', {
+            ack: {
+                gameID: move.gameID
+            }
+        });
+
+        setTimeout( function(){
+            client.emit('makeMove',{
+                gameID: move.gameID,
+                edge: 0,
+                row: Math.floor((Math.random() * 3)),
+                column: Math.floor((Math.random() * 3))
+            });
+        }, 1000 );
+
+    });
+
+
 });

@@ -19,7 +19,6 @@ class Jogo extends React.Component{
             serverConfirmationToStart: false,
             winner: false,
             loser: false,
-            turn: "",
             board: null
         }
     }
@@ -31,7 +30,7 @@ class Jogo extends React.Component{
         this.props.socket.on('receiveMove', this._receiveMove.bind(this));
     }
 
-    componentWillUnmout(){
+    componentWillUnmount(){
         this.props.socket.removeAllListeners('userLeave');
         this.props.socket.removeAllListeners('start');
         this.props.socket.removeAllListeners('receiveMove');
@@ -57,13 +56,40 @@ class Jogo extends React.Component{
         let info = data.gameInfo;
         this.props.startGame(info);
         this.state.board = new BoardModel(info.hSquares, info.vSquares);
+        this.state.board.setEdgesOnClick(function(edge){
+
+            if(edge.isClosed)
+                return;
+
+            this.state.board.disableEdges();
+
+            this.props.socket.on('ackMove', function (data){
+                edge.setClosed();
+
+            });
+
+            this.props.socket.emit('makeMove',{
+                gameID: data.gameInfo.id,
+                edge: edge.orientation == 'horizontal' ? 0 : 1,
+                row: edge.row,
+                column: edge.column,
+            })
+
+
+        }.bind(this));
         this.state.serverConfirmationToStart = true;
         this.setState(this.state);
     }
 
     _receiveMove(move){
         this.state.board.horizontalEdges[move.row][move.column].setClosed();
+        this.props.socket.emit('ackReceiveMove', {
+            ack: {
+                gameID: move.gameID
+            }
+        });
 
+        this.state.board.enableEdges();
     }
 
     render(){
@@ -120,11 +146,11 @@ function mapDispatchToPros(dispatch) {
 }
 
 export default connect((store)=> {return {
-    hSquares: store.game.hSquares,
-    vSquares: store.game.vSquares,
-    socket: store.socket,
-    username: store.username,
-    player1: store.game.player1,
-    player2: store.game.player2,
-    turn: store.game.turn
+        hSquares: store.game.hSquares,
+        vSquares: store.game.vSquares,
+        socket: store.socket,
+        username: store.username,
+        player1: store.game.player1,
+        player2: store.game.player2,
+        turn: store.game.turn
 }}, mapDispatchToPros)(Jogo);

@@ -10,21 +10,19 @@ export default class Square extends Component {
         this.state = {
             isClosed: square.isClosed
         }
-
-    }
-
-    onChange(){
-        let square = this.props.square;
-        this.state.isClosed = square.isClosed;
-        this.setState(this.state);
+        this.onChange = function(){
+            let square = this.props.square;
+            this.state.isClosed = square.isClosed;
+            this.setState(this.state);
+        }.bind(this);
     }
 
     componentWillMount() {
-        this.props.square.changeListeners.push(this.onChange.bind(this));
+        this.props.square.changeListeners.push(this.onChange);
     }
 
     componentWillUnmount() {
-        this.props.square.changeListeners.remove(this.onChange.bind(this));
+        //this.props.square.changeListeners.remove(this.onChange);
     }
 
     static get defaultProps() {
