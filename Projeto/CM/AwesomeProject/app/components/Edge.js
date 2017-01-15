@@ -9,7 +9,8 @@ export default class Edge extends Component {
 
         this.state = {
             isClosed: this.props.edge.isClosed,
-            orientation: this.props.edge.orientation
+            orientation: this.props.edge.orientation,
+            owner: this.props.edge.owner
         };
 
     }
@@ -17,6 +18,7 @@ export default class Edge extends Component {
     onChange(){
         let edge = this.props.edge;
         this.state.isClosed = edge.isClosed;
+        this.state.owner = edge.owner;
         this.setState(this.state);
     }
 
@@ -50,7 +52,7 @@ export default class Edge extends Component {
 
 
         let lineStyle = {
-            backgroundColor: this.state.isClosed ? '#a82f26' : 'transparent',
+            backgroundColor: this.state.isClosed ? (this.state.owner == 'player1' ? '#a82f26':'#98C878') : 'transparent',
             width: this.state.orientation == 'horizontal' ? this.props.size : Edge.EDGE_WIDTH ,
             height: this.state.orientation == 'horizontal' ? Edge.EDGE_WIDTH : this.props.size,
         }
@@ -66,7 +68,11 @@ export default class Edge extends Component {
             <TouchableHighlight style={[styles.edgeBase, stateStyle]} underlayColor ="transparent"   onPress={this.props.edge.onClickHandler.bind(this.props.edge)}>
 
                     <View style={[lineStyle]}>
-                        { this.state.isClosed ? null :  (this.state.orientation == 'horizontal' ? <Dash dashColor="lightgrey" dashGap={10} dashLength={10} /> : <Dash style={dashStyle} dashColor="lightgrey" dashGap={10} dashLength={10} />) }
+                        { this.state.isClosed ?
+                            null :
+                            (this.state.orientation == 'horizontal' ?
+                                <Dash dashColor="lightgrey" dashGap={10} dashLength={10} /> :
+                                <Dash style={dashStyle} dashColor="lightgrey" dashGap={10} dashLength={10} />) }
                     </View>
 
 

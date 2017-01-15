@@ -55,6 +55,7 @@ class Jogo extends React.Component{
     _startGame(data){
         let info = data.gameInfo;
         this.props.startGame(info);
+
         this.state.board = new BoardModel(info.hSquares, info.vSquares);
         this.state.board.setEdgesOnClick(function(edge){
 
@@ -63,11 +64,12 @@ class Jogo extends React.Component{
 
             this.state.board.disableEdges();
 
+            //Prepares for move ack
             this.props.socket.on('ackMove', function (data){
-                edge.setClosed();
-
+                edge.setClosed('player1');
             });
 
+            //Makes the move in the server
             this.props.socket.emit('makeMove',{
                 gameID: data.gameInfo.id,
                 edge: edge.orientation == 'horizontal' ? 0 : 1,
@@ -75,21 +77,32 @@ class Jogo extends React.Component{
                 column: edge.column,
             })
 
-
         }.bind(this));
         this.state.serverConfirmationToStart = true;
+
+        if(info.turn != this.props.username){
+            this.state.board.disableEdges();
+        }
+
         this.setState(this.state);
     }
 
+    //On receive a move made from an opponent
     _receiveMove(move){
-        this.state.board.horizontalEdges[move.row][move.column].setClosed();
+
+        var edges = move.edge == 0 ? this.state.board.horizontalEdges : this.state.board.verticalEdges;
+        edges[move.row][move.column].setClosed('Player2');
+        console.log('MOVE', move);
+
+        this.state.board.enableEdges();
+
+        //Send ack after receiving the move
         this.props.socket.emit('ackReceiveMove', {
             ack: {
                 gameID: move.gameID
             }
         });
 
-        this.state.board.enableEdges();
     }
 
     render(){

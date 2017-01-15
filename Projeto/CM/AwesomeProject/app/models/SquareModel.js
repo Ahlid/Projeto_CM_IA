@@ -7,6 +7,7 @@ export default class SquareModel {
         this.bottomEdge = bottomEdge;
         this.rightEdge = rightEdge;
         this.isClosed = isClosed;
+        this.owner = null;
         this.changeListeners = [];
     }
 
@@ -16,9 +17,10 @@ export default class SquareModel {
         });
     }
 
-    setClosed(){
+    setClosed(owner){
         if(!this.isClosed){
             this.isClosed = true;
+            this.owner = owner;
             this.signalChange();
         }
     }

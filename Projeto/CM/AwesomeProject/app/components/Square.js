@@ -8,11 +8,14 @@ export default class Square extends Component {
 
         let square = this.props.square;
         this.state = {
-            isClosed: square.isClosed
+            isClosed: square.isClosed,
+            owner: square.owner
         }
+
         this.onChange = function(){
             let square = this.props.square;
             this.state.isClosed = square.isClosed;
+            this.state.owner =  square.owner;
             this.setState(this.state);
         }.bind(this);
     }
@@ -44,7 +47,7 @@ export default class Square extends Component {
             height: this.props.height,
         };
 
-        let styleState = this.state.isClosed ? styles.closedSquare: styles.openedSquare;
+        let styleState = this.state.isClosed ? (this.state.owner == 'player1' ? styles.closedSquarePlayer1 : styles.closedSquarePlayer2): styles.openedSquare;
         let textStyleState = this.state.isClosed ? styles.textClosedSquare : styles.textOpenedSquare;
 
         return (
@@ -71,8 +74,12 @@ const styles = StyleSheet.create({
         backgroundColor: 'transparent',
     },
 
-    closedSquare: {
+    closedSquarePlayer1: {
         backgroundColor: '#EA4335'
+    },
+
+    closedSquarePlayer2: {
+        backgroundColor: '#98C878'
     },
 
     openedSquare: {

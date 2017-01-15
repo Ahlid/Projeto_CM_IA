@@ -63,8 +63,8 @@ export default class BoardModel {
                 let bottomEdge = new EdgeModel(false, 'horizontal', i + 1, j);
                 let rightEdge = new EdgeModel(false, 'vertical', i, j + 1);
 
-                horizontalEdges[i + 1][j] = topEdge;
-                verticalEdges[i][j + 1] = topEdge;
+                horizontalEdges[i + 1][j] = bottomEdge;
+                verticalEdges[i][j + 1] = rightEdge;
 
                 let square = new SquareModel(topEdge, leftEdge, bottomEdge, rightEdge);
 

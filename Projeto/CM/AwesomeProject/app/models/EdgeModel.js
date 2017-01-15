@@ -3,6 +3,7 @@ export default class EdgeModel {
 
     constructor(isClosed, orientation, row, column) {
         this.isClosed = isClosed;
+        this.owner = null;
         this.orientation = orientation;
         this.row = row;
         this.column = column;
@@ -38,9 +39,10 @@ export default class EdgeModel {
     }
 
 
-    setClosed(){
+    setClosed(owner){
         if(!this.isClosed){
             this.isClosed = true;
+            this.owner = owner;
 
             this.relatedSquares.forEach((square) => {
                 if(square.topEdge.isClosed &&
@@ -48,7 +50,7 @@ export default class EdgeModel {
                             square.bottomEdge.isClosed &&
                                 square.rightEdge.isClosed) {
 
-                    square.setClosed();
+                    square.setClosed(owner);
                 }
             })
 
