@@ -46,9 +46,7 @@ class SalaDeEspera extends React.Component{
               <Button onPress={this._onCancel.bind(this)} title="Cancel" ></Button>
         </View>
       );
-
     }
-
 
 }
 

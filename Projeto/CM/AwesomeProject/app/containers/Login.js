@@ -21,16 +21,11 @@ class Login extends React.Component{
     }
 
     onclick(){
-
         this.state.socket.on('login',this._onLogin.bind(this));
         this.state.socket.emit('login',{username:this.state.username});
-
-
-
     }
 
     _onLogin(data){
-
         if (data.err){
             this.setState({err:true});
             this.state.socket.removeAllListeners("login");
@@ -70,7 +65,7 @@ function mapDispatchToPros(dispatch) {
     return bindActionCreators(ActionCreators, dispatch);
 }
 
-export default  connect((state)=> {return {
+export default connect((state)=> {return {
     username: state.username,
     socket: state.socket
 

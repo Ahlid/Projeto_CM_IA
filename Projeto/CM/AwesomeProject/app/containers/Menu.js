@@ -7,6 +7,7 @@ import {connect} from 'react-redux';
 import { Actions } from 'react-native-router-flux'
 
 class Menu extends React.Component {
+
     constructor(props) {
         super(props);
 
@@ -15,7 +16,6 @@ class Menu extends React.Component {
             socket : props.socket
         }
     }
-
 
     render() {
         return (
@@ -30,8 +30,8 @@ class Menu extends React.Component {
             </View>
         )
     }
-
 }
+
 export default  connect((store) => {
 
     return {

@@ -6,7 +6,7 @@ import Edge from './Edge'
 import Vertex from './Vertex'
 import {Text, View} from 'react-native';
 
-//TODO Fix the squares positions
+
 
 /**
  * Represents the game board for the dots and boxes game
@@ -16,93 +16,12 @@ export default class Board extends Component {
     constructor(props) {
         super(props);
 
-        //Linear Arrays of squares and edges
-        let squares = [];
-        let edges = [];
-        let horizontalEdges = [];
-        let verticalEdges = [];
-
-
-        //Simplified name variables for number of vertical and horizontal squares
-        let h = this.props.squaresHorizontal;
-        let v = this.props.squaresVertical;
-
-        //Loop v * h times to create a matrix of squares and each respective edges
-        for(let i=0; i < v; i++){
-
-            //Create the square row
-            squares[i] = [];
-
-            if(i == 0){
-                horizontalEdges[i] = [];
-            }
-            horizontalEdges[i+1] = [];
-
-            verticalEdges[i] = [];
-
-            //Loop h times to create an array of squares and each respective edges
-            for(let j=0; j < h; j++){
-
-                let topEdge;
-                //If the top Edge is shared than the edge was already created
-                if(i > 0) {
-                    topEdge = squares[i-1][j].bottomEdge;
-
-                } else {
-                    topEdge = new EdgeModel(false, 'horizontal');
-                    horizontalEdges[i][j] = topEdge;
-                }
-
-                let leftEdge;
-                //If the left Edge is shared than the edge was already created
-                if(j > 0) {
-                    leftEdge = squares[i][j-1].rightEdge;
-                } else {
-                    leftEdge = new EdgeModel(false, 'vertical');
-                    verticalEdges[i][j] = leftEdge;
-                }
-
-                let bottomEdge = new EdgeModel(false, 'horizontal');
-                let rightEdge = new EdgeModel(false, 'vertical');
-
-                horizontalEdges[i+1][j] = topEdge;
-                verticalEdges[i][j+1] = topEdge;
-
-                let square = new SquareModel(topEdge, leftEdge, bottomEdge, rightEdge);
-
-                //Associates the edges to the square
-                //Related squares are used for performance reasons
-                square.topEdge.relatedSquares.push(square);
-                square.leftEdge.relatedSquares.push(square);
-                square.bottomEdge.relatedSquares.push(square);
-                square.rightEdge.relatedSquares.push(square);
-
-                //Adds the edges to the array of edges
-                edges.push(topEdge);
-                edges.push(leftEdge);
-                edges.push(bottomEdge);
-                edges.push(rightEdge);
-
-                //Adds the square to the matrix of squares
-                squares[i].push(square);
-
-            }
-        }
-
         //Sets the state of the Board
         this.state = {
-            squares: squares,
-            edges: edges,
-            horizontalEdges: horizontalEdges,
-            verticalEdges: verticalEdges,
             width: 0,
             height: 0,
         };
     }
-
-
-
-
 
     /**
      * Renders the squares of the board
@@ -129,7 +48,7 @@ export default class Board extends Component {
         let c = 0;
         for(let i=0; i < v; i++){
             for(let j=0; j < h; j++, c++){
-                let square = this.state.squares[i][j];
+                let square = this.props.board.squares[i][j];
 
                 renderList.push(
                     <Square key={c}
@@ -173,7 +92,7 @@ export default class Board extends Component {
         let c = 0;
         for(let i=0; i < v; i++){
             for(let j=0; j < h; j++, c+=4) {
-                let square = this.state.squares[i][j];
+                let square = this.props.board.squares[i][j];
 
                 //Render top Edge only if it is the first top Edge
                 if(i == 0){

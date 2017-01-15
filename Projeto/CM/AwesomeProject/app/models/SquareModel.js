@@ -23,4 +23,11 @@ export default class SquareModel {
         }
     }
 
+    setOpened() {
+        if(this.isClosed){
+            this.isClosed = false;
+            this.signalChange();
+        }
+    }
+
 }

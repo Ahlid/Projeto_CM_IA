@@ -49,7 +49,6 @@ export default class Edge extends Component {
         }
 
 
-
         let lineStyle = {
             backgroundColor: this.state.isClosed ? '#a82f26' : 'transparent',
             width: this.state.orientation == 'horizontal' ? this.props.size : Edge.EDGE_WIDTH ,
@@ -77,7 +76,7 @@ export default class Edge extends Component {
 
 }
 Edge.EDGE_WIDTH = 5;
-Edge.EDGE_BORDER=30;
+Edge.EDGE_BORDER = 30;
 
 const styles = StyleSheet.create({
     edgeBase: {
@@ -90,7 +89,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: 'transparent',
-
     }
 });
 

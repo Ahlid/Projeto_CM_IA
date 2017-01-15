@@ -2,13 +2,12 @@
  * Created by pcts on 1/11/2017.
  */
 import React, { Component } from 'react';
-import { Modal, Text, TouchableHighlight, View,TextInput,Button  } from 'react-native';
+import { Modal, Text, TouchableHighlight, View, TextInput, Button } from 'react-native';
 import {connect} from 'react-redux';
-
 import Board from '../components/Board';
+import BoardModel from '../models/BoardModel';
 import { ActionCreators } from '../actions'
 import { bindActionCreators } from 'redux'
-import Test from './Test';
 
 
 class Jogo extends React.Component{
@@ -17,25 +16,29 @@ class Jogo extends React.Component{
         super(props);
 
         this.state = {
-            username : this.props.username,
-            serverConfirmationToStart : false,
-            socket : this.props.socket,
-            game : this.props.game,
-            winner : false,
-            loser : false,
-            turn : ""
+            serverConfirmationToStart: false,
+            winner: false,
+            loser: false,
+            turn: "",
+            board: null
         }
     }
 
     componentDidMount(){
-        this.state.socket.emit('gameReady');
-        this.state.socket.on('userLeave',this._winner.bind(this));
-        this.state.socket.on('start',this._startGame.bind(this));
+        this.props.socket.emit('gameReady');
+        this.props.socket.on('userLeave',this._winner.bind(this));
+        this.props.socket.on('start',this._startGame.bind(this));
+        this.props.socket.on('receiveMove', this._receiveMove.bind(this));
     }
 
     componentWillUnmout(){
-        this.state.socket.removeAllListeners('userLeave');
-        this.state.socket.removeAllListeners('start');
+        this.props.socket.removeAllListeners('userLeave');
+        this.props.socket.removeAllListeners('start');
+        this.props.socket.removeAllListeners('receiveMove');
+    }
+
+    componentWillUpdate(){
+        return true;
     }
 
     _winner(){
@@ -51,26 +54,19 @@ class Jogo extends React.Component{
     }
 
     _startGame(data){
-        this.setState({
-            serverConfirmationToStart:true
-        });
-        console.log("DATAAAAAAAAAAAAAA");
-        console.log(data);
-
-        this.props.gameStarted(JSON.parse(data).game);
+        let info = data.gameInfo;
+        this.props.startGame(info);
+        this.state.board = new BoardModel(info.hSquares, info.vSquares);
+        this.state.serverConfirmationToStart = true;
+        this.setState(this.state);
     }
 
+    _receiveMove(move){
+        this.state.board.horizontalEdges[move.row][move.column].setClosed();
+
+    }
 
     render(){
-
-        console.log('JOGOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO');
-        console.log(this.props);
-
-        /*
-        return <View>
-            <Test index={0} ></Test>
-            <Test index={1} ></Test>
-        </View>*/
 
         if (this.state.winner){
             return <Winner/>
@@ -84,15 +80,10 @@ class Jogo extends React.Component{
             return <Waiting/>
         }
 
-
-        return <Board squaresHorizontal={this.props.hSquares} squaresVertical = {this.props.vSquares} />;
+        return <Board board={this.state.board} squaresHorizontal={this.props.hSquares} squaresVertical={this.props.vSquares} />;
     }
 
 }
-
-
-
-
 
 
 class Winner extends React.Component {
@@ -100,10 +91,8 @@ class Winner extends React.Component {
     render(){
       return  <View>
             <Text>Winner!</Text>
-
         </View>
     }
-
 }
 
 class Loser extends React.Component {
@@ -111,7 +100,6 @@ class Loser extends React.Component {
     render(){
        return <View>
             <Text>Loser!</Text>
-
         </View>
     }
 
@@ -122,25 +110,21 @@ class Waiting extends React.Component {
     render(){
       return  <View>
             <Text>Starting game...</Text>
-
         </View>
     }
 
 }
 
-
 function mapDispatchToPros(dispatch) {
     return bindActionCreators(ActionCreators, dispatch);
 }
 
-export default  connect((store)=> {return {
-    hSquares : store.game.hSquares,//po posso só dar outro nome é que ai não sei que size estás a falar horizontalSquares ou size de width? 3x3 xSize = 3
-    vSquares : store.game.vSquares,
-    socket : store.socket,
-    username : store.username,
-    user1 : store.game.user1,
-    user2 : store.game.user2,
-    turn : store.game.turn
-
-
+export default connect((store)=> {return {
+    hSquares: store.game.hSquares,
+    vSquares: store.game.vSquares,
+    socket: store.socket,
+    username: store.username,
+    player1: store.game.player1,
+    player2: store.game.player2,
+    turn: store.game.turn
 }}, mapDispatchToPros)(Jogo);

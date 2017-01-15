@@ -3,9 +3,9 @@
  */
 import * as types from './Types'
 
-export function gameStarted(game) {
+export function startGame(info) {
     return {
         type: types.START_GAME,
-        game,
+        info,
     }
 }

@@ -33,7 +33,6 @@ class Sala extends React.Component {
 
     _socketOnViewRooms(data) {
 
-        console.log('DATAAA' + JSON.stringify(data));
         this.setState(
             {rooms: data.rooms}
         );
@@ -67,7 +66,7 @@ class Sala extends React.Component {
         this.state.socket.on('joinConfirm',function(data){
             this._joinSalaConfirm(data,id);
         }.bind(this));
-        console.log(this);
+
 
     }
 
