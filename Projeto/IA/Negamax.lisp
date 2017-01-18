@@ -4,23 +4,111 @@
 ;; Negamax
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defun negamax (no, profundidade, operadores, alfa, beta, peca)
-	
+(defun log-teste(alfa beta novo-maior )
+	(progn 
+		(write-line "corte")
+		(write-line (write-to-string alfa))
+		(write-line (write-to-string beta))
+		(write-line (write-to-string novo-maior ))
+	)
+)
+
+
+(defun negamax-max(sucessores profundidade profundidade-maxima operadores alfa beta maior)
+	""
 	(cond 
-		( (= profundidade 0)  (avaliar-folha-limite no peca) )
-		( (vencedor-p (no-numero-caixas-jogador1 no) (no-numero-caixas-jogador2 no)) (avaliar-folha no peca))
-		( t 
-			(let
+		((null sucessores) alfa)
+		(t 
+			(let*
 				(
-					( ())
+					( no (first sucessores) )
+					( valor (cond 
+								((= (no-jogador no) *jogador1*) (negamax 	no 
+																			(1+ (no-profundidade no)) 
+																			profundidade-maxima 
+																			operadores 
+																			alfa
+																			beta))
+								((= (no-jogador no) *jogador2*) (- (negamax 	no 
+																				(1+ (no-profundidade no)) 
+																				profundidade-maxima 
+																				operadores 
+																				(- beta)  
+																				(- alfa))))
+																				
+							)
+					)
+					( novo-maior (max valor maior) )
+					( novo-alfa (max valor alfa) )
 				)
-				
+				(cond 
+					( (>= novo-alfa beta) (progn (log-teste alfa beta novo-maior) novo-maior )) ; situação de corte
+					( t (max 	novo-alfa 
+								(negamax-max 	(rest sucessores) 
+												profundidade 
+												profundidade-maxima 
+												operadores 
+												novo-alfa
+												beta
+												novo-maior)) )
+				)
 			)
-			
 		)
 	)
-
 )
+
+
+
+;;IMPORTANTE... para escolher a jogada o melhor é gerar os sucessores e chamar o negamax para cada 1 desses e ver qual o que tem o maior valor.
+
+
+;(negamax (no-criar (tabuleiro-inicial) nil 0 (list 0 0 *jogador1*)) 0 2 (criar-operacoes 7 7 #'arco-vertical #'arco-horizontal) -100 100)
+(defun negamax (no profundidade profundidade-maxima operadores alfa beta)
+	
+	(cond 
+		( (>= profundidade profundidade-maxima) (avaliar-folha-limite no) ) ;Devolve uma avaliação do nó
+		( (vencedor-p (no-numero-caixas-jogador1 no) (no-numero-caixas-jogador2 no)) (avaliar-folha no)) ; Devolve o valor do nó
+		( t 
+			(let*
+				(
+					(sucessores (sucessores-no no operadores))
+					(sucessores-ordenados (ordenar sucessores))
+				)
+				(negamax-max 	sucessores 
+								profundidade 
+								profundidade-maxima 
+								operadores 
+								alfa 
+								beta
+								-100
+				)
+			)
+		)
+	)
+)
+
+; (escolher-jogada (no-criar (tabuleiro-inicial) nil 0 (list 0 0 *jogador1*)))
+
+;;TODO: escolher a jogada
+(defun escolher-jogada (no)
+	(let*
+		(
+			(operadores (criar-operacoes 7 7 #'arco-vertical #'arco-horizontal))
+			(sucessores (sucessores-no no operadores))
+			
+		)
+		(negamax-max 	sucessores 
+						0
+						3
+						operadores 
+						-100 
+						100
+						-100
+		)
+		
+	)
+)
+
 
 
 
