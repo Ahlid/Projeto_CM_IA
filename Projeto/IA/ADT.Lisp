@@ -52,7 +52,7 @@
 ;; Manipulação de nós - Controlo
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defun no-numero-caixas-jogador1 ()
+(defun no-numero-caixas-jogador1 (no)
   "Devolve o número de caixas do jogador1"
   (elemento-por-indice 0 (no-controlo no))
 )
@@ -62,7 +62,7 @@
 	(set-no-controlo no (substituir 0 numero-caixas (no-controlo no)))
 )
 
-(defun no-numero-caixas-jogador2 ()
+(defun no-numero-caixas-jogador2 (no)
   "Devolve o número de caixas do jogador2"
   (elemento-por-indice 1 (no-controlo no))
 )
@@ -70,4 +70,14 @@
 (defun set-no-numero-caixas-jogador2 (no numero-caixas)
 	"Altera o número de caixas do jogador 2"
 	(set-no-controlo no (substituir 1 numero-caixas (no-controlo no)))
+)
+
+(defun no-jogador (no)
+  "Devolve o jogador que vai jogar sobre este nó"
+  (elemento-por-indice 2 (no-controlo no))
+)
+
+(defun set-no-jogador (no jogador)
+	"Altera o jogador que vai jogar sobre este nó"
+	(set-no-controlo no (substituir 2 jogador (no-controlo no)))
 )
