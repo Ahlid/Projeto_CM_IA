@@ -14,6 +14,8 @@ export default class EdgeModel {
     }
 
     onClickHandler(){
+        console.log(this.row);
+        console.log(this.column);
         if(!this.isDisabled){
             this.clickHandler(this);
         }

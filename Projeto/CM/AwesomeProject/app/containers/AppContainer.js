@@ -12,6 +12,8 @@ import Menu from "./Menu";
 import Salas from "./Salas";
 import SalaDeEspera from "./SalaDeEspera";
 import Jogo from "./Jogo";
+import SinglePlayer from "./SinglePlayer";
+
 
 class AppContainer extends React.Component {
 
@@ -48,6 +50,12 @@ class AppContainer extends React.Component {
                         key="jogo"
                         title="jogo"
                         component={Jogo}
+                    />
+
+                    <Scene
+                        key="singlePlayer"
+                        title="singlePlayer"
+                        component={SinglePlayer}
                     />
 
                 </Scene>

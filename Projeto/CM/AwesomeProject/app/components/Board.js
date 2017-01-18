@@ -221,7 +221,11 @@ export default class Board extends Component {
 
             this.state.width = width;
             this.state.height = height;
-            this.setState(this.state);
+            this.setState({
+                width:width,
+                height:height
+
+            });
         }
 
 

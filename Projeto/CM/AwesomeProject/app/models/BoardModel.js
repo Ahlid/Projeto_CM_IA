@@ -105,6 +105,31 @@ export default class BoardModel {
         });
     }
 
+    isFilled(){
+        for(var i = 0; i< this.squares.length ; i++){
+            for(var j = 0; j< this.squares[i].length ; j++) {
+                if (this.squares[i][j].owner == null) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    getScore(player){
+        var count = 0;
+
+        for(var i = 0; i< this.squares.length ; i++){
+            for(var j = 0; j< this.squares[i].length ; j++) {
+                if (this.squares[i][j].owner == player) {
+                 count++;
+                }
+            }
+        }
+
+        return count;
+    }
 
     /*
     //todo: Account for the fact that there are shared edges

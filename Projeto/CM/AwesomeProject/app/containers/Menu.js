@@ -24,6 +24,10 @@ class Menu extends React.Component {
                    Menu, username {this.state.username}
                 </Text>
 
+                <Button onPress={() => {Actions.singlePlayer()}}
+                        title="SinglePlayer"
+                        color="#841584" />
+
                 <Button onPress={() => {Actions.salas()}}
                         title="Salas"
                         color="#841584" />

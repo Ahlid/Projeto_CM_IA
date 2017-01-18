@@ -4,7 +4,7 @@
 //todo: componente que representa cada sala
 
 import React, { Component } from 'react';
-import { Modal, Text, TouchableHighlight, View,TextInput,Button  } from 'react-native';
+import { Modal, Text, TouchableHighlight, View,TextInput,Button, Dimensions,StyleSheet  } from 'react-native';
 
 
 
@@ -28,7 +28,7 @@ class Room extends React.Component{
 
 
         return(
-          <View>
+          <View style={styles.Room}>
               <TouchableHighlight onPress={this._onPressButton.bind(this)}>
                   <Text>Sala de {this.state.username} com tamanho {this.state.size}</Text>
               </TouchableHighlight>
@@ -39,3 +39,17 @@ class Room extends React.Component{
 }
 
 export default Room;
+
+
+const styles = StyleSheet.create({
+
+    Room: {
+
+        width: Dimensions.get('window').width,
+        height: Dimensions.get('window').height/8,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#4285F4',
+    },
+
+});

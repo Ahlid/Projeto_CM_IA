@@ -1,18 +1,18 @@
 /**
  * Created by pcts on 1/11/2017.
  */
-import React, { Component } from 'react';
-import { Modal, Text, TouchableHighlight, View, TextInput, Button } from 'react-native';
+import React, {Component} from 'react';
+import {Modal, Text, TouchableHighlight, View, TextInput, Button} from 'react-native';
 import {connect} from 'react-redux';
 import Board from '../components/Board';
 import BoardModel from '../models/BoardModel';
-import { ActionCreators } from '../actions'
-import { bindActionCreators } from 'redux'
+import {ActionCreators} from '../actions'
+import {bindActionCreators} from 'redux'
 
 
-class Jogo extends React.Component{
+class Jogo extends React.Component {
 
-    constructor(props){
+    constructor(props) {
         super(props);
 
         this.state = {
@@ -23,64 +23,73 @@ class Jogo extends React.Component{
         }
     }
 
-    componentDidMount(){
+    componentDidMount() {
         this.props.socket.emit('gameReady');
-        this.props.socket.on('userLeave',this._winner.bind(this));
-        this.props.socket.on('start',this._startGame.bind(this));
+        this.props.socket.on('userLeave', this._winner.bind(this));
+        this.props.socket.on('start', this._startGame.bind(this));
         this.props.socket.on('receiveMove', this._receiveMove.bind(this));
     }
 
-    componentWillUnmount(){
+    componentWillUnmount() {
         this.props.socket.removeAllListeners('userLeave');
         this.props.socket.removeAllListeners('start');
         this.props.socket.removeAllListeners('receiveMove');
     }
 
-    componentWillUpdate(){
+    componentWillUpdate() {
         return true;
     }
 
-    _winner(){
+    _winner() {
         this.setState({
             winner: true
         });
     }
 
-    _loser(){
+    _loser() {
         this.setState({
             loser: true
         });
     }
 
-    _startGame(data){
+    _startGame(data) {
         let info = data.gameInfo;
         this.props.startGame(info);
 
         this.state.board = new BoardModel(info.hSquares, info.vSquares);
-        this.state.board.setEdgesOnClick(function(edge){
+        this.state.board.setEdgesOnClick(function (edge) {
 
-            if(edge.isClosed)
+            if (edge.isClosed)
                 return;
 
             this.state.board.disableEdges();
 
             //Prepares for move ack
-            this.props.socket.on('ackMove', function (data){
+            this.props.socket.on('ackMove', function (data) {
+
+                var score = this.state.board.getScore('player1');
+
                 edge.setClosed('player1');
-            });
+
+
+                if (score < this.state.board.getScore('player1')) {
+
+                    this.state.board.enableEdges();
+                }
+            }.bind(this));
 
             //Makes the move in the server
-            this.props.socket.emit('makeMove',{
+            this.props.socket.emit('makeMove', {
                 gameID: data.gameInfo.id,
                 edge: edge.orientation == 'horizontal' ? 0 : 1,
                 row: edge.row,
                 column: edge.column,
-            })
+            });
 
         }.bind(this));
         this.state.serverConfirmationToStart = true;
 
-        if(info.turn != this.props.username){
+        if (info.turn != this.props.username) {
             this.state.board.disableEdges();
         }
 
@@ -88,13 +97,18 @@ class Jogo extends React.Component{
     }
 
     //On receive a move made from an opponent
-    _receiveMove(move){
+    _receiveMove(move) {
 
         var edges = move.edge == 0 ? this.state.board.horizontalEdges : this.state.board.verticalEdges;
+        var score = this.state.board.getScore('Player2');
         edges[move.row][move.column].setClosed('Player2');
         console.log('MOVE', move);
 
-        this.state.board.enableEdges();
+
+        if (score == this.state.board.getScore('Player2')) {
+
+            this.state.board.enableEdges();
+        }
 
         //Send ack after receiving the move
         this.props.socket.emit('ackReceiveMove', {
@@ -105,21 +119,22 @@ class Jogo extends React.Component{
 
     }
 
-    render(){
+    render() {
 
-        if (this.state.winner){
+        if (this.state.winner) {
             return <Winner/>
         }
 
-        if (this.state.loser){
+        if (this.state.loser) {
             return <Loser/>
         }
 
-        if (!this.state.serverConfirmationToStart || !this.props.hSquares ){
+        if (!this.state.serverConfirmationToStart || !this.props.hSquares) {
             return <Waiting/>
         }
 
-        return <Board board={this.state.board} squaresHorizontal={this.props.hSquares} squaresVertical={this.props.vSquares} />;
+        return <Board board={this.state.board} squaresHorizontal={this.props.hSquares}
+                      squaresVertical={this.props.vSquares}/>;
     }
 
 }
@@ -127,8 +142,8 @@ class Jogo extends React.Component{
 
 class Winner extends React.Component {
 
-    render(){
-      return  <View>
+    render() {
+        return <View>
             <Text>Winner!</Text>
         </View>
     }
@@ -136,8 +151,8 @@ class Winner extends React.Component {
 
 class Loser extends React.Component {
 
-    render(){
-       return <View>
+    render() {
+        return <View>
             <Text>Loser!</Text>
         </View>
     }
@@ -146,8 +161,8 @@ class Loser extends React.Component {
 
 class Waiting extends React.Component {
 
-    render(){
-      return  <View>
+    render() {
+        return <View>
             <Text>Starting game...</Text>
         </View>
     }
@@ -158,7 +173,8 @@ function mapDispatchToPros(dispatch) {
     return bindActionCreators(ActionCreators, dispatch);
 }
 
-export default connect((store)=> {return {
+export default connect((store) => {
+    return {
         hSquares: store.game.hSquares,
         vSquares: store.game.vSquares,
         socket: store.socket,
@@ -166,4 +182,5 @@ export default connect((store)=> {return {
         player1: store.game.player1,
         player2: store.game.player2,
         turn: store.game.turn
-}}, mapDispatchToPros)(Jogo);
+    }
+}, mapDispatchToPros)(Jogo);

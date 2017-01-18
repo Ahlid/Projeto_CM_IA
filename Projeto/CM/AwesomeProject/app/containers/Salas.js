@@ -2,11 +2,13 @@
  * Created by pcts on 1/11/2017.
  */
 import React, {Component} from 'react';
-import {View, Text, Button, Modal, TouchableHighlight} from 'react-native';
+import {View, Text, Button, Modal, TouchableHighlight, ScrollView, StyleSheet, Dimensions} from 'react-native';
 import {connect} from 'react-redux';
 import AddSala from './AddSala';
-import { Actions } from 'react-native-router-flux';
-import Room from '../components/Room'
+import {Actions} from 'react-native-router-flux';
+import Room from '../components/Room';
+import ActionButton from 'react-native-circular-action-menu';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 class Sala extends React.Component {
 
@@ -44,34 +46,37 @@ class Sala extends React.Component {
         this.setState({modal: true});
     }
 
-    _addSalaOnCriar(size){
+    _addSalaOnCriar(size) {
         this.setState({
             modal: false
         });
 
-        this.state.socket.emit('createRoom',{size:size});
+        this.state.socket.emit('createRoom', {
+            hSquares: size.hSquares,
+            vSquares: size.vSquares
+        });
         Actions.salaespera();
 
 
     }
 
-    _addSalaOnCancelar(){
+    _addSalaOnCancelar() {
         this.setState({
             modal: false
         });
     }
 
-    _joinSala(id){
-        this.state.socket.emit('joinRoom',{id:id});
-        this.state.socket.on('joinConfirm',function(data){
-            this._joinSalaConfirm(data,id);
+    _joinSala(id) {
+        this.state.socket.emit('joinRoom', {id: id});
+        this.state.socket.on('joinConfirm', function (data) {
+            this._joinSalaConfirm(data, id);
         }.bind(this));
 
 
     }
 
-    _joinSalaConfirm(data,id){
-        if(data.id == id){
+    _joinSalaConfirm(data, id) {
+        if (data.id == id) {
             //confirma-se que é a sala dele entao vamos dar inicio ao jogo
             this.state.socket.removeAllListeners('joinConfirm');
             Actions.jogo();
@@ -81,36 +86,37 @@ class Sala extends React.Component {
 
     render() {
 
-        var rooms = [];
-        for(var i = 0 ; i< this.state.rooms.lenght ; i++){
-
-           rooms.push(<Room key={i} username={this.state.rooms[i].user} size={this.state.rooms[i].size} id={this.state.rooms[i].id} join = {this._joinSala.bind(this)} />);
-
-        }
-
         return (
-            <View>
-                <Modal
-                    animationType={"slide"}
-                    transparent={false}
-                    visible={this.state.modal}
-                    onRequestClose={() => {
-                        alert("Modal has been closed.")
-                    }}>
+            <View style={{
+                flex:1
+            }}>
+                <ScrollView style={styles.Room}>
+                    <Modal
+                        animationType={"slide"}
+                        transparent={true}
+                        visible={this.state.modal}
+                        onRequestClose={() => {
+                            alert("Modal has been closed.")
+                        }}>
 
-                    <AddSala onCriar={this._addSalaOnCriar.bind(this)} onCancelar={this._addSalaOnCancelar.bind(this)}  />
-                </Modal>
+                        <AddSala onCriar={this._addSalaOnCriar.bind(this)}
+                                 onCancelar={this._addSalaOnCancelar.bind(this)}/>
+                    </Modal>
+
+                    {this.state.rooms.map(function (item, index) {
+
+                        return (<Room key={index} username={item.user} size={item.size} id={item.id}
+                                      join={this._joinSala.bind(this)}/>)
+
+                    }.bind(this))}
 
 
-                <Text>Salas</Text>
-                <Text>{JSON.stringify(this.state.rooms)}</Text>
-                {this.state.rooms.map(function(item,index){
+                </ScrollView>
+                <ActionButton onPress={this._modalTest.bind(this)} buttonColor="rgba(231,76,60,1)" position="right">
 
-                    return(<Room key={index} username={item.user} size={item.size} id={item.id} join = {this._joinSala.bind(this)} />)
-
-                        }.bind(this))}
-                <Button title="Ver modal" onPress={this._modalTest.bind(this)}></Button>
+                </ActionButton>
             </View>
+
 
         );
 
@@ -126,3 +132,18 @@ export default  connect((store) => {
         socket: store.socket
     }
 })(Sala);
+
+
+const styles = StyleSheet.create({
+    actionButtonIcon: {
+        fontSize: 20,
+        height: 22,
+        width: 20,
+        color: 'white',
+        position: 'absolute',
+        bottom: 10,
+        right: 10
+    },
+
+});
+

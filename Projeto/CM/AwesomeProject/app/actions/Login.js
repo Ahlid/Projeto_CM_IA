@@ -8,6 +8,7 @@ export function makeLogin(username) {
         type: types.LOGIN,
         username,
     }
+
 }
 
 export function test(name,index) {
