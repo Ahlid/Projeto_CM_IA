@@ -121,7 +121,7 @@ export default class Edge extends Component {
 
 }
 Edge.EDGE_WIDTH = 5;
-Edge.EDGE_BORDER = 20;
+Edge.EDGE_BORDER = 21;
 
 const styles = StyleSheet.create({
     edgeBase: {
