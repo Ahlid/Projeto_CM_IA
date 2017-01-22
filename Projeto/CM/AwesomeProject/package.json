@@ -12,6 +12,7 @@
     "react-native-action-button": "^2.0.19",
     "react-native-circular-action-menu": "^0.4.0",
     "react-native-router-flux": "^3.37.0",
+    "react-native-svg": "^5.1.4",
     "react-native-vector-icons": "^4.0.0",
     "react-redux": "^5.0.1",
     "redux": "^3.6.0",

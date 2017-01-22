@@ -1,3 +1,10 @@
+;;
+;;
+;;TODO: CRIAR UMA HASH TABLE E GERAR CONHECIMENTO PREENCHER
+;;TODO: TER EM CONTA A SIMETRIA DO TABULEIRO
+;;
+
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Metodos do tabuleiro
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

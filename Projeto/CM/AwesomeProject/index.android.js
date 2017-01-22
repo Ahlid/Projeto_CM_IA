@@ -28,8 +28,7 @@ const store = configureStore({
     username: "",
     rooms: [],
     game: {},
-    socket: socket,
-    manel : ["teste1","teste2"]
+    socket: socket
 });
 
 
