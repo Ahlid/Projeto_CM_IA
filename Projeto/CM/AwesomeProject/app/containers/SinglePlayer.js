@@ -91,7 +91,11 @@ class SinglePlayer extends React.Component{
         }
 
 
-        return <Board board={this.state.board} squaresHorizontal={this.state.hSquares} squaresVertical={this.state.vSquares} />;
+        return (
+        <View style={{width: 400, height:400}}>
+            <Board board={this.state.board} squaresHorizontal={this.state.hSquares} squaresVertical={this.state.vSquares} />
+        </View>
+        );
     }
 
 }

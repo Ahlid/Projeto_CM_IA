@@ -1,23 +1,6 @@
 import React, { Component } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View,Text } from 'react-native';
 
-import Svg,{
-    Circle,
-    Ellipse,
-    G,
-    LinearGradient,
-    RadialGradient,
-    Line,
-    Path,
-    Polygon,
-    Polyline,
-    Rect,
-    Symbol,
-    Text,
-    Use,
-    Defs,
-    Stop
-} from 'react-native-svg';
 
 
 export default class Square extends Component {
@@ -68,36 +51,13 @@ export default class Square extends Component {
 
         let styleState = this.state.isClosed ? (this.state.owner == 'player1' ? styles.closedSquarePlayer1 : styles.closedSquarePlayer2): styles.openedSquare;
         let textStyleState = this.state.isClosed ? styles.textClosedSquare : styles.textOpenedSquare;
-        return (
-            <Svg
-                height="100"
-                width="100"
-            >
-                <Circle
-                    cx="50"
-                    cy="50"
-                    r="45"
-                    stroke="blue"
-                    strokeWidth="2.5"
-                    fill="green"
-                />
-                <Rect
-                    x="15"
-                    y="15"
-                    width="70"
-                    height="70"
-                    stroke="red"
-                    strokeWidth="2"
-                    fill="yellow"
-                />
-            </Svg>
-        );
-        /*
+
+
         return (
                 <View style={[styles.squareBase, style, styleState]}>
-                    <Text style={textStyleState}>{"[" + this.props.indexRow + "," + this.props.indexColumn + "]"}</Text>
+
                 </View>
-        );*/
+        );
     }
 
 }
@@ -118,11 +78,11 @@ const styles = StyleSheet.create({
     },
 
     closedSquarePlayer1: {
-        backgroundColor: '#EA4335'
+        backgroundColor: '#3F9BBE'
     },
 
     closedSquarePlayer2: {
-        backgroundColor: '#98C878'
+        backgroundColor: '#DC7F4A'
     },
 
     openedSquare: {

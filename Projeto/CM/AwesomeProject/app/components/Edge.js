@@ -1,6 +1,25 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Text, TouchableHighlight, ToastAndroid } from 'react-native';
-import Dash from './Dash';
+import { StyleSheet, View,  TouchableHighlight, ToastAndroid } from 'react-native';
+
+
+import Svg,{
+    Circle,
+    Ellipse,
+    G,
+    LinearGradient,
+    RadialGradient,
+    Line,
+    Path,
+    Polygon,
+    Polyline,
+    Rect,
+    Symbol,
+    Text,
+    Use,
+    Defs,
+    Stop
+} from 'react-native-svg';
+
 
 export default class Edge extends Component {
 
@@ -42,47 +61,67 @@ export default class Edge extends Component {
     render() {
         console.log("Render Edge");
 
+        let player1Color = '#46AFDF';
+        let player2Color = '#F69B59';
+
         let stateStyle = {
             top: this.state.orientation == 'horizontal' ? this.props.centerY - (Edge.EDGE_WIDTH + Edge.EDGE_BORDER) /2 : this.props.centerY - (Edge.EDGE_WIDTH) /2 ,
             left: this.state.orientation == 'horizontal' ? this.props.centerX - (Edge.EDGE_WIDTH)/2 : this.props.centerX - (Edge.EDGE_WIDTH + Edge.EDGE_BORDER) /2 ,
             width: this.state.orientation == 'horizontal' ? this.props.size : Edge.EDGE_WIDTH + Edge.EDGE_BORDER,
             height: this.state.orientation == 'horizontal' ? Edge.EDGE_WIDTH + Edge.EDGE_BORDER: this.props.size,
-            backgroundColor: 'transparent'
+            backgroundColor: 'transparent',
         }
 
-
-        let lineStyle = {
-            backgroundColor: this.state.isClosed ? (this.state.owner == 'player1' ? '#a82f26':'#98C878') : 'transparent',
-            width: this.state.orientation == 'horizontal' ? this.props.size : Edge.EDGE_WIDTH ,
-            height: this.state.orientation == 'horizontal' ? Edge.EDGE_WIDTH : this.props.size,
+        let CONTROL_OFFSET = 10;
+        let path = "";
+        if(this.state.orientation == 'horizontal')
+            path = `M  0 0
+             C ${CONTROL_OFFSET} ${CONTROL_OFFSET} , ${stateStyle.width - CONTROL_OFFSET} ${CONTROL_OFFSET}, ${stateStyle.width} 0
+             L ${stateStyle.width}  ${stateStyle.height}
+             C ${stateStyle.width - CONTROL_OFFSET} ${stateStyle.height - CONTROL_OFFSET}, ${CONTROL_OFFSET} ${stateStyle.height - CONTROL_OFFSET}, 0 ${stateStyle.height} 
+             Z`;
+        else {
+            path = `M 0 0
+            L ${stateStyle.width}  0
+            C ${stateStyle.width - CONTROL_OFFSET} ${CONTROL_OFFSET} , ${stateStyle.width - CONTROL_OFFSET} ${stateStyle.height - CONTROL_OFFSET} , ${stateStyle.width} ${stateStyle.height}
+            L 0 ${stateStyle.height}
+            C ${CONTROL_OFFSET} ${stateStyle.height - CONTROL_OFFSET}, ${CONTROL_OFFSET} ${CONTROL_OFFSET}, 0 0
+            Z`;
         }
-
-        let dashStyle = {
-            width:1,
-            height:this.props.size,
-            flexDirection:'column'}
 
             //  { this.state.orientation == 'horizontal' ? <Dash/> : <Dash style={[dashStyle]}/> }
+
         return (
 
-            <TouchableHighlight style={[styles.edgeBase, stateStyle]} underlayColor ="transparent"   onPress={this.props.edge.onClickHandler.bind(this.props.edge)}>
-
-                    <View style={[lineStyle]}>
-                        { this.state.isClosed ?
-                            null :
-                            (this.state.orientation == 'horizontal' ?
-                                <Dash dashColor="lightgrey" dashGap={10} dashLength={10} /> :
-                                <Dash style={dashStyle} dashColor="lightgrey" dashGap={10} dashLength={10} />) }
-                    </View>
-
-
-            </TouchableHighlight>
+                <TouchableHighlight style={[styles.edgeBase, stateStyle]} underlayColor="transparent" onPress={this.props.edge.onClickHandler.bind(this.props.edge)}>
+                    {!this.state.isClosed ? <View/> :
+                        <Svg
+                            width={stateStyle.width}
+                            height={stateStyle.height}
+                        >
+                            <Path d={path} fill={ this.state.owner == 'player1' ? player1Color: player2Color }/>
+                        </Svg>
+                    }
+                </TouchableHighlight>
         );
     }
 
+/*
+ <TouchableHighlight style={[styles.edgeBase, stateStyle]} underlayColor ="transparent"  onPress={this.props.edge.onClickHandler.bind(this.props.edge)}>
+
+     <View style={[lineStyle]}>
+     { this.state.isClosed ?
+     null :
+     (this.state.orientation == 'horizontal' ?
+     <Dash dashColor="lightgrey" dashGap={10} dashLength={10} /> :
+     <Dash style={dashStyle} dashColor="lightgrey" dashGap={10} dashLength={10} />) }
+     </View>
+ </TouchableHighlight>
+     */
+
 }
 Edge.EDGE_WIDTH = 5;
-Edge.EDGE_BORDER = 30;
+Edge.EDGE_BORDER = 20;
 
 const styles = StyleSheet.create({
     edgeBase: {
@@ -96,6 +135,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: 'transparent',
     }
+
 });
 
 
