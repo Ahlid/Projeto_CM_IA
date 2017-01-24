@@ -11,8 +11,7 @@ import {
 import Board from '../../board/Board';
 import BoardModel from '../../../models/BoardModel';
 import Score from './Score';
-import WinnerScreenPlayer1 from './WinnerScreenPlayer1';
-import WinnerScreenPlayer2 from './WinnerScreenPlayer2';
+import WinnerScreen from './WinnerScreen';
 
 export default class SinglePlayer extends React.Component{
 
@@ -186,14 +185,14 @@ export default class SinglePlayer extends React.Component{
             switch(this.state.winner){
                 case "player1":
                     return  <View onLayout={onLayout} style={[styleBoardBaseContainer]}>
-                                <WinnerScreenPlayer1 playerIndex={1}
+                                <WinnerScreen playerIndex={1}
                                                      score={this.state.board.getScore(this.state.winner)}
                                                      width={this.state.width}
                                                      height={this.state.height} />
                             </View>
                 case "player2":
                     return  <View onLayout={onLayout} style={[styleBoardBaseContainer]}>
-                        <WinnerScreenPlayer1 playerIndex={2}
+                        <WinnerScreen playerIndex={2}
                                              score={this.state.board.getScore(this.state.winner)}
                                              width={this.state.width}
                                              height={this.state.height} />
