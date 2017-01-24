@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {Text, View, Button } from 'react-native';
-
+import { Actions } from 'react-native-router-flux'
 
 export default class WinnerScreen extends React.Component {
 
@@ -19,7 +19,8 @@ export default class WinnerScreen extends React.Component {
             <View style={{marginTop: 20,flexDirection: 'row',justifyContent: 'center', alignItems: 'center'}}>
                 <View style={{marginRight: 4,width: 100}}>
                     <Button
-                        onPress={function(){}}
+                        onPress={function(){
+                            this.props.restart();}.bind(this)}
                         style={{width: 100}}
                         title="Novo Jogo"
                         color='#444849'
@@ -27,7 +28,7 @@ export default class WinnerScreen extends React.Component {
                 </View>
                 <View style={{marginLeft: 4,width: 100}}>
                     <Button
-                        onPress={function(){}}
+                        onPress={function(){Actions.menu()}}
                         style={{width: 100}}
                         title="Voltar"
                         color='#444849'

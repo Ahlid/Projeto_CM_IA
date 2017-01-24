@@ -42,6 +42,23 @@ export default class SinglePlayer extends React.Component{
         return true;
     }
 
+
+    restart(){
+
+        const board = new BoardModel(this.state.hSquares, this.state.vSquares);
+        this.setState({
+            player1: "player1",
+            scorePlayer1: 0,
+            player2: "player2",
+            scorePlayer2: 0,
+            turn: "player1",
+            board: board,
+            hasWinner: false,
+            winner: null,
+
+        });
+    }
+
     startGame(){
 
         this.state.board = new BoardModel(this.state.hSquares, this.state.vSquares);
@@ -188,14 +205,18 @@ export default class SinglePlayer extends React.Component{
                                 <WinnerScreen playerIndex={1}
                                                      score={this.state.board.getScore(this.state.winner)}
                                                      width={this.state.width}
-                                                     height={this.state.height} />
+                                                     height={this.state.height}
+                                                     restart = {this.restart.bind(this)}
+                                />
                             </View>
                 case "player2":
                     return  <View onLayout={onLayout} style={[styleBoardBaseContainer]}>
                         <WinnerScreen playerIndex={2}
                                              score={this.state.board.getScore(this.state.winner)}
                                              width={this.state.width}
-                                             height={this.state.height} />
+                                             height={this.state.height}
+                                             restart = {this.restart.bind(this)}
+                        />
                     </View>
                 default:
                     return <DrawScreen/>
