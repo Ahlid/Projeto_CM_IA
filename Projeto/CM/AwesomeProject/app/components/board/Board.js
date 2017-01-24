@@ -23,6 +23,21 @@ export default class Board extends Component {
         };
     }
 
+    shouldComponentUpdate(nextProps, nextState) {
+
+        console.log("CURRENT", this.state);
+        console.log("NEXT",nextState);
+        if(this.state.width == 0 || this.state.height == 0)
+            return true;
+
+        if(this.state.width == nextState.width &&
+            this.state.height == nextState.height &&
+            this.props.board == nextProps.board)
+            return false;
+
+        return true;
+    }
+
     /**
      * Renders the squares of the board
      * @returns {*} array of Square components
@@ -219,9 +234,11 @@ export default class Board extends Component {
                 return;
             }
 
-            this.state.width = width;
-            this.state.height = height;
-            this.setState(this.state);
+
+            this.setState({
+                width: width,
+                height: height
+            });
         };
 
 

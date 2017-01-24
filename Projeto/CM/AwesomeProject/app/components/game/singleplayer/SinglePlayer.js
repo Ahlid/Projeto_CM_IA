@@ -28,7 +28,9 @@ export default class SinglePlayer extends React.Component{
             hSquares: 5,
             vSquares: 5,
             player1: "player1",
+            scorePlayer1: 0,
             player2: "player2",
+            scorePlayer2: 0,
             turn: "player1"
         }
     }
@@ -51,15 +53,30 @@ export default class SinglePlayer extends React.Component{
 
             let closedSquares = edge.setClosed(this.state.turn);
 
+            let newState = Object.assign({}, this.state);
+
             if (closedSquares == 0){
-                this.state.turn = this.state.turn == this.state.player1 ? this.state.player2 : this.state.player1;
+                newState.turn = newState.turn == newState.player1 ?
+                                        newState.player2 : newState.player1;
+            } else {
+
+                switch(newState.turn){
+                    case newState.scorePlayer1:
+                        newState.scorePlayer1 += closedSquares;
+                        break;
+                    case newState.scorePlayer2:
+                        newState.scorePlayer2 += closedSquares;
+                        break;
+                }
+
             }
 
-            if (this.state.board.isFilled()){
-                this.state.winner = this.state.board.getCurrentWinner();
-                this.state.hasWinner = true;
-                this.setState(this.state);
+            if (newState.board.isFilled()){
+                newState.winner = newState.board.getCurrentWinner(newState.player1, newState.player2);
+                newState.hasWinner = true;
             }
+
+            this.setState(newState);
 
         }.bind(this));
 
@@ -68,16 +85,6 @@ export default class SinglePlayer extends React.Component{
 
     render(){
 
-        if(this.state.hasWinner){
-
-            switch(this.state.winner){
-                case "player1":
-                    return <WinnerScreenPlayer1/>
-                case "player2":
-                    return <WinnerScreenPlayer2/>
-            }
-
-        }
 
         let onLayout = (event) => {
 
@@ -97,7 +104,6 @@ export default class SinglePlayer extends React.Component{
         let isPortrait = true;
         if(this.state.width > this.state.height)
             isPortrait = false;
-
 
         let styleBoardBaseContainer = {};
         let styleBoardContainer = {};
@@ -122,7 +128,6 @@ export default class SinglePlayer extends React.Component{
             let scoreContainerHeight = this.state.height - this.state.width;
 
             styleScoreContainer = {
-
                 height: scoreContainerHeight,
                 flex: 1,
                 flexDirection: 'row',
@@ -152,22 +157,53 @@ export default class SinglePlayer extends React.Component{
                 paddingBottom: 20,
                 paddingLeft : 20,
                 paddingRight : 20,
-                borderRight: 1,
+            }
+
+
+            let scoreContainerWidth = this.state.width - this.state.height;
+
+            styleScoreContainer = {
+                width: scoreContainerWidth,
+                flex: 1,
+                flexDirection: 'column',
+                backgroundColor: 'black',
             }
 
             styleScore1 = {
-                width: this.state.width,
-                height: (this.state.height - this.state.width - 40) / 2,
+                width: scoreContainerWidth,
+                height: this.state.height / 2,
             }
 
             styleScore2 = {
-                width: this.state.width,
-                height: (this.state.height - this.state.width - 40) / 2,
+                width: scoreContainerWidth,
+                height: this.state.height / 2,
             }
-
-
         }
 
+
+        if(this.state.hasWinner){
+
+            switch(this.state.winner){
+                case "player1":
+                    return  <View onLayout={onLayout} style={[styleBoardBaseContainer]}>
+                                <WinnerScreenPlayer1 playerIndex={1}
+                                                     score={this.state.board.getScore(this.state.winner)}
+                                                     width={this.state.width}
+                                                     height={this.state.height} />
+                            </View>
+                case "player2":
+                    return  <View onLayout={onLayout} style={[styleBoardBaseContainer]}>
+                        <WinnerScreenPlayer1 playerIndex={2}
+                                             score={this.state.board.getScore(this.state.winner)}
+                                             width={this.state.width}
+                                             height={this.state.height} />
+                    </View>
+                default:
+                    return <DrawScreen/>
+
+            }
+
+        }
 
 
 
@@ -175,8 +211,8 @@ export default class SinglePlayer extends React.Component{
         return (
             <View onLayout={onLayout} style={[styleBoardBaseContainer]}>
                 <View style={[styleScoreContainer]}>
-                    <Score style={styleScore1} player="Azuis" score="0" color="#3F9BBE"/>
-                    <Score style={styleScore2} player="Laranjas" score="0" color="#DC7F4A"/>
+                    <Score style={styleScore1} player="Azuis" score={this.state.board.getScore(this.state.player1)} color="#3F9BBE"/>
+                    <Score style={styleScore2} player="Laranjas" score={this.state.board.getScore(this.state.player2)}  color="#DC7F4A"/>
                 </View>
                 <View style={[styleBoardContainer]}>
                     <Board board={this.state.board} squaresHorizontal={this.state.hSquares} squaresVertical={this.state.vSquares} />
