@@ -204,9 +204,6 @@ export default class SinglePlayer extends React.Component{
 
         }
 
-
-
-
         return (
             <View onLayout={onLayout} style={[styleBoardBaseContainer]}>
                 <View style={[styleScoreContainer]}>
@@ -233,5 +230,4 @@ const styles = {
         flexDirection: 'row',
         backgroundColor: '#F4F0E6',
     }
-
 };

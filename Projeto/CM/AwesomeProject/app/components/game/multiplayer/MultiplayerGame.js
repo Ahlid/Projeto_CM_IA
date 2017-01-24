@@ -2,7 +2,8 @@ import React, {Component} from 'react';
 import {Modal, Text, TouchableHighlight, View, TextInput, Button} from 'react-native';
 import {connect} from 'react-redux';
 import WinScreen from './WinScreen';
-import LoseScreen from './LoseScreen';
+import Score from './Score';
+import LostScreen from './LostScreen';
 import WaitingScreen from './WaitingScreen';
 import Board from '../../board/Board';
 import BoardModel from'../../../models/BoardModel';
@@ -17,21 +18,25 @@ class MultiplayerGame extends React.Component {
 
         this.state = {
             serverConfirmationToStart: false,
-            winner: false,
-            loser: false,
+            hasWinner: false,
+            haveIWon: false,
+            width: 0,
+            height: 0,
+            scorePlayer1: 0,
+            scorePlayer2: 0,
             board: null
         }
     }
 
     componentDidMount() {
-        this.props.socket.emit('gameReady');
-        this.props.socket.on('userLeave', this._winner.bind(this));
+        //this.props.socket.on('userLeave', this._winner.bind(this));
         this.props.socket.on('start', this._startGame.bind(this));
         this.props.socket.on('receiveMove', this._receiveMove.bind(this));
+        this.props.socket.emit('gameReady');
     }
 
     componentWillUnmount() {
-        this.props.socket.removeAllListeners('userLeave');
+        //this.props.socket.removeAllListeners('userLeave');
         this.props.socket.removeAllListeners('start');
         this.props.socket.removeAllListeners('receiveMove');
     }
@@ -40,16 +45,16 @@ class MultiplayerGame extends React.Component {
         return true;
     }
 
-    _winner() {
-        this.setState({
-            winner: true
-        });
-    }
+    checkWinner(newState){
 
-    _loser() {
-        this.setState({
-            loser: true
-        });
+        if (newState.board.isFilled()){
+            let winner = newState.board.getCurrentWinner('player1', 'player2');
+            newState.hasWinner = true;
+            newState.haveIWon = winner == 'player1';
+            this.setState(newState);
+        }
+
+        return newState;
     }
 
     _startGame(data) {
@@ -67,13 +72,17 @@ class MultiplayerGame extends React.Component {
             //Prepares for move ack
             this.props.socket.on('ackMove', function (data) {
 
-                var score = this.state.board.getScore('player1');
+                let closedSquares =  edge.setClosed('player1');
+                let newState = Object.assign({}, this.state);
 
-                edge.setClosed('player1');
-
-                if (score < this.state.board.getScore('player1')) {
+                if (closedSquares > 0) {
                     this.state.board.enableEdges();
+                    newState.scorePlayer1 += closedSquares;
+                    this.setState(newState);
                 }
+
+                this.checkWinner(newState);
+
             }.bind(this));
 
             //Makes the move in the server
@@ -85,6 +94,7 @@ class MultiplayerGame extends React.Component {
             });
 
         }.bind(this));
+
         this.state.serverConfirmationToStart = true;
 
         if (info.turn != this.props.username) {
@@ -97,16 +107,19 @@ class MultiplayerGame extends React.Component {
     //On receive a move made from an opponent
     _receiveMove(move) {
 
-        var edges = move.edge == 0 ? this.state.board.horizontalEdges : this.state.board.verticalEdges;
-        var score = this.state.board.getScore('Player2');
-        edges[move.row][move.column].setClosed('Player2');
-        console.log('MOVE', move);
+        let edges = move.edge == 0 ? this.state.board.horizontalEdges : this.state.board.verticalEdges;
 
+        let closedSquares = edges[move.row][move.column].setClosed('player2');
 
-        if (score == this.state.board.getScore('Player2')) {
+        let newState = Object.assign({}, this.state);
 
-            this.state.board.enableEdges();
+        if (closedSquares == 0){
+            newState.board.enableEdges();
+        } else {
+            newState.scorePlayer2 += closedSquares;
         }
+
+        this.setState(newState);
 
         //Send ack after receiving the move
         this.props.socket.emit('ackReceiveMove', {
@@ -115,27 +128,159 @@ class MultiplayerGame extends React.Component {
             }
         });
 
+        this.checkWinner(newState);
+
     }
 
     render() {
 
-        if (this.state.winner) {
-            return <WinScreen/>
+
+        let onLayout = (event) => {
+
+            let width = event.nativeEvent.layout.width;
+            let height = event.nativeEvent.layout.height;
+
+            if(this.state.width == width &&
+                this.state.height == height) {
+                return;
+            }
+
+            this.state.width = width;
+            this.state.height = height;
+            this.setState(this.state);
+        };
+
+        let isPortrait = true;
+        if(this.state.width > this.state.height)
+            isPortrait = false;
+
+        let styleBoardBaseContainer = {};
+        let styleBoardContainer = {};
+        let styleScoreContainer = {};
+        let styleScore1 = {};
+        let styleScore2 = {};
+
+        if(isPortrait){
+
+            styleBoardBaseContainer = styles.basePortrait;
+
+            let min = Math.min(this.state.width, this.state.height) - 40;
+            styleBoardContainer = {
+                width: min + 40,
+                height: min + 40,
+                paddingTop: 20,
+                paddingBottom: 20,
+                paddingLeft : 20,
+                paddingRight : 20,
+            }
+
+            let scoreContainerHeight = this.state.height - this.state.width;
+
+            styleScoreContainer = {
+                height: scoreContainerHeight,
+                flex: 1,
+                flexDirection: 'row',
+                backgroundColor: 'black',
+            }
+
+            styleScore1 = {
+                width: this.state.width / 2,
+                height: scoreContainerHeight,
+            }
+
+            styleScore2 = {
+                width: this.state.width / 2,
+                height: scoreContainerHeight,
+            }
+
+
+        } else {
+
+            styleBoardBaseContainer = styles.baseLandscape;
+
+            let min = Math.min(this.state.width, this.state.height) - 40;
+            styleBoardContainer = {
+                width: min + 40,
+                height: min + 40,
+                paddingTop: 20,
+                paddingBottom: 20,
+                paddingLeft : 20,
+                paddingRight : 20,
+            }
+
+
+            let scoreContainerWidth = this.state.width - this.state.height;
+
+            styleScoreContainer = {
+                width: scoreContainerWidth,
+                flex: 1,
+                flexDirection: 'column',
+                backgroundColor: 'black',
+            }
+
+            styleScore1 = {
+                width: scoreContainerWidth,
+                height: this.state.height / 2,
+            }
+
+            styleScore2 = {
+                width: scoreContainerWidth,
+                height: this.state.height / 2,
+            }
         }
 
-        if (this.state.loser) {
-            return <LoseScreen/>
+
+        if (this.state.hasWinner) {
+
+            if(this.state.haveIWon){
+                return <View
+                             onLayout={onLayout} style={[styleBoardBaseContainer]}>
+                                <WinScreen score={this.state.scorePlayer1}
+                                           width={this.state.width}
+                                           height={this.state.height}/></View>
+            } else {
+                return <View onLayout={onLayout} style={[styleBoardBaseContainer]}>
+                            <LostScreen score={this.state.scorePlayer1}
+                                        width={this.state.width}
+                                        height={this.state.height}/>
+                        </View>
+            }
+
         }
 
         if (!this.state.serverConfirmationToStart || !this.props.hSquares) {
-            return <WaitingScreen/>
+            return <View onLayout={onLayout} style={[styleBoardBaseContainer]}><WaitingScreen/></View>
         }
 
-        return <Board board={this.state.board} squaresHorizontal={this.props.hSquares}
-                      squaresVertical={this.props.vSquares}/>;
+
+
+        return (
+            <View onLayout={onLayout} style={[styleBoardBaseContainer]}>
+                <View style={[styleScoreContainer]}>
+                    <Score style={styleScore1} player={this.props.player1} score={this.state.scorePlayer1} color="#3F9BBE"/>
+                    <Score style={styleScore2} player={this.props.player2} score={this.state.scorePlayer2}  color="#DC7F4A"/>
+                </View>
+                <View style={[styleBoardContainer]}>
+                    <Board board={this.state.board} squaresHorizontal={this.props.hSquares} squaresVertical={this.props.vSquares} />
+                </View>
+            </View>
+        );
     }
 
 }
+
+const styles = {
+    basePortrait: {
+        flex: 1,
+        flexDirection: 'column',
+        backgroundColor: '#F4F0E6',
+    },
+    baseLandscape: {
+        flex: 1,
+        flexDirection: 'row',
+        backgroundColor: '#F4F0E6',
+    }
+};
 
 
 //Redux store connect
@@ -155,3 +300,4 @@ export default connect((store) => {
         turn: store.game.turn
     }
 }, mapDispatchToPros)(MultiplayerGame);
+

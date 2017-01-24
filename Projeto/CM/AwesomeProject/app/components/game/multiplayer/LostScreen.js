@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import {Text, View, Button } from 'react-native';
 
 
-export default class WinScreen extends React.Component {
+export default class LostScreen extends React.Component {
 
     render(){
 
-        let rootContainerStyle = styles.blueRootContainer;
-        let info = "Venceu a Partida";
+        let rootContainerStyle = styles.orangeRootContainer;
+        let info = "Perdeu a Partida";
 
         return  <View style={[{width: this.props.width, height: this.props.height}, styles.baseRootContainer, rootContainerStyle]}>
             <Text style={{fontSize: 30}}>{info}</Text>
@@ -33,7 +33,7 @@ var styles = {
         justifyContent: 'center',
         alignItems: 'center'
     },
-    blueRootContainer: {
-        backgroundColor: '#3F9BBE'
+    orangeRootContainer: {
+        backgroundColor: '#DC7F4A'
     }
 }
