@@ -113,13 +113,36 @@ export default class BoardModel {
                 }
             }
         }
-
         return true;
     }
 
-    getScore(player){
-        var count = 0;
+    getCurrentWinner(player1, player2){
+        var count1 = 0;
+        var count2 = 0;
+        for(var i = 0; i< this.squares.length ; i++){
+            for(var j = 0; j< this.squares[i].length ; j++) {
 
+                switch(this.squares[i][j].owner){
+                    case player1:
+                        count1++;
+                        break;
+                    case player2:
+                        count2++;
+                        break;
+                }
+            }
+        }
+
+        if(count1 == count2)
+            return null;
+
+        return count1 > count2 ? player1 : player2;
+
+    }
+
+    getScore(player){
+
+        var count = 0;
         for(var i = 0; i< this.squares.length ; i++){
             for(var j = 0; j< this.squares[i].length ; j++) {
                 if (this.squares[i][j].owner == player) {
@@ -131,39 +154,9 @@ export default class BoardModel {
         return count;
     }
 
-    /*
-    //todo: Account for the fact that there are shared edges
-    setSquares(squares){
 
-        for(var i=0;i<this.hSquares;i++){
+    getBoxNumberToWin(){
+        return Math.floor(this.hSquares * this.vSquares / 2 + 1);
+    }
 
-            for(var j=0;j<this.vSquares;j++){
-
-                if(squares[i][j].top.fill){
-                    this.squares[i][j].topEdge.setClosed();
-                } else {
-                    this.squares[i][j].topEdge.setOpened();
-                }
-
-                if(squares[i][j].left.fill){
-                    this.squares[i][j].leftEdge.setClosed();
-                } else {
-                    this.squares[i][j].leftEdge.setOpened();
-                }
-
-                if(squares[i][j].right.fill){
-                    this.squares[i][j].rightEdge.setClosed();
-                } else {
-                    this.squares[i][j].rightEdge.setOpened();
-                }
-
-                if(squares[i][j].bottom.fill){
-                    this.squares[i][j].bottomEdge.setClosed();
-                } else {
-                    this.squares[i][j].bottomEdge.setOpened();
-                }
-
-            }
-        }
-    }*/
 }

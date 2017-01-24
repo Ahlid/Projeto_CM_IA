@@ -11,8 +11,8 @@ import Login from "./Login";
 import Menu from "./Menu";
 import Salas from "./Salas";
 import SalaDeEspera from "./SalaDeEspera";
-import Jogo from "./Jogo";
-import SinglePlayer from "./SinglePlayer";
+import Jogo from "../components/game/multiplayer/MultiplayerGame";
+import SinglePlayer from "../components/game/singleplayer/SinglePlayer";
 
 
 class AppContainer extends React.Component {

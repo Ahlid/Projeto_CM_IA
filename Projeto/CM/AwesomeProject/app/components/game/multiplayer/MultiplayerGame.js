@@ -1,16 +1,16 @@
-/**
- * Created by pcts on 1/11/2017.
- */
 import React, {Component} from 'react';
 import {Modal, Text, TouchableHighlight, View, TextInput, Button} from 'react-native';
 import {connect} from 'react-redux';
-import Board from '../components/Board';
-import BoardModel from '../models/BoardModel';
-import {ActionCreators} from '../actions'
+import WinScreen from './WinScreen';
+import LoseScreen from './LoseScreen';
+import WaitingScreen from './WaitingScreen';
+import Board from '../../board/Board';
+import BoardModel from'../../../models/BoardModel';
+import {ActionCreators} from '../../../actions'
 import {bindActionCreators} from 'redux'
 
 
-class Jogo extends React.Component {
+class MultiplayerGame extends React.Component {
 
     constructor(props) {
         super(props);
@@ -71,9 +71,7 @@ class Jogo extends React.Component {
 
                 edge.setClosed('player1');
 
-
                 if (score < this.state.board.getScore('player1')) {
-
                     this.state.board.enableEdges();
                 }
             }.bind(this));
@@ -122,15 +120,15 @@ class Jogo extends React.Component {
     render() {
 
         if (this.state.winner) {
-            return <Winner/>
+            return <WinScreen/>
         }
 
         if (this.state.loser) {
-            return <Loser/>
+            return <LoseScreen/>
         }
 
         if (!this.state.serverConfirmationToStart || !this.props.hSquares) {
-            return <Waiting/>
+            return <WaitingScreen/>
         }
 
         return <Board board={this.state.board} squaresHorizontal={this.props.hSquares}
@@ -140,34 +138,7 @@ class Jogo extends React.Component {
 }
 
 
-class Winner extends React.Component {
-
-    render() {
-        return <View>
-            <Text>Winner!</Text>
-        </View>
-    }
-}
-
-class Loser extends React.Component {
-
-    render() {
-        return <View>
-            <Text>Loser!</Text>
-        </View>
-    }
-
-}
-
-class Waiting extends React.Component {
-
-    render() {
-        return <View>
-            <Text>Starting game...</Text>
-        </View>
-    }
-
-}
+//Redux store connect
 
 function mapDispatchToPros(dispatch) {
     return bindActionCreators(ActionCreators, dispatch);
@@ -183,4 +154,4 @@ export default connect((store) => {
         player2: store.game.player2,
         turn: store.game.turn
     }
-}, mapDispatchToPros)(Jogo);
+}, mapDispatchToPros)(MultiplayerGame);

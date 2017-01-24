@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import SquareModel from '../models/SquareModel'
-import EdgeModel from '../models/EdgeModel'
+import SquareModel from '../../models/SquareModel'
+import EdgeModel from '../../models/EdgeModel'
 import Square from './Square'
 import Edge from './Edge'
 import Vertex from './Vertex'
@@ -221,17 +221,13 @@ export default class Board extends Component {
 
             this.state.width = width;
             this.state.height = height;
-            this.setState({
-                width:width,
-                height:height
-
-            });
-        }
+            this.setState(this.state);
+        };
 
 
         //Renders the board with the 3 arrays
         return (
-            <View style={{flex:1,  margin : 20, backgroundColor: '#F4F0E6'}} onLayout={onLayout}>
+            <View style={{flex:1, backgroundColor: '#F4F0E6'}} onLayout={onLayout}>
                 {[this.renderSquares(),this.renderEdges(),this.renderVertices()]}
             </View>
         );

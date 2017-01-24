@@ -46,6 +46,7 @@ export default class EdgeModel {
             this.isClosed = true;
             this.owner = owner;
 
+            let count = 0;
             this.relatedSquares.forEach((square) => {
                 if(square.topEdge.isClosed &&
                         square.leftEdge.isClosed &&
@@ -53,10 +54,12 @@ export default class EdgeModel {
                                 square.rightEdge.isClosed) {
 
                     square.setClosed(owner);
+                    count++;
                 }
-            })
+            });
 
             this.signalChange();
+            return count;
         }
     }
 

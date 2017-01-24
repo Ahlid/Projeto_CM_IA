@@ -6,7 +6,7 @@ import {View, Text, Button, Modal, TouchableHighlight, ScrollView, StyleSheet, D
 import {connect} from 'react-redux';
 import AddSala from './AddSala';
 import {Actions} from 'react-native-router-flux';
-import Room from '../components/Room';
+import Room from '../components/board/Room';
 import ActionButton from 'react-native-circular-action-menu';
 import Icon from 'react-native-vector-icons/Ionicons';
 
@@ -19,7 +19,6 @@ class Sala extends React.Component {
             rooms: props.rooms,
             socket: props.socket,
             modal: false
-
         }
     }
 
@@ -34,12 +33,9 @@ class Sala extends React.Component {
     }
 
     _socketOnViewRooms(data) {
-
         this.setState(
             {rooms: data.rooms}
         );
-
-
     }
 
     _modalTest() {
@@ -56,8 +52,6 @@ class Sala extends React.Component {
             vSquares: size.vSquares
         });
         Actions.salaespera();
-
-
     }
 
     _addSalaOnCancelar() {
@@ -71,8 +65,6 @@ class Sala extends React.Component {
         this.state.socket.on('joinConfirm', function (data) {
             this._joinSalaConfirm(data, id);
         }.bind(this));
-
-
     }
 
     _joinSalaConfirm(data, id) {
@@ -125,9 +117,8 @@ class Sala extends React.Component {
 }
 
 
-export default  connect((store) => {
+export default connect((store) => {
     return {
-
         rooms: store.rooms,
         socket: store.socket
     }
@@ -143,7 +134,6 @@ const styles = StyleSheet.create({
         position: 'absolute',
         bottom: 10,
         right: 10
-    },
-
+    }
 });
 
