@@ -56,6 +56,7 @@ class AppContainer extends React.Component {
                         key="singlePlayer"
                         title="singlePlayer"
                         component={SinglePlayer}
+                        type="replace"
                     />
 
                 </Scene>
