@@ -234,6 +234,7 @@ export default class SinglePlayer extends React.Component{
             return <ChoseDimensions onGo= { this.startGame.bind(this)} />
         }
         console.log(this.state)
+
         return (
             <View onLayout={onLayout} style={[styleBoardBaseContainer]}>
                 <View style={[styleScoreContainer]}>
@@ -260,5 +261,4 @@ const styles = {
         flexDirection: 'row',
         backgroundColor: '#F4F0E6',
     }
-
 };
