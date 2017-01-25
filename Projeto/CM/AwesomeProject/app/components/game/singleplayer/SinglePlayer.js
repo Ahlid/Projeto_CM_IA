@@ -234,12 +234,9 @@ export default class SinglePlayer extends React.Component{
 
         }
 
-
-
         if (this.state.vSquares == 0 || this.state.hSquares == 0){
             return <ChoseDimensions onGo= { this.startGame.bind(this)} />
         }
-        console.log(this.state)
 
         return (
             <View onLayout={onLayout} style={[styleBoardBaseContainer]}>

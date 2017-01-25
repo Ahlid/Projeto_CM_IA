@@ -3,6 +3,7 @@ import {Modal, Text, TouchableHighlight, View, TextInput, Button} from 'react-na
 import {connect} from 'react-redux';
 import WinScreen from './WinScreen';
 import Score from './Score';
+import DrawScreen from './DrawScreen';
 import LostScreen from './LostScreen';
 import WaitingScreen from './WaitingScreen';
 import Board from '../../board/Board';
@@ -20,6 +21,7 @@ class MultiplayerGame extends React.Component {
             serverConfirmationToStart: false,
             hasWinner: false,
             haveIWon: false,
+            isDraw: false,
             width: 0,
             height: 0,
             scorePlayer1: 0,
@@ -53,8 +55,11 @@ class MultiplayerGame extends React.Component {
             let winner = newState.board.getCurrentWinner('player1', 'player2');
             newState.hasWinner = true;
             newState.haveIWon = winner == 'player1';
+            newState.isDraw = winner == null;
             this.setState(newState);
         }
+
+
 
         return newState;
     }
@@ -235,6 +240,13 @@ class MultiplayerGame extends React.Component {
 
 
         if (this.state.hasWinner) {
+
+            if(this.state.isDraw){
+                return <View
+                    onLayout={onLayout} style={[styleBoardBaseContainer]}>
+                    <DrawScreen width={this.state.width}
+                               height={this.state.height}/></View>
+            }
 
             if(this.state.haveIWon){
                 return <View
