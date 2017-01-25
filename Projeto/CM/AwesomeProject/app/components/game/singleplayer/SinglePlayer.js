@@ -12,6 +12,7 @@ import Board from '../../board/Board';
 import BoardModel from '../../../models/BoardModel';
 import Score from './Score';
 import WinnerScreen from './WinnerScreen';
+import ChoseDimensions from './ChoseDimensions';
 
 export default class SinglePlayer extends React.Component{
 
@@ -24,8 +25,8 @@ export default class SinglePlayer extends React.Component{
             hasWinner: false,
             winner: null,
             board: null,
-            hSquares: 5,
-            vSquares: 5,
+            hSquares: 0,
+            vSquares: 0,
             player1: "player1",
             scorePlayer1: 0,
             player2: "player2",
@@ -34,34 +35,33 @@ export default class SinglePlayer extends React.Component{
         }
     }
 
-    componentWillMount(){
-        this.startGame()
-    }
 
-    componentWillUpdate(){
-        return true;
-    }
+
+
 
 
     restart(){
 
-        const board = new BoardModel(this.state.hSquares, this.state.vSquares);
         this.setState({
             player1: "player1",
             scorePlayer1: 0,
             player2: "player2",
             scorePlayer2: 0,
             turn: "player1",
-            board: board,
             hasWinner: false,
             winner: null,
+            hSquares: 0,
+            vSquares: 0,
 
         });
     }
 
-    startGame(){
 
-        this.state.board = new BoardModel(this.state.hSquares, this.state.vSquares);
+    startGame(stateReceiver){
+
+
+        console.log(stateReceiver);
+        this.state.board = new BoardModel(stateReceiver.hSquares, stateReceiver.vSquares);
         this.state.board.setEdgesOnClick(function(edge){
 
             if(edge.isClosed)
@@ -70,6 +70,7 @@ export default class SinglePlayer extends React.Component{
             let closedSquares = edge.setClosed(this.state.turn);
 
             let newState = Object.assign({}, this.state);
+
 
             if (closedSquares == 0){
                 newState.turn = newState.turn == newState.player1 ?
@@ -96,10 +97,12 @@ export default class SinglePlayer extends React.Component{
 
         }.bind(this));
 
-        this.setState(this.state);
+        this.setState({vSquares:stateReceiver.vSquares, hSquares:stateReceiver.hSquares});
     }
 
     render(){
+
+
 
 
         let onLayout = (event) => {
@@ -227,7 +230,10 @@ export default class SinglePlayer extends React.Component{
 
 
 
-
+        if (this.state.vSquares == 0 || this.state.hSquares == 0){
+            return <ChoseDimensions onGo= { this.startGame.bind(this)} />
+        }
+        console.log(this.state)
         return (
             <View onLayout={onLayout} style={[styleBoardBaseContainer]}>
                 <View style={[styleScoreContainer]}>
