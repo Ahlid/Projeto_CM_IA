@@ -37,10 +37,6 @@ export default class SinglePlayer extends React.Component{
     }
 
 
-
-
-
-
     restart(){
 
         this.setState({

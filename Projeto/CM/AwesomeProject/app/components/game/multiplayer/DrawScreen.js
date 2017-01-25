@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Text, View, Button } from 'react-native';
+import {Text, View, Button,TouchableHighlight } from 'react-native';
 import { Actions } from 'react-native-router-flux'
 
 export default class DrawScreen extends React.Component {
@@ -9,26 +9,19 @@ export default class DrawScreen extends React.Component {
         let text = "Não houve vencedor";
 
         return  <View style={[{width: this.props.width, height: this.props.height}, styles.baseRootContainer, styles.colorRootContainer]}>
-            <Text style={{fontSize: 30}}>{text}</Text>
-            <Text style={{fontSize: 40}}>Empate</Text>
+            <Text style={{fontSize: this.props.width / 10}}>{text}</Text>
+            <Text style={{fontSize: this.props.width / 9}}>Empate</Text>
             <View style={{marginTop: 20,flexDirection: 'row',justifyContent: 'center', alignItems: 'center'}}>
-                <View style={{marginRight: 4,width: 100}}>
-                    <Button
-                        onPress={function(){
-                            this.props.restart();}.bind(this)}
-                        style={{width: 100}}
-                        title="Novo Jogo"
-                        color='#444849'
-                    />
-                </View>
-                <View style={{marginLeft: 4,width: 100}}>
-                    <Button
-                        onPress={function(){Actions.menu()}}
-                        style={{width: 100}}
-                        title="Voltar"
-                        color='#444849'
-                    />
-                </View>
+                <TouchableHighlight onPress={function(){Actions.menu()}}
+                                    style={{marginLeft: 4,width: this.props.width / 2.5}}>
+
+                    <View style={{backgroundColor: '#444849',justifyContent: 'center',
+                alignItems: 'center' }}>
+                        <Text style={{fontSize: this.props.width / 15,color: '#F4F0E6', padding: 10 , fontWeight: "bold"}}>Voltar</Text>
+                    </View>
+
+
+                </TouchableHighlight>
             </View>
         </View>
     }

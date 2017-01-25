@@ -5,7 +5,6 @@ import WinScreen from './WinScreen';
 import Score from './Score';
 import DrawScreen from './DrawScreen';
 import LostScreen from './LostScreen';
-import WaitingScreen from './WaitingScreen';
 import Board from '../../board/Board';
 import BoardModel from'../../../models/BoardModel';
 import {ActionCreators} from '../../../actions'
@@ -264,17 +263,15 @@ class MultiplayerGame extends React.Component {
 
         }
 
-        if (!this.state.serverConfirmationToStart || !this.props.hSquares) {
-            return <View onLayout={onLayout} style={[styleBoardBaseContainer]}><WaitingScreen/></View>
-        }
 
 
+        let opponent = this.props.username == this.props.player1 ? this.props.player2 : this.props.player1;
 
         return (
             <View onLayout={onLayout} style={[styleBoardBaseContainer]}>
                 <View style={[styleScoreContainer]}>
-                    <Score style={styleScore1} player={this.props.player1} score={this.state.scorePlayer1} color="#3F9BBE"/>
-                    <Score style={styleScore2} player={this.props.player2} score={this.state.scorePlayer2}  color="#DC7F4A"/>
+                    <Score style={styleScore1} player={this.props.username} score={this.state.scorePlayer1} color="#3F9BBE"/>
+                    <Score style={styleScore2} player={opponent} score={this.state.scorePlayer2}  color="#DC7F4A"/>
                 </View>
                 <View style={[styleBoardContainer]}>
                     <Board board={this.state.board} squaresHorizontal={this.props.hSquares} squaresVertical={this.props.vSquares} />

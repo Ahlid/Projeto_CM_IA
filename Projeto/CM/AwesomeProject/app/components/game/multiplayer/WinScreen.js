@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Text, View, Button } from 'react-native';
+import {Text, View, Button, TouchableHighlight } from 'react-native';
 import { Actions } from 'react-native-router-flux'
 
 export default class WinScreen extends React.Component {
@@ -10,17 +10,19 @@ export default class WinScreen extends React.Component {
         let info = "Venceu a Partida";
 
         return  <View style={[{width: this.props.width, height: this.props.height}, styles.baseRootContainer, rootContainerStyle]}>
-            <Text style={{fontSize: 30}}>{info}</Text>
-            <Text style={{fontSize: 40, color: '#F4F0E6'}}>{this.props.score} Pontos</Text>
+            <Text style={{fontSize: this.props.width / 10}}>{info}</Text>
+            <Text style={{fontSize: this.props.width / 9, color: '#F4F0E6'}}>{this.props.score} Pontos</Text>
             <View style={{marginTop: 20,flexDirection: 'row',justifyContent: 'center', alignItems: 'center'}}>
-                <View style={{width: 100}}>
-                    <Button
-                        onPress={function(){Actions.menu()}}
-                        style={{width: 100}}
-                        title="Voltar"
-                        color='#444849'
-                    />
-                </View>
+                <TouchableHighlight onPress={function(){Actions.menu()}}
+                                    style={{marginLeft: 4,width: this.props.width / 2.5}}>
+
+                    <View style={{backgroundColor: '#444849',justifyContent: 'center',
+                alignItems: 'center' }}>
+                        <Text style={{fontSize: this.props.width / 15,color: '#F4F0E6', padding: 10 , fontWeight: "bold"}}>Voltar</Text>
+                    </View>
+
+
+                </TouchableHighlight>
             </View>
         </View>
     }

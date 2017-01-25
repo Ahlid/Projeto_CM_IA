@@ -52,7 +52,7 @@ export default class Board extends Component {
         //Simplified name variables for number of vertical and horizontal squares
         let h = this.props.squaresHorizontal;
         let v = this.props.squaresVertical;
-
+    /*
         let maxSquares = Math.max(h, v);
         let size = this.state.width / maxSquares - (this.state.width / maxSquares) * 0.6;
 
@@ -61,6 +61,23 @@ export default class Board extends Component {
 
         let offset = size/2;
 
+        */
+
+        let minSize = Math.min(this.state.width, this.state.height);
+
+        let maxSquares = Math.max(h, v);
+        let size = minSize / maxSquares - (minSize / maxSquares) * 0.6;
+
+
+        let width = (minSize - size) / maxSquares ;
+        let height = (minSize - size) / maxSquares ;
+
+
+        let offsetX = (this.state.width - (width*h+size) ) / 2 + size/2;
+        let offsetY = (this.state.height - (height*v +size)) / 2 + size/2;
+
+
+
         let c = 0;
         for(let i=0; i < v; i++){
             for(let j=0; j < h; j++, c++){
@@ -68,8 +85,8 @@ export default class Board extends Component {
 
                 renderList.push(
                     <Square key={c}
-                            centerX={j*width  + offset + width/2}
-                            centerY={i*height + offset  + height/2}
+                            centerX={j*width  + offsetX + width/2}
+                            centerY={i*height + offsetY  + height/2}
                             width={width}
                             height={height}
                             indexRow={i}
@@ -99,11 +116,21 @@ export default class Board extends Component {
         let h = this.props.squaresHorizontal;
         let v = this.props.squaresVertical;
 
-        let maxSquares = Math.max(h, v);
-        let size = this.state.width / maxSquares - (this.state.width / maxSquares) * 0.6;
 
-        let width = (this.state.width  - size) / h;
-        let height = (this.state.height - size) / v;
+        let minSize = Math.min(this.state.width, this.state.height);
+
+        let maxSquares = Math.max(h, v);
+        let size = minSize / maxSquares - (minSize / maxSquares) * 0.6;
+
+
+        let width = (minSize - size) / maxSquares ;
+        let height = (minSize - size) / maxSquares ;
+
+
+        let offsetX = (this.state.width - (width*h+size) ) / 2;
+        let offsetY = (this.state.height - (height*v +size)) / 2;
+
+
 
 
         let c = 0;
@@ -115,8 +142,8 @@ export default class Board extends Component {
                 if(i == 0){
                     renderList.push(
                         <Edge key={c + h*v * 2}
-                              centerX={j*width + size/2}
-                              centerY={i*height + size/2}
+                              centerX={j*width + offsetX + size/2}
+                              centerY={i*height + offsetY + size/2}
                               size={width}
                               girth={size}
                               edge={square.topEdge}
@@ -128,8 +155,8 @@ export default class Board extends Component {
                 if(j == 0){
                     renderList.push(
                         <Edge key={c + 1 + h*v * 2}
-                              centerX={j*width + size/2}
-                              centerY={i*height + size/2}
+                              centerX={j*width + offsetX + size/2}
+                              centerY={i*height + offsetY  + size/2}
                               size={height}
                               girth={size}
                               edge={square.leftEdge}
@@ -140,8 +167,8 @@ export default class Board extends Component {
                 //Render the right Edge
                 renderList.push(
                     <Edge key={c + 2 + h*v * 2}
-                          centerX={j*width + size/2}
-                          centerY={i*height + height + size/2}
+                          centerX={j*width + offsetX + size/2}
+                          centerY={i*height + offsetY  + height + size/2}
                           size={width}
                           girth={size}
                           edge={square.bottomEdge}
@@ -151,8 +178,8 @@ export default class Board extends Component {
                 //Render the bottom Edge
                 renderList.push(
                     <Edge key={c + 3 + h*v * 2}
-                          centerX={j*width + width + size/2}
-                          centerY={i*height + size/2}
+                          centerX={j*width + offsetX + width + size/2}
+                          centerY={i*height + offsetY  + size/2}
                           size={height}
                           girth={size}
                           edge={square.rightEdge}/>
@@ -181,15 +208,19 @@ export default class Board extends Component {
         let h = this.props.squaresHorizontal;
         let v = this.props.squaresVertical;
 
+        let minSize = Math.min(this.state.width, this.state.height);
+
         let maxSquares = Math.max(h, v);
-        let size = this.state.width / maxSquares - (this.state.width / maxSquares) * 0.6;
-
-        //let maxSize = Math.max(Vertex.VERTEX_WIDTH, Edge.EDGE_WIDTH);
+        let size = minSize / maxSquares - (minSize / maxSquares) * 0.6;
 
 
+        let width = (minSize - size) / maxSquares ;
+        let height = (minSize - size) / maxSquares ;
 
-        let width = (this.state.width  - size) / h;
-        let height = (this.state.height - size) / v;
+
+        let offsetX = (this.state.width - (width*h+size) ) / 2;
+        let offsetY = (this.state.height - (height*v +size)) / 2;
+
 
         let c = 0;
         for(let i=0; i < v; i++) {
@@ -197,30 +228,30 @@ export default class Board extends Component {
 
                 if(i==0 && j == 0){
                     renderList.push(<Vertex key={c + h*v * 3}
-                                            centerX={j*width + size/2}
-                                            centerY={i*height + size/2}
+                                            centerX={j*width + offsetX + size/2}
+                                            centerY={i*height + offsetY + size/2}
                                             size={size}
                                             />
                     );
                 }
 
                 renderList.push(<Vertex key={c + 1 + h*v * 3}
-                                        centerX={j*width + width + size/2}
-                                        centerY={i*height + size/2}
+                                        centerX={j*width + offsetX  + width + size/2}
+                                        centerY={i*height + offsetY + size/2}
                                         size={size}
                                         />
                 );
 
                 renderList.push(<Vertex key={c + 2 + h*v * 3}
-                                        centerX={j*width + size/2}
-                                        centerY={i*height + height + size/2}
+                                        centerX={j*width + offsetX  + size/2}
+                                        centerY={i*height + offsetY + height + size/2}
                                         size={size}
                                         />
                 );
 
                 renderList.push(<Vertex key={c + 3 + h*v * 3}
-                                        centerX={j*width + width + size/2}
-                                        centerY={i*height + height + size/2}
+                                        centerX={j*width + offsetX  + width + size/2}
+                                        centerY={i*height + offsetY + height + size/2}
                                         size={size}
                                         />
                 );
