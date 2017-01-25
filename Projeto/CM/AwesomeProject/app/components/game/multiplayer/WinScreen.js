@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {Text, View, Button } from 'react-native';
-
+import { Actions } from 'react-native-router-flux'
 
 export default class WinScreen extends React.Component {
 
@@ -15,7 +15,7 @@ export default class WinScreen extends React.Component {
             <View style={{marginTop: 20,flexDirection: 'row',justifyContent: 'center', alignItems: 'center'}}>
                 <View style={{width: 100}}>
                     <Button
-                        onPress={function(){}}
+                        onPress={function(){Actions.menu()}}
                         style={{width: 100}}
                         title="Voltar"
                         color='#444849'

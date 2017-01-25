@@ -39,6 +39,8 @@ class MultiplayerGame extends React.Component {
         //this.props.socket.removeAllListeners('userLeave');
         this.props.socket.removeAllListeners('start');
         this.props.socket.removeAllListeners('receiveMove');
+        this.props.socket.removeAllListeners('ackMove');
+        this.props.socket.emit('logToServer', 'UNMOUNTED');
     }
 
     componentWillUpdate() {
@@ -62,6 +64,8 @@ class MultiplayerGame extends React.Component {
         this.props.startGame(info);
 
         this.state.board = new BoardModel(info.hSquares, info.vSquares);
+        this.props.socket.emit('logToServer', 'START GAME');
+
         this.state.board.setEdgesOnClick(function (edge) {
 
             if (edge.isClosed)
