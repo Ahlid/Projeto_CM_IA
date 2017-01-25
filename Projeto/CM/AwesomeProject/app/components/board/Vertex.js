@@ -13,8 +13,11 @@ export default class Vertex extends Component {
 
     render() {
         let style =  {
-            top: this.props.centerY - Vertex.VERTEX_WIDTH/2,
-            left: this.props.centerX - Vertex.VERTEX_WIDTH/2,
+            top: this.props.centerY - this.props.size/2,
+            left: this.props.centerX - this.props.size/2,
+            width: this.props.size,
+            height: this.props.size,
+            borderRadius: this.props.size,
         };
 
         return (
@@ -23,7 +26,7 @@ export default class Vertex extends Component {
     }
 
 }
-Vertex.VERTEX_WIDTH = 25;
+
 
 const styles = StyleSheet.create({
 
@@ -31,8 +34,6 @@ const styles = StyleSheet.create({
         position: 'absolute',
         top: 0,
         left: 0,
-        width: Vertex.VERTEX_WIDTH,
-        height: Vertex.VERTEX_WIDTH,
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',

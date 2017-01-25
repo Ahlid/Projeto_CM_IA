@@ -104,8 +104,6 @@ export default class SinglePlayer extends React.Component{
     render(){
 
 
-
-
         let onLayout = (event) => {
 
             let width = event.nativeEvent.layout.width;
@@ -223,19 +221,19 @@ export default class SinglePlayer extends React.Component{
                         />
                     </View>
                 default:
-                    return <DrawScreen
+                    return <View onLayout={onLayout} style={[styleBoardBaseContainer]}><DrawScreen
                                     score={this.state.board.getScore(this.state.winner)}
                                     width={this.state.width}
                                     height={this.state.height}
                                     restart = {this.restart.bind(this)}
-                                    />
+                                    /></View>
 
             }
 
         }
 
         if (this.state.vSquares == 0 || this.state.hSquares == 0){
-            return <ChoseDimensions onGo= { this.startGame.bind(this)} />
+            return <ChoseDimensions onGo={this.startGame.bind(this)} />
         }
 
         return (

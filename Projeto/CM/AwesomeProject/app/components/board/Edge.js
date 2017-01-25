@@ -65,14 +65,14 @@ export default class Edge extends Component {
         let player2Color = '#F69B59';
 
         let stateStyle = {
-            top: this.state.orientation == 'horizontal' ? this.props.centerY - (Edge.EDGE_WIDTH + Edge.EDGE_BORDER) /2 : this.props.centerY - (Edge.EDGE_WIDTH) /2 ,
-            left: this.state.orientation == 'horizontal' ? this.props.centerX - (Edge.EDGE_WIDTH)/2 : this.props.centerX - (Edge.EDGE_WIDTH + Edge.EDGE_BORDER) /2 ,
-            width: this.state.orientation == 'horizontal' ? this.props.size : Edge.EDGE_WIDTH + Edge.EDGE_BORDER,
-            height: this.state.orientation == 'horizontal' ? Edge.EDGE_WIDTH + Edge.EDGE_BORDER: this.props.size,
+            top: this.state.orientation == 'horizontal' ? this.props.centerY - this.props.girth /2 : this.props.centerY ,
+            left: this.state.orientation == 'horizontal' ? this.props.centerX  : this.props.centerX - this.props.girth /2 ,
+            width: this.state.orientation == 'horizontal' ? this.props.size : this.props.girth,
+            height: this.state.orientation == 'horizontal' ? this.props.girth: this.props.size,
             backgroundColor: 'transparent',
         }
 
-        let CONTROL_OFFSET = 10;
+        let CONTROL_OFFSET = this.props.girth /3.2;
         let path = "";
         if(this.state.orientation == 'horizontal')
             path = `M  0 0
@@ -106,22 +106,9 @@ export default class Edge extends Component {
         );
     }
 
-/*
- <TouchableHighlight style={[styles.edgeBase, stateStyle]} underlayColor ="transparent"  onPress={this.props.edge.onClickHandler.bind(this.props.edge)}>
-
-     <View style={[lineStyle]}>
-     { this.state.isClosed ?
-     null :
-     (this.state.orientation == 'horizontal' ?
-     <Dash dashColor="lightgrey" dashGap={10} dashLength={10} /> :
-     <Dash style={dashStyle} dashColor="lightgrey" dashGap={10} dashLength={10} />) }
-     </View>
- </TouchableHighlight>
-     */
 
 }
-Edge.EDGE_WIDTH = 5;
-Edge.EDGE_BORDER = 21;
+
 
 const styles = StyleSheet.create({
     edgeBase: {
