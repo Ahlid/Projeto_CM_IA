@@ -11,6 +11,7 @@ import {
 import Board from '../../board/Board';
 import BoardModel from '../../../models/BoardModel';
 import Score from './Score';
+import DrawScreen from './DrawScreen';
 import WinnerScreen from './WinnerScreen';
 import ChoseDimensions from './ChoseDimensions';
 
@@ -222,18 +223,20 @@ export default class SinglePlayer extends React.Component{
                         />
                     </View>
                 default:
-                    return <DrawScreen/>
+                    return <DrawScreen
+                                    score={this.state.board.getScore(this.state.winner)}
+                                    width={this.state.width}
+                                    height={this.state.height}
+                                    restart = {this.restart.bind(this)}
+                                    />
 
             }
 
         }
 
-
-
         if (this.state.vSquares == 0 || this.state.hSquares == 0){
             return <ChoseDimensions onGo= { this.startGame.bind(this)} />
         }
-        console.log(this.state)
 
         return (
             <View onLayout={onLayout} style={[styleBoardBaseContainer]}>

@@ -8,7 +8,6 @@ export default class DrawScreen extends React.Component {
 
         let text = "Não houve vencedor";
 
-
         return  <View style={[{width: this.props.width, height: this.props.height}, styles.baseRootContainer, styles.colorRootContainer]}>
             <Text style={{fontSize: 30}}>{text}</Text>
             <Text style={{fontSize: 40}}>Empate</Text>
