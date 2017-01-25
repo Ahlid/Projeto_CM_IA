@@ -78,36 +78,55 @@ class Sala extends React.Component {
 
     render() {
 
+        var {height,width} = Dimensions.get('window');
+
+        if (width > height) {
+            var x = height;
+            width = height;
+            height = width;
+        }
+
         return (
-            <View style={{
-                flex:1
-            }}>
-                <ScrollView style={styles.Room}>
-                    <Modal
-                        animationType={"slide"}
-                        transparent={true}
-                        visible={this.state.modal}
-                        onRequestClose={() => {
-                            alert("Modal has been closed.")
-                        }}>
 
-                        <AddSala onCriar={this._addSalaOnCriar.bind(this)}
-                                 onCancelar={this._addSalaOnCancelar.bind(this)}/>
-                    </Modal>
-
-                    {this.state.rooms.map(function (item, index) {
-
-                        return (<Room key={index} username={item.user} size={item.size} id={item.id}
-                                      join={this._joinSala.bind(this)}/>)
-
-                    }.bind(this))}
+                <View style={{ flex: 1,
+                    backgroundColor : '#F4F0E6'
+                }}>
+                    <View style={{height:height/8,
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        backgroundColor: '#444849'
 
 
-                </ScrollView>
-                <ActionButton onPress={this._modalTest.bind(this)} buttonColor="rgba(231,76,60,1)" position="right">
+                    }}>
+                        <Text style={{ color: 'white', fontSize: (height>width) ? height/35 : width/25}}>Salas Disponiveis</Text>
+                    </View>
+                    <ScrollView style={styles.Room}>
+                        <Modal
+                            animationType={"slide"}
+                            transparent={true}
+                            visible={this.state.modal}
+                            onRequestClose={() => {
+                                alert("Modal has been closed.")
+                            }}>
 
-                </ActionButton>
-            </View>
+                            <AddSala onCriar={this._addSalaOnCriar.bind(this)}
+                                     onCancelar={this._addSalaOnCancelar.bind(this)}/>
+                        </Modal>
+
+                        {this.state.rooms.map(function (item, index) {
+                            console.log(item);
+                            return (<Room key={index} index={index} username={item.user} hSquares={item.hSquares}
+                                          vSquares={item.vSquares} id={item.id}
+                                          join={this._joinSala.bind(this)}/>)
+
+                        }.bind(this))}
+
+
+                    </ScrollView>
+                    <ActionButton onPress={this._modalTest.bind(this)} buttonColor="#3d96b8" position="right">
+
+                    </ActionButton>
+                </View>
 
 
         );

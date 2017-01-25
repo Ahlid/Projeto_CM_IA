@@ -2,7 +2,7 @@
  * Created by pcts on 1/11/2017.
  */
 import React, {Component} from 'react';
-import {View, Text, Button, TextInput, Alert, Dimensions, TouchableHighlight} from 'react-native';
+import {View, Text, Button, TextInput, Alert, Dimensions, TouchableHighlight, Image} from 'react-native';
 import {connect} from 'react-redux';
 import { ActionCreators } from '../actions'
 import { bindActionCreators } from 'redux'
@@ -16,18 +16,21 @@ class Login extends React.Component{
         this.state = {
             username:"",
             socket: props.socket,
-            err:false
+            err:false,
+            waiting: false
         }
     }
 
     onclick(){
+        this.setState({waiting:true});
         this.state.socket.on('login',this._onLogin.bind(this));
         this.state.socket.emit('login',{username:this.state.username});
     }
 
     _onLogin(data){
+
         if (data.err){
-            this.setState({err:true});
+            this.setState({err:true, waiting: false });
             this.state.socket.removeAllListeners("login");
         }else {
             this.props.makeLogin(this.state.username);
@@ -67,11 +70,24 @@ class Login extends React.Component{
 
         var {width, height} = Dimensions.get('window');
 
+        if (this.state.waiting){
+            return (
+                <View style={{ alignItems: 'center',
+                    justifyContent: 'center', flex: 1,
+                    flexDirection: 'column',
+                    backgroundColor : '#F4F0E6'}} >
+                <Image style={{marginTop:20}} source={require('../images/ajax-loader.gif')} />
+
+                </View>
+            )
+        }
+
        return <View style={{ alignItems: 'center',
            justifyContent: 'center', flex: 1,
            flexDirection: 'column',
            backgroundColor : '#F4F0E6'}} >
            <Text style={{textAlign: 'center',fontSize: (height>width) ? height/35 : width/25, fontWeight: "bold"}}>Choose a nickname</Text>
+
            <TextInput
                style={{color:'#3D96B8' ,textAlign: 'center',fontSize: (height>width) ? height/45 : width/35 ,height: 60, width: (width>height)? width/2 : height/2, marginTop:20 }}
 
