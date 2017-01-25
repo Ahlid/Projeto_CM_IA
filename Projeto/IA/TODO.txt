@@ -1,8 +1,9 @@
 TODO:
 
 Implementação Base:
+Criar escolha da jogada(Vamos gerar o sucessores e para cada um deles invocar o negamax de modo a obter o valor da jogada, nao utilizar cortes alfa beta a este nível)
 Criar o mecanismos de tranposition tables
-Gerar os sucessores
+
 
 
 
@@ -10,9 +11,26 @@ PERFORMANCE:
 -Transposition tables. (importante)
 -Ter em conta as jogadas simétricas (importante)
 -Ter em conta que um jogador pode fazer duas jogadas seguidas quando seleciona um arco que fecha uma caixa
--os valores de control do nó deverão guardar o o número de caixas completas por cada jogador
+-os valores de control do nó deverão guardar o número de caixas completas por cada jogador
 
 
 
 
+Notas:
+A ordenação inicial dos nós deixa de fazer sentido assim que pensamos 
+em utilizar o negamax em cada um dos sucessores pois serão invocados 
+negamax's independentes para cada sucessor.
+A razão pela qual escolhemos utilizar o negamax em cada um dos sucessores 
+do tabuleiro atual é que o alfa beta só garante o valor correto na raiz, 
+como o valor do nó da raiz não tem grande utilidade e queremos os valores
+reais dos nós sucessores da raiz. 
 
+
+Avaliacao:
+ Algoritmo Alfa Beta comcortes alfa e os cortes beta 6 (A base está feita faltando optimizações)
+ Função de avaliação dos tabuleiros 4 (Por fazer)
+ Implementação do limite de tempo para o computador 2 (Por fazer)
+ Operadores do jogo 2 (Feito mas podia verificar as simétricas)
+ Ordenação dos nós 1 (ainda não está feito)
+ Qualidadeda Codiﬁcação 1 (Refactoring no fim)
+ Relatórios(UtilizadoreTécnico) 4 (Por fazer)

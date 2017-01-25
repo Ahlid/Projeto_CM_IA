@@ -29,12 +29,12 @@
 																			operadores 
 																			alfa
 																			beta))
-								((= (no-jogador no) *jogador2*) (- (negamax 	no 
-																				(1+ (no-profundidade no)) 
-																				profundidade-maxima 
-																				operadores 
-																				(- beta)  
-																				(- alfa))))
+								((= (no-jogador no) *jogador2*) (- (negamax no 
+																			(1+ (no-profundidade no)) 
+																			profundidade-maxima 
+																			operadores 
+																			(- beta)  
+																			(- alfa))))
 																				
 							)
 					)
@@ -72,7 +72,7 @@
 			(let*
 				(
 					(sucessores (sucessores-no no operadores))
-					(sucessores-ordenados (ordenar sucessores))
+					;(sucessores-ordenados (ordenar sucessores))
 				)
 				(negamax-max 	sucessores 
 								profundidade 
@@ -87,25 +87,72 @@
 	)
 )
 
-; (escolher-jogada (no-criar (tabuleiro-inicial) nil 0 (list 0 0 *jogador1*)))
 
-;;TODO: escolher a jogada
+
+; (let*
+		; (
+			; (no (no-criar (tabuleiro-inicial) nil 0 (list 0 0 *jogador1*)))
+			; (operadores (criar-operacoes 7 7 #'arco-vertical #'arco-horizontal))
+			; (sucessores (sucessores-no no operadores))
+			; (resultado (escolher-jogada-aux sucessores 
+						; 3
+						; operadores 
+						; )
+			; )
+		; )
+		; resultado
+; )
+
+
+;; JUSTIFICAÇÂO: Aqui temos que aplicar o alfa beta em cada nó pois o alfa beta só garante o valor certo no topo da árvore 
+(defun escolher-jogada-aux (sucessores profundidade-maxima operadores) 
+	""
+	(cond 
+		((null sucessores) nil)
+		(t 
+			(let*
+				(
+					( no (first sucessores) )
+					( valor  (negamax 	no
+										1
+										profundidade-maxima
+										operadores
+										-100
+										100)
+					)
+					( resultado (escolher-jogada-aux	(rest sucessores)
+														profundidade-maxima 
+														operadores))
+										
+				)
+				(cond 
+					( (null resultado) (list valor no) )
+					( (> valor (first resultado)) (list valor no) )
+					( t resultado )
+				)
+			)
+		)
+	)
+)
+
+
+
+
+; (escolher-jogada (no-criar (tabuleiro-inicial) nil 0 (list 0 0 *jogador1*)))
 (defun escolher-jogada (no)
 	(let*
 		(
 			(operadores (criar-operacoes 7 7 #'arco-vertical #'arco-horizontal))
 			(sucessores (sucessores-no no operadores))
-			
-		)
-		(negamax-max 	sucessores 
-						0
+			(resultado (escolher-jogada-aux sucessores 
 						3
 						operadores 
-						-100 
-						100
-						-100
+						))
 		)
-		
+		(cond	
+			((null resultado) (first sucessores))
+			(t (second resultado))
+		)
 	)
 )
 
