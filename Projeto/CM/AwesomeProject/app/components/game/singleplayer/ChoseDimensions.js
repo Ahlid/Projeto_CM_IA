@@ -70,7 +70,7 @@ export default class ChoseDimensions extends React.Component {
             >
 
 
-                <View style={{padding: height/20, height: Dimensions.get('window').height/2}}>
+                <View style={{height: (height>width) ? height/2 : width/1.9}}>
 
                     <Text style={{textAlign: 'center',fontSize: (height>width) ? height/35 : width/25, fontWeight: "bold"}}>Escolha as dimensões do tabuleiro</Text>
                     <View style={styles.content}>
