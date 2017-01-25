@@ -30,7 +30,7 @@ class AppContainer extends React.Component {
                         key="menu"
                         title="menu"
                         component={Menu}
-                        type="replace"
+                        type="BackAction"
                         initial={true}
                     />
 
@@ -38,6 +38,7 @@ class AppContainer extends React.Component {
                         key="salas"
                         title="salas"
                         component={Salas}
+                        type="replace"
                     />
 
                     <Scene

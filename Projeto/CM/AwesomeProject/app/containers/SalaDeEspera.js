@@ -2,7 +2,7 @@
  * Created by pcts on 1/11/2017.
  */
 import React, { Component } from 'react';
-import { Modal, Text, TouchableHighlight, View,TextInput,Button, BackAndroid  } from 'react-native';
+import { Modal, Text, Image, View,TextInput,Button, BackAndroid, Dimensions, TouchableHighlight  } from 'react-native';
 import {connect} from 'react-redux';
 import { Actions } from 'react-native-router-flux'
 
@@ -40,10 +40,48 @@ class SalaDeEspera extends React.Component{
     }
 
     render(){
+
+
+        var {height,width} = Dimensions.get('window');
+
+        if (width > height) {
+            var x = height;
+            width = height;
+            height = width;
+        }
+
+        styles.buttonInside1 = {
+            paddingTop: height/ 40,
+            paddingBottom: (height / 40),
+            justifyContent: 'center',
+            alignItems: 'center',
+            backgroundColor : '#F2AA77',
+            marginTop:40,
+            paddingLeft: (width / 5),
+            paddingRight: (width / 5)
+
+        };
+
       return (
-          <View>
-            <Text>Waiting for opponent....</Text>
-              <Button onPress={this._onCancel.bind(this)} title="Cancel" ></Button>
+          <View style={{ alignItems: 'center',
+              justifyContent: 'center', flex: 1,
+              flexDirection: 'column',
+              backgroundColor : '#F4F0E6'}} >
+              <Text style={{textAlign: 'center',fontSize: (height>width) ? height/35 : width/25, fontWeight: "bold"}}>Waitting...</Text>
+
+              <Image style={{marginTop:20}} source={require('../images/ajax-loader.gif')} />
+              <TouchableHighlight
+                  underlayColor="transparent"
+                  onPress={this._onCancel.bind(this)}
+              >
+                  <View style={styles.buttonInside1}>
+
+                      <Text style={{fontSize: height/25, fontWeight: "bold"}}>Cancel</Text>
+                  </View>
+
+
+              </TouchableHighlight>
+
         </View>
       );
     }
@@ -58,3 +96,6 @@ export default connect((store)=>{
     }
 
 })(SalaDeEspera);
+
+
+var styles = {}
