@@ -71,7 +71,7 @@ class Login extends React.Component{
            justifyContent: 'center', flex: 1,
            flexDirection: 'column',
            backgroundColor : '#F4F0E6'}} >
-           <Text style={{textAlign: 'center',fontSize: (height>width) ? height/35 : width/25, fontWeight: "bold"}}>Insira um nickname</Text>
+           <Text style={{textAlign: 'center',fontSize: (height>width) ? height/35 : width/25, fontWeight: "bold"}}>Choose a nickname</Text>
            <TextInput
                style={{color:'#3D96B8' ,textAlign: 'center',fontSize: (height>width) ? height/45 : width/35 ,height: 60, width: (width>height)? width/2 : height/2, marginTop:20 }}
 
@@ -86,13 +86,13 @@ class Login extends React.Component{
            >
                <View style={styles.buttonInside1}>
 
-                   <Text style={{fontSize: height/25, fontWeight: "bold"}}>Continuar</Text>
+                   <Text style={{fontSize: height/25, fontWeight: "bold"}}>Continue</Text>
                </View>
 
 
            </TouchableHighlight>
 
-           {this.state.err ? <Text style={{textAlign: 'center'}}>Username em uso, escolha outro</Text> : null}
+           {this.state.err ? <Text style={{textAlign: 'center'}}>Nickname in use, choose another one.</Text> : null}
 
         </View>
     }
