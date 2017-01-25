@@ -24,7 +24,6 @@ class AppContainer extends React.Component {
                     <Scene
                         key="login"
                         component={Login}
-                        initial={true}
                     />
 
                     <Scene
@@ -32,6 +31,7 @@ class AppContainer extends React.Component {
                         title="menu"
                         component={Menu}
                         type="replace"
+                        initial={true}
                     />
 
                     <Scene
@@ -56,7 +56,6 @@ class AppContainer extends React.Component {
                         key="singlePlayer"
                         title="singlePlayer"
                         component={SinglePlayer}
-                        type="replace"
                     />
 
                 </Scene>
