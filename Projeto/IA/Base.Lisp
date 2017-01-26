@@ -161,6 +161,7 @@
 		((null lista) "o")
 		(t 	(concatenate 'string 
 							(cond 
+								((null (first lista)) "o   ")
 								((=(first lista) *jogador1*) "o---") ; se o elemento ? t devolve a linha		
 								((=(first lista) *jogador2*) "o...") ; se o elemento ? t devolve a linha										
 								(t "o   ") ; sen?o devolve espa?o em branco		
@@ -178,7 +179,7 @@
 		( t 
 			(concatenate 'string 	
 							(cond 
-								
+								((null (first lista)) "    ")
 								((and (=(first lista) *jogador1*) (> (length lista) 1)) "|   ") ; se o elemento ? t  e n?o ? o ultimo elemento da lista	devolve a linha com espa?os
 								((and (=(first lista) *jogador1*) (<= (length lista) 1)) "|") ; se o elemento ? t  e ? o ultimo elemento da lista devolve a linha
 								((and (=(first lista) *jogador2*) (> (length lista) 1)) ":   ") ; se o elemento ? t  e n?o ? o ultimo elemento da lista	devolve a linha com espa?os

@@ -10,6 +10,7 @@ Criar o mecanismos de tranposition tables
 PERFORMANCE:
 -Transposition tables. (importante)
 -Ter em conta as jogadas simétricas (importante)
+-Criar um HASH TABLE para guardar os sucessores de um nó
 -Ter em conta que um jogador pode fazer duas jogadas seguidas quando seleciona um arco que fecha uma caixa
 -os valores de control do nó deverão guardar o número de caixas completas por cada jogador
 
@@ -33,4 +34,4 @@ Avaliacao:
  Operadores do jogo 2 (Feito mas podia verificar as simétricas)
  Ordenação dos nós 1 (ainda não está feito)
  Qualidadeda Codiﬁcação 1 (Refactoring no fim)
- Relatórios(UtilizadoreTécnico) 4 (Por fazer)
+ Relatórios(Utilizador e Técnico) 4 (Por fazer)

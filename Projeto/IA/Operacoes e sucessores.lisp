@@ -80,10 +80,43 @@
 )
 
 
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Simetrias
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defun rodar90 (tabuleiro)
+	(let* 
+		(
+			(horizontais (get-arcos-horizontais tabuleiro))
+			(verticais (get-arcos-verticais tabuleiro))
+			(novo-horizontais 
+				(mapcar 'reverse verticais)
+			)
+			(novo-verticais
+				(reverse horizontais)
+			)			
+		)
+		(list novo-horizontais novo-verticais)
+	)
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Operadores
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
+;;TODO GERAR A HASH DO TABULEIRO TENDO EM  CONTA QUE TABULEIROS SIMETRICOS TÊM A MESMA HASH
 (defun criar-operacao (x y funcao)
 	"Cria uma fun??o lambda que representa uma opera??o atrav?s de uma opera??o (arco-horizontal/arco-vertical) e a posi??o x e y"
 	(lambda (no) ; operador

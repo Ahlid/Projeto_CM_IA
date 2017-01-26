@@ -1,20 +1,32 @@
 
+;;HASH TABLES
+;;CRIAR HASH
+;(defparameter *my-hash* (make-hash-table))
+;;CRIAR A CHAVE
+;(setf (gethash 'CHAVE *my-hash*) "VALOR")
+;;BUSCAR O VALOR DA CHAVE
+;(gethash 'CHAVE *my-hash*)
+
+
+(defparameter *hash* (make-hash-table))
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Negamax
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defun log-teste(alfa beta novo-maior )
+(defun log-teste(alfa beta novo-maior jogador-atual jogador-max profundidade)
 	(progn 
-		(write-line "corte")
-		(write-line (write-to-string alfa))
-		(write-line (write-to-string beta))
-		(write-line (write-to-string novo-maior ))
+		(cond
+			((= jogador-atual jogador-max) (write-line "Corte Alfa"))
+			(t (write-line "Corte Beta"))
+		)
+		(write-line (concatenate 'string "Profundidade: " (write-to-string profundidade)))
 	)
 )
 
 
-(defun negamax-max(sucessores profundidade profundidade-maxima operadores alfa beta maior)
+(defun negamax-max(sucessores profundidade profundidade-maxima operadores alfa beta maior jogador)
 	""
 	(cond 
 		((null sucessores) alfa)
@@ -23,18 +35,21 @@
 				(
 					( no (first sucessores) )
 					( valor (cond 
-								((= (no-jogador no) *jogador1*) (negamax 	no 
-																			(1+ (no-profundidade no)) 
-																			profundidade-maxima 
-																			operadores 
-																			alfa
-																			beta))
-								((= (no-jogador no) *jogador2*) (- (negamax no 
-																			(1+ (no-profundidade no)) 
-																			profundidade-maxima 
-																			operadores 
-																			(- beta)  
-																			(- alfa))))
+								((= (no-jogador no) jogador) ; se o jogador a jogar neste no for o jogador que queremos maximizar
+																(negamax 	no  
+																		(1+ (no-profundidade no)) 
+																		profundidade-maxima 
+																		operadores 
+																		alfa
+																		beta
+																		jogador))
+								( t (- (negamax no 			 ; se o jogador a jogar neste no for o jogador que queremos minimizar
+																		(1+ (no-profundidade no)) 
+																		profundidade-maxima 
+																		operadores 
+																		(- beta)  
+																		(- alfa)
+																		jogador)))
 																				
 							)
 					)
@@ -42,7 +57,7 @@
 					( novo-alfa (max valor alfa) )
 				)
 				(cond 
-					( (>= novo-alfa beta) (progn (log-teste alfa beta novo-maior) novo-maior )) ; situação de corte
+					( (>= novo-alfa beta) (progn (log-teste alfa beta novo-maior (no-jogador no) jogador profundidade) novo-maior )) ; situação de corte
 					( t (max 	novo-alfa 
 								(negamax-max 	(rest sucessores) 
 												profundidade 
@@ -50,7 +65,8 @@
 												operadores 
 												novo-alfa
 												beta
-												novo-maior)) )
+												novo-maior
+												jogador)) )
 				)
 			)
 		)
@@ -62,9 +78,10 @@
 ;;IMPORTANTE... para escolher a jogada o melhor é gerar os sucessores e chamar o negamax para cada 1 desses e ver qual o que tem o maior valor.
 
 
-;(negamax (no-criar (tabuleiro-inicial) nil 0 (list 0 0 *jogador1*)) 0 2 (criar-operacoes 7 7 #'arco-vertical #'arco-horizontal) -100 100)
-(defun negamax (no profundidade profundidade-maxima operadores alfa beta)
-	
+;(negamax (no-criar (tabuleiro-inicial) nil 0 (list 0 0 *jogador1*)) 0 2 (criar-operacoes 7 7 #'arco-vertical #'arco-horizontal) -100 100 *jogador1*)
+
+(defun negamax-simples (no profundidade profundidade-maxima operadores alfa beta jogador)
+	""
 	(cond 
 		( (>= profundidade profundidade-maxima) (avaliar-folha-limite no) ) ;Devolve uma avaliação do nó
 		( (vencedor-p (no-numero-caixas-jogador1 no) (no-numero-caixas-jogador2 no)) (avaliar-folha no)) ; Devolve o valor do nó
@@ -81,11 +98,76 @@
 								alfa 
 								beta
 								-100
+								jogador
 				)
 			)
 		)
 	)
 )
+
+(defun guarda-na-hashtable (alfa beta valor no profundidade-maxima) 
+	(cond 
+		((<= valor alfa) (setf (gethash (no-estado no) *hash*) (list 'LOWERBOUND profundidade-maxima valor)))
+		((>= valor beta) (setf (gethash (no-estado no) *hash*) (list 'UPPERBOUND profundidade-maxima valor)))
+		( t (setf (gethash (no-estado no) *hash*) (list 'EXACT profundidade-maxima valor)) )
+	)
+)
+
+(defun negamax (no profundidade profundidade-maxima operadores alfa beta jogador)
+	""
+	(let* 
+		(
+			(valor (gethash (no-estado no) *hash*))
+		)
+		(cond
+			( (or (null valor) (< (second valor) profundidade-maxima))
+			
+				(let 
+					(
+						(resultado (negamax-simples no profundidade profundidade-maxima operadores alfa beta jogador))
+					)
+					(progn
+						(guarda-na-hashtable alfa beta resultado no profundidade-maxima)
+						resultado)
+				)
+					
+			)
+			( (eq 'EXACT (first valor)) (third valor) )
+			( (and (eq 'LOWERBOUND (first valor)) (< (max alfa (third valor)) beta) ) 
+			
+
+				(let 
+					(
+						(resultado (negamax-simples no profundidade profundidade-maxima operadores (max alfa (third valor)) beta jogador) )
+					)
+					(progn
+						(guarda-na-hashtable alfa beta resultado no profundidade-maxima)
+						resultado)
+				)	
+			
+			)
+			( (and (eq 'UPPERBOUND (first valor)) (<  alfa (min (third valor) beta)) )
+			
+				(let 
+					(
+						(resultado (negamax-simples no profundidade profundidade-maxima operadores alfa (min beta (third valor)) jogador) )
+					)
+					(progn
+						(guarda-na-hashtable alfa beta resultado no profundidade-maxima)
+						resultado)
+				)
+				
+			)
+			(t (third valor))
+			
+		)
+	)
+
+)
+
+
+
+
 
 
 
@@ -118,7 +200,8 @@
 										profundidade-maxima
 										operadores
 										-100
-										100)
+										100
+										(no-jogador  no))
 					)
 					( resultado (escolher-jogada-aux	(rest sucessores)
 														profundidade-maxima 
@@ -138,21 +221,27 @@
 
 
 
-; (escolher-jogada (no-criar (tabuleiro-inicial) nil 0 (list 0 0 *jogador1*)))
+; (imprime-tabuleiro  (no-estado (escolher-jogada (no-criar (tabuleiro-inicial) nil 0 (list 0 0 *jogador1*)))))
 (defun escolher-jogada (no)
 	(let*
 		(
 			(operadores (criar-operacoes 7 7 #'arco-vertical #'arco-horizontal))
 			(sucessores (sucessores-no no operadores))
+			(tempo-inicio (get-internal-real-time))
 			(resultado (escolher-jogada-aux sucessores 
 						3
 						operadores 
 						))
+			(tempo-fim (get-internal-real-time))
 		)
-		(cond	
-			((null resultado) (first sucessores))
-			(t (second resultado))
+		(progn
+			(write-line (write-to-string (- tempo-fim tempo-inicio)))
+			(cond	
+				((null resultado) (first sucessores))
+				(t (second resultado))
+			)
 		)
+		
 	)
 )
 
