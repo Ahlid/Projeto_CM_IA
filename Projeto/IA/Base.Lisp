@@ -7,7 +7,7 @@
 ;;;;
  (defvar *jogador2* 2)
  (defvar *jogador1* 1)
-
+ (defparameter *avaliacoes-hash* (make-hash-table))
 
 ;;;;
 ;;;; Funcoes auxiliares:
