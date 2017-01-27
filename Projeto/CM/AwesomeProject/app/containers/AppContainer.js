@@ -38,7 +38,6 @@ class AppContainer extends React.Component {
                         key="salas"
                         title="salas"
                         component={Salas}
-                        type="replace"
                     />
 
                     <Scene

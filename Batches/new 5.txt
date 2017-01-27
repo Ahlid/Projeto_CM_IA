@@ -1,0 +1,96 @@
+(defun get-squares-example()
+
+'( 
+( ( (0 1 2 0) 0) ( (0 0 1 2) 0 ) ( (0 0 1 1) 0) ( (0 2 0 1) 0) ( (0 1 2 0) 0) ( (0 0 0 2) 0) ( (0 0 0 0) 0))
+( ( (1 2 0 0) 0) ( (0 0 2 0) 0 ) ( (0 0 2 2) 0) ( (2 0 0 2) 0) ( (1 0 0 0) 0) ( (0 0 0 0) 0) ( (0 0 0 0) 0))
+( ( (2 1 0 0) 0) ( (0 0 2 0) 0 ) ( (0 0 1 2) 0) ( (0 0 0 1) 0) ( (0 0 0 0) 0) ( (0 0 0 0) 0) ( (0 0 0 0) 0))
+( ( (1 0 0 0) 0) ( (0 0 1 0) 0 ) ( (0 0 2 1) 0) ( (0 0 0 2) 0) ( (0 0 0 0) 0) ( (0 0 0 0) 0) ( (0 0 0 0) 0))
+( ( (0 0 0 0) 0) ( (0 0 2 0) 0 ) ( (0 0 1 2) 0) ( (0 0 0 1) 0) ( (0 0 0 0) 0) ( (0 0 0 0) 0) ( (0 0 0 0) 0))
+( ( (0 0 0 0) 0) ( (0 0 1 0) 0 ) ( (0 0 2 1) 0) ( (0 0 0 2) 0) ( (0 0 0 0) 0) ( (0 0 0 0) 0) ( (0 0 0 0) 0))
+( ( (0 0 0 0) 0) ( (0 0 2 0) 0 ) ( (0 0 1 2) 0) ( (0 0 0 1) 0) ( (0 0 0 0) 0) ( (0 0 0 0) 0) ( (0 0 0 0) 0))
+)
+
+)
+
+
+
+(defun obter-quadrado(tabuleiro x y)
+  (cond 
+   ((and 
+     (and (>= x 0) (>= y 0) ) 
+     (and 
+      (< x (length tabuleiro))  
+      (< y (length (nth 0 tabuleiro)))))
+    (nth y (nth x tabuleiro)))
+   (T nil)
+   )
+  
+  )
+  
+  
+(defun meter-quadrado-como-fechado(quadrado)
+
+(list (car quadrado) '1)
+)
+  
+(defun fechar-quadrado(tabuleiro x y)
+
+	(cond 
+		( (= 0 x ) (cons (substituir y (meter-quadrado-como-fechado (nth y (car tabuleiro))) (car tabuleiro)) (rest tabuleiro)) )
+		(T (cons (car tabuleiro) (fechar-quadrado((rest tabuleiro) (- x 1) y)) ))
+	)
+
+)  
+
+
+(defun substituir (i valor l)
+	"Substitui um elemento de uma lista correpondente ao índice i pelo valor"
+	(cond
+		( (null l) nil ) ; se a lista está vazia devolve nil
+		( (= i 0) (cons valor (rest l)) ) ;se o indice é igual 0, mete o valor atrás da lista
+		( t (cons (first l) (substituir (1- i) valor (rest l))) ) ; chama a função com o rest da lista e com o indice decrementado e nao receber o valor junta no ínicio o primeiro elemento da lista
+	)
+)
+  
+  
+
+(defun contar(tabuleiro &optional (x 0) &optional (y 0) )
+
+
+
+
+
+)
+
+(defun is-quadrado-aberto(quadrado)
+(cond 
+((null quadrado) nil)
+( T (= 0 (cadr quadrado)))
+
+)
+)
+
+(defun teste(tabuleiro x y)
+  (let ((quadrado (obter-quadrado tabuleiro x y)))
+    (cond 
+     ((is-quadrado-aberto quadrado)
+      (let ((tabuleiro-atualizado (fechar-quadrado tabuleiro x y)))
+        (cond
+         ((and ;;primeira condicao
+           (= 0 (first(first quadrado ))) ;;
+           (= 0 (first(second quadrado )))
+           ) 
+          (+ 1 (teste tabuleiro-atualizado (- x 1) y ) (teste tabuleiro-atualizado x (+ y 1))))
+         
+         )
+        )
+      
+      )
+     
+     )
+    
+    )
+  
+  )
+
+
