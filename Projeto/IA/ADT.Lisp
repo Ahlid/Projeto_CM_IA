@@ -82,13 +82,24 @@
 	(set-no-controlo no (substituir 2 jogador (no-controlo no)))
 )
 
+(defun no-jogada (no)
+  "Devolve a jogada que deu origem a este nó"
+  (elemento-por-indice 3 (no-controlo no))
+)
+
+(defun set-no-jogada (no jogada)
+	"Altera a jogada que deu origem a este nó"
+	(set-no-controlo no (substituir 3 jogada (no-controlo no)))
+)
+
+
 (defun no-hash (no)
   "Devolve o jogador que vai jogar sobre este nó"
-  (elemento-por-indice 3 (no-controlo no))
+  (elemento-por-indice 4 (no-controlo no))
 )
 
 (defun set-no-hash (no valor-hash)
 	"Altera o jogador que vai jogar sobre este nó"
-	(set-no-controlo no (substituir 3 valor-hash (no-controlo no)))
+	(set-no-controlo no (substituir 4 valor-hash (no-controlo no)))
 )
 
