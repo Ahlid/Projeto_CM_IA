@@ -26,10 +26,10 @@
 )
 
 
-(defun negamax-max(sucessores profundidade profundidade-maxima operadores alfa beta maior jogador)
-	""
-	(cond 
-		((null sucessores) alfa)
+(defun negamax-max(sucessores profundidade profundidade-maxima operadores alfa beta maior jogador tempo-inicio tempo-maximo)
+	"Passa por todos os sucessores devolvendo o valor max dos mesmos"
+	(cond
+		((null sucessores) alfa) ; 
 		(t 
 			(let*
 				(
@@ -42,14 +42,18 @@
 																		operadores 
 																		alfa
 																		beta
-																		jogador))
+																		jogador
+																		tempo-inicio 
+																		tempo-maximo))
 								( t (- (negamax no 			 ; se o jogador a jogar neste no for o jogador que queremos minimizar
 																		(1+ (no-profundidade no)) 
 																		profundidade-maxima 
 																		operadores 
 																		(- beta)  
 																		(- alfa)
-																		jogador)))
+																		jogador
+																		tempo-inicio 
+																		tempo-maximo)))
 																				
 							)
 					)
@@ -66,7 +70,9 @@
 												novo-alfa
 												beta
 												novo-maior
-												jogador)) )
+												jogador
+												tempo-inicio 
+												tempo-maximo)) )
 				)
 			)
 		)
@@ -80,11 +86,12 @@
 
 ;(negamax (no-criar (tabuleiro-inicial) nil 0 (list 0 0 *jogador1*)) 0 2 (criar-operacoes 7 7 #'arco-vertical #'arco-horizontal) -100 100 *jogador1*)
 
-(defun negamax-simples (no profundidade profundidade-maxima operadores alfa beta jogador)
+(defun negamax-simples (no profundidade profundidade-maxima operadores alfa beta jogador tempo-inicio tempo-maximo)
 	""
 	(cond 
-		( (>= profundidade profundidade-maxima) (avaliar-folha-limite no) ) ;Devolve uma avaliação do nó
-		( (vencedor-p (no-numero-caixas-jogador1 no) (no-numero-caixas-jogador2 no)) (avaliar-folha no)) ; Devolve o valor do nó
+		( (> (- (get-internal-real-time) tempo-inicio) tempo-maximo) (avaliar-folha-limite no) );excedeu o tempo-maximo
+		( (>= profundidade profundidade-maxima) (avaliar-folha-limite no) ) ; Devolve uma avaliação do nó
+		( (vencedor-p (no-numero-caixas-jogador1 no) (no-numero-caixas-jogador2 no)) (avaliar-folha no) ) ; Devolve o valor do nó
 		( t 
 			(let*
 				(
@@ -99,6 +106,8 @@
 								beta
 								-100
 								jogador
+								tempo-inicio 
+								tempo-maximo
 				)
 			)
 		)
@@ -113,7 +122,9 @@
 	)
 )
 
-(defun negamax (no profundidade profundidade-maxima operadores alfa beta jogador)
+
+
+(defun negamax (no profundidade profundidade-maxima operadores alfa beta jogador tempo-inicio tempo-maximo)
 	""
 	(let* 
 		(
@@ -124,7 +135,7 @@
 			
 				(let 
 					(
-						(resultado (negamax-simples no profundidade profundidade-maxima operadores alfa beta jogador))
+						(resultado (negamax-simples no profundidade profundidade-maxima operadores alfa beta jogador tempo-inicio tempo-maximo))
 					)
 					(progn
 						(guarda-na-hashtable alfa beta resultado no profundidade-maxima)
@@ -138,7 +149,7 @@
 
 				(let 
 					(
-						(resultado (negamax-simples no profundidade profundidade-maxima operadores (max alfa (third valor)) beta jogador) )
+						(resultado (negamax-simples no profundidade profundidade-maxima operadores (max alfa (third valor)) beta jogador) tempo-inicio tempo-maximo)
 					)
 					(progn
 						(guarda-na-hashtable alfa beta resultado no profundidade-maxima)
@@ -150,7 +161,7 @@
 			
 				(let 
 					(
-						(resultado (negamax-simples no profundidade profundidade-maxima operadores alfa (min beta (third valor)) jogador) )
+						(resultado (negamax-simples no profundidade profundidade-maxima operadores alfa (min beta (third valor)) jogador tempo-inicio tempo-maximo) )
 					)
 					(progn
 						(guarda-na-hashtable alfa beta resultado no profundidade-maxima)
@@ -159,7 +170,6 @@
 				
 			)
 			(t (third valor))
-			
 		)
 	)
 
@@ -187,7 +197,7 @@
 
 
 ;; JUSTIFICAÇÂO: Aqui temos que aplicar o alfa beta em cada nó pois o alfa beta só garante o valor certo no topo da árvore 
-(defun escolher-jogada-aux (sucessores profundidade-maxima operadores) 
+(defun escolher-jogada-aux (sucessores profundidade-maxima operadores tempo-disponivel) 
 	""
 	(cond 
 		((null sucessores) nil)
@@ -195,17 +205,23 @@
 			(let*
 				(
 					( no (first sucessores) )
+					(tempo-inicio (get-internal-real-time))
 					( valor  (negamax 	no
 										1
 										profundidade-maxima
 										operadores
 										-100
 										100
-										(no-jogador  no))
+										(no-jogador  no)
+										tempo-inicio ; timestamp atual
+										(/ tempo-disponivel (length sucessores)) ; tempo limite calculado a partir do length dos sucessores (ou seja o numero de sucessores que faltam)
+										)
 					)
+					(tempo-fim (get-internal-real-time))
 					( resultado (escolher-jogada-aux	(rest sucessores)
 														profundidade-maxima 
-														operadores))
+														operadores
+														(- tempo-disponivel (- tempo-fim tempo-inicio) )))
 										
 				)
 				(cond 
@@ -219,16 +235,17 @@
 )
 
 
-; (imprime-tabuleiro  (no-estado (escolher-jogada (no-criar (tabuleiro-inicial) nil 0 (list 0 0 *jogador1*)))))
-(defun escolher-jogada (no)
+; (imprime-tabuleiro  (no-estado (escolher-jogada (no-criar (tabuleiro-inicial) nil 0 (list 0 0 *jogador1*)) 5000)))
+(defun escolher-jogada (no tempo-limite)
 	(let*
 		(
 			(operadores (criar-operacoes 7 7 #'arco-vertical #'arco-horizontal))
 			(sucessores (sucessores-no no operadores))
 			(tempo-inicio (get-internal-real-time))
 			(resultado (escolher-jogada-aux sucessores 
-						3
-						operadores 
+						5
+						operadores
+						tempo-limite ; tempo disponível
 						))
 			(tempo-fim (get-internal-real-time))
 		)
