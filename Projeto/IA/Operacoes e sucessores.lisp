@@ -101,6 +101,38 @@
 	)
 )
 
+(defun espelhar-horizontal (tabuleiro)
+	(let* 
+		(
+			(horizontais (get-arcos-horizontais tabuleiro))
+			(verticais (get-arcos-verticais tabuleiro))
+			(novo-horizontais 
+				(mapcar 'reverse horizontais)
+			)
+			(novo-verticais
+				(reverse  verticais)
+			)			
+		)
+		(list novo-horizontais novo-verticais)
+	)
+)
+
+
+(defun espelhar-vertical (tabuleiro)
+	(let* 
+		(
+			(horizontais (get-arcos-horizontais tabuleiro))
+			(verticais (get-arcos-verticais tabuleiro))
+			(novo-horizontais 
+				(reverse horizontais)
+			)
+			(novo-verticais
+				(mapcar 'reverse verticais)
+			)			
+		)
+		(list novo-horizontais novo-verticais)
+	)
+)
 
 
 
@@ -248,6 +280,47 @@
 
 
 
+
+(defun remover-sucessores(tabuleiro sucessores)
+	"Remove todas a ocorrencias de um tabuleiro nos sucessores"
+	(cond
+		( (null sucessores) nil )
+		( (equal tabuleiro (no-estado (first sucessores))) (remover-sucessores tabuleiro (rest sucessores)) )
+		( t (cons (first sucessores) (remover-sucessores tabuleiro (rest sucessores))) )
+	)
+)
+
+
+(defun sucessores-sem-simetrias(sucessores)
+	"Remove os sucessores simétricos deixando apenas nós com tabuleiros únicos conceptualmente"
+	(cond 
+		((null sucessores) nil)
+		(t (let*
+				(
+				(normal (no-estado (first sucessores)))
+				(n-esp-h (espelhar-horizontal normal))
+				(n-esp-v (espelhar-vertical normal))
+				(rodado90 (rodar90 normal))
+				(rodado90-esp-h (espelhar-horizontal rodado90))
+				(rodado90-esp-v (espelhar-vertical rodado90))
+				(rodado180 (rodar90 rodado90))
+				(rodado270 (rodar90 rodado180))
+				
+				(s1 (remover-sucessores normal (rest sucessores)))
+				(s2 (remover-sucessores rodado90 s1))
+				(s3 (remover-sucessores rodado180 s2))
+				(s4 (remover-sucessores rodado270 s3))
+				(s5 (remover-sucessores n-esp-h s4))
+				(s6 (remover-sucessores n-esp-v s5))
+				(s7 (remover-sucessores rodado90-esp-h s6))
+				(s8 (remover-sucessores rodado90-esp-v s7))
+				)
+				(cons (first sucessores) (sucessores-sem-simetrias s8))
+			)
+		)
+	)		
+)
+
 ;; sucessores-no
 ;Defina uma fun??o sucessores-no que recebe 1) um n?, 2) a indica??o do s?mbolo usado
 ;pelo jogador m?quina [1 ; 2] e 3) dois valores inteiros que representam respetivamente o
@@ -255,7 +328,6 @@
 ;A fun??o retorna a lista dos sucessores do tabuleiro para o tipo de s?mbolo recebido por
 ;par?metro. Numa fase mais adiantada do desenvolvimento, esta fun??o poder? receber
 ;outros par?metros, tal como a profundidade limite de expans?o da ?rvore do jogo.
-
 
 ;; N?o esquecer das trasposition tables - guardar os inputs(hash) - outputs  
 (defun sucessores-no (no operadores)
@@ -267,11 +339,11 @@
 					)
 			)
 		)
-		(limpar-nils (mapcar funcao operadores)) ; executa todas as operações e limpa aquelas que não foram aplicadas
+		(sucessores-sem-simetrias (limpar-nils (mapcar funcao operadores))) ; executa todas as operações e limpa aquelas que não foram aplicadas
 	)
 )
-;(sucessores-no (no-criar (tabuleiro-inicial) nil 0 (list 0 0 *jogador1*) (criar-operacoes 7 7 #'arco-vertical #'arco-horizontal))
-
+;(sucessores-no (no-criar (tabuleiro-inicial) nil 0 (list 0 0 *jogador1*)) (criar-operacoes 7 7 #'arco-vertical #'arco-horizontal))
+;(sucessores-no (no-criar '(((0 0)(0 0)(0 0))((0 0)(0 0)(0 0))) nil 0 (list 0 0 *jogador1*)) (criar-operacoes 2 2 #'arco-vertical #'arco-horizontal))
 ;; Nao esquecer de verificar a profundidade para ver se vale a pena ordenar ou não (caso não seja devolve os sucessores)
 (defun ordenar (sucessores)
 	sucessores

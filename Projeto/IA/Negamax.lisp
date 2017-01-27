@@ -8,7 +8,7 @@
 ;(gethash 'CHAVE *my-hash*)
 
 
-(defparameter *hash* (make-hash-table))
+(defparameter *avaliacoes-hash* (make-hash-table))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -107,9 +107,9 @@
 
 (defun guarda-na-hashtable (alfa beta valor no profundidade-maxima) 
 	(cond 
-		((<= valor alfa) (setf (gethash (no-estado no) *hash*) (list 'LOWERBOUND profundidade-maxima valor)))
-		((>= valor beta) (setf (gethash (no-estado no) *hash*) (list 'UPPERBOUND profundidade-maxima valor)))
-		( t (setf (gethash (no-estado no) *hash*) (list 'EXACT profundidade-maxima valor)) )
+		((<= valor alfa) (setf (gethash (no-estado no) *avaliacoes-hash*) (list 'LOWERBOUND profundidade-maxima valor)))
+		((>= valor beta) (setf (gethash (no-estado no) *avaliacoes-hash*) (list 'UPPERBOUND profundidade-maxima valor)))
+		( t (setf (gethash (no-estado no) *avaliacoes-hash*) (list 'EXACT profundidade-maxima valor)) )
 	)
 )
 
@@ -117,7 +117,7 @@
 	""
 	(let* 
 		(
-			(valor (gethash (no-estado no) *hash*))
+			(valor (gethash (no-estado no) *avaliacoes-hash*))
 		)
 		(cond
 			( (or (null valor) (< (second valor) profundidade-maxima))
@@ -219,8 +219,6 @@
 )
 
 
-
-
 ; (imprime-tabuleiro  (no-estado (escolher-jogada (no-criar (tabuleiro-inicial) nil 0 (list 0 0 *jogador1*)))))
 (defun escolher-jogada (no)
 	(let*
@@ -250,63 +248,63 @@
 
 
 
-01 function negamax(node, depth, α, β, color)
-02     if depth = 0 or node is a terminal node
-03         return color * the heuristic value of node
+; 01 function negamax(node, depth, α, β, color)
+; 02     if depth = 0 or node is a terminal node
+; 03         return color * the heuristic value of node
 
-04     childNodes := GenerateMoves(node)
-05     childNodes := OrderMoves(childNodes)
-06     bestValue := −∞
-07     foreach child in childNodes
-08         v := −negamax(child, depth − 1, −β, −α, −color)
-09         bestValue := max( bestValue, v )
-10         α := max( α, v )
-11         if α ≥ β
-12             break
-13     return bestValue
+; 04     childNodes := GenerateMoves(node)
+; 05     childNodes := OrderMoves(childNodes)
+; 06     bestValue := −∞
+; 07     foreach child in childNodes
+; 08         v := −negamax(child, depth − 1, −β, −α, −color)
+; 09         bestValue := max( bestValue, v )
+; 10         α := max( α, v )
+; 11         if α ≥ β
+; 12             break
+; 13     return bestValue
 
 
 
-function negamax(node, depth, α, β, color)
-    alphaOrig := α
+; function negamax(node, depth, α, β, color)
+    ; alphaOrig := α
 
-    // Transposition Table Lookup; node is the lookup key for ttEntry
-    ttEntry := TranspositionTableLookup( node )
-    if ttEntry is valid and ttEntry.depth ≥ depth
-        if ttEntry.Flag = EXACT
-            return ttEntry.Value
-        else if ttEntry.Flag = LOWERBOUND
-            α := max( α, ttEntry.Value)
-        else if ttEntry.Flag = UPPERBOUND
-            β := min( β, ttEntry.Value)
-        endif
-        if α ≥ β
-            return ttEntry.Value
-    endif
+    ; // Transposition Table Lookup; node is the lookup key for ttEntry
+    ; ttEntry := TranspositionTableLookup( node )
+    ; if ttEntry is valid and ttEntry.depth ≥ depth
+        ; if ttEntry.Flag = EXACT
+            ; return ttEntry.Value
+        ; else if ttEntry.Flag = LOWERBOUND
+            ; α := max( α, ttEntry.Value)
+        ; else if ttEntry.Flag = UPPERBOUND
+            ; β := min( β, ttEntry.Value)
+        ; endif
+        ; if α ≥ β
+            ; return ttEntry.Value
+    ; endif
 
-    if depth = 0 or node is a terminal node
-        return color * the heuristic value of node
+    ; if depth = 0 or node is a terminal node
+        ; return color * the heuristic value of node
 
-    bestValue := -∞
-    childNodes := GenerateMoves(node)
-    childNodes := OrderMoves(childNodes)
-    foreach child in childNodes
-        v := -negamax(child, depth - 1, -β, -α, -color)
-        bestValue := max( bestValue, v )
-        α := max( α, v )
-        if α ≥ β
-            break
+    ; bestValue := -∞
+    ; childNodes := GenerateMoves(node)
+    ; childNodes := OrderMoves(childNodes)
+    ; foreach child in childNodes
+        ; v := -negamax(child, depth - 1, -β, -α, -color)
+        ; bestValue := max( bestValue, v )
+        ; α := max( α, v )
+        ; if α ≥ β
+            ; break
 
-    // Transposition Table Store; node is the lookup key for ttEntry
-    ttEntry.Value := bestValue
-    if bestValue ≤ alphaOrig
-        ttEntry.Flag := UPPERBOUND
-    else if bestValue ≥ β
-        ttEntry.Flag := LOWERBOUND
-    else
-        ttEntry.Flag := EXACT
-    endif
-    ttEntry.depth := depth 
-    TranspositionTableStore( node, ttEntry )
+    ; // Transposition Table Store; node is the lookup key for ttEntry
+    ; ttEntry.Value := bestValue
+    ; if bestValue ≤ alphaOrig
+        ; ttEntry.Flag := UPPERBOUND
+    ; else if bestValue ≥ β
+        ; ttEntry.Flag := LOWERBOUND
+    ; else
+        ; ttEntry.Flag := EXACT
+    ; endif
+    ; ttEntry.depth := depth 
+    ; TranspositionTableStore( node, ttEntry )
 
-    return bestValue
+    ; return bestValue
