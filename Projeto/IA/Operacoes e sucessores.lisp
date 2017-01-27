@@ -148,8 +148,8 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Operadores
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;TODO GERAR A HASH DO TABULEIRO TENDO EM  CONTA QUE TABULEIROS SIMETRICOS TÊM A MESMA HASH
-(defun criar-operacao (x y funcao)
+
+(defun criar-operacao (x y funcao nome-funcao)
 	"Cria uma fun??o lambda que representa uma opera??o atrav?s de uma opera??o (arco-horizontal/arco-vertical) e a posi??o x e y"
 	(lambda (no) ; operador
 		(let*
@@ -163,12 +163,20 @@
 				(t 	
 					(let* 
 						(
-							(no-resultado 	(set-no-profundidade  ;altera a profundidade do n?
-												(set-no-pai ;altera a pai do n? antecessor devolvendo um novo n?
-														(set-no-estado no tabuleiro) ; altera o estado do n?
-														no
-												)
-												(1+ (no-profundidade no));altera a profundidade do n?
+							(no-resultado 	(set-no-numero-arestas (set-no-jogada ;altera a jogada do nó
+																		(set-no-profundidade  ;altera a profundidade do n?
+																			(set-no-pai ;altera a pai do n? antecessor devolvendo um novo n?
+																					(set-no-estado no tabuleiro) ; altera o estado do nó pai
+																					no ; nó pai
+																			)
+																			(1+ (no-profundidade no));altera a profundidade do n?
+																		)
+																		(list funcao nome-funcao x y)
+																)
+																(cond 
+																	((null (no-numero-arestas no)) (1+(n-arestas-preenchidas (no-estado no))))
+																	( t (1+ (no-numero-arestas no)) )
+																)
 											)
 							)
 							(no-numero-caixas (numero-caixas-fechadas tabuleiro))
@@ -189,20 +197,20 @@
 
 ;; N?o existe grande peso de performance aqui pois as opera??es s?o geradas apenas no ?nicio
 
-(defun criar-operacoes-decrementarY (x y funcao)
+(defun criar-operacoes-decrementarY (x y funcao nome-funcao)
 	"Decrementa o valor de y recursivamente e vai criando opera??es com o valor de x e y e a fun??o"
 	(cond
 		( (= y 0) nil ) ; se y igual a 0 devolve nil
-		( t (cons (criar-operacao x y funcao) (criar-operacoes-decrementarY x (1- y) funcao)) ) ; cria a opera??o para x e y e chama recusivamente a fun??o com y-1
+		( t (cons (criar-operacao x y funcao nome-funcao) (criar-operacoes-decrementarY x (1- y) funcao nome-funcao)) ) ; cria a opera??o para x e y e chama recusivamente a fun??o com y-1
 	)
 )
 
 
-(defun criar-operacoes-decrementarX (x y funcao)
+(defun criar-operacoes-decrementarX (x y funcao nome-funcao)
 	"Decrementa o valor de x recursivamente e vai chamando a fun??o 'criar-operacoes-decrementarY' com o valor de x e y e a funcao"
 	(cond
 		( (= x 0) nil ) ; se x igual a 0 devolve nil
-		( t (append (criar-operacoes-decrementarY x y funcao) (criar-operacoes-decrementarX (1- x) y funcao)) ) ; chama a fun??o que cria as opera??es decrementando y para x e come?ando em y e chama recusivamente a fun??o com x-1
+		( t (append (criar-operacoes-decrementarY x y funcao nome-funcao) (criar-operacoes-decrementarX (1- x) y funcao nome-funcao)) ) ; chama a fun??o que cria as opera??es decrementando y para x e come?ando em y e chama recusivamente a fun??o com x-1
 	)
 )
 
@@ -210,8 +218,8 @@
 (defun criar-operacoes (n m funcao-verticais funcao-horizontais)
 	"Gera todos os operadores poss?veis para um tabuleiro de n por m"
 	(append
-		(criar-operacoes-decrementarX (1+ n) m funcao-horizontais) ; chama a fun??o que cria as opera??es decrementando x partindo de x = (n+1) e y = m
-		(criar-operacoes-decrementarX (1+ m) n funcao-verticais) ; chama a fun??o que cria as opera??es decrementando x partindo de x = (m+1) e y = n
+		(criar-operacoes-decrementarX (1+ n) m funcao-horizontais "arco-horizontal") ; chama a fun??o que cria as opera??es decrementando x partindo de x = (n+1) e y = m
+		(criar-operacoes-decrementarX (1+ m) n funcao-verticais "arco-vertical") ; chama a fun??o que cria as opera??es decrementando x partindo de x = (m+1) e y = n
 	)
 )
 
@@ -329,22 +337,28 @@
 ;par?metro. Numa fase mais adiantada do desenvolvimento, esta fun??o poder? receber
 ;outros par?metros, tal como a profundidade limite de expans?o da ?rvore do jogo.
 
-;; N?o esquecer das trasposition tables - guardar os inputs(hash) - outputs  
+; TODO - GUARDAR OS SUCESSORES GERADOS NUMA HASH TABLE
 (defun sucessores-no (no operadores)
 	""
-	(let
+	(let*
 		(
 			(funcao (lambda (op) ;função que irá gerar os nós sucessores para cada operação
 							(funcall op no)
 					)
 			)
+			(sucessores (limpar-nils (mapcar funcao operadores)))
 		)
-		(sucessores-sem-simetrias (limpar-nils (mapcar funcao operadores))) ; executa todas as operações e limpa aquelas que não foram aplicadas
+		(cond 
+			((> (no-numero-arestas no) 20)  (sucessores-sem-simetrias sucessores)) ; optimizações de simetria até 20 arestas
+			(t sucessores)
+		)
 	)
 )
 ;(sucessores-no (no-criar (tabuleiro-inicial) nil 0 (list 0 0 *jogador1*)) (criar-operacoes 7 7 #'arco-vertical #'arco-horizontal))
 ;(sucessores-no (no-criar '(((0 0)(0 0)(0 0))((0 0)(0 0)(0 0))) nil 0 (list 0 0 *jogador1*)) (criar-operacoes 2 2 #'arco-vertical #'arco-horizontal))
-;; Nao esquecer de verificar a profundidade para ver se vale a pena ordenar ou não (caso não seja devolve os sucessores)
+
+
+;; TODO -  Podemos ordenar os nós através do calculo do valor heuristico.
 (defun ordenar (sucessores)
 	sucessores
 )

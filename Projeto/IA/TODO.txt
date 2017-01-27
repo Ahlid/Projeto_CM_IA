@@ -28,7 +28,7 @@ reais dos nós sucessores da raiz.
 
 
 Avaliacao:
- Algoritmo Alfa Beta comcortes alfa e os cortes beta 6 (A base está feita faltando optimizações)
+ Algoritmo Alfa Beta com cortes alfa e os cortes beta 6 (A base está feita faltando optimizações)
  Função de avaliação dos tabuleiros 4 (Por fazer)
  Implementação do limite de tempo para o computador 2 (Por fazer)
  Operadores do jogo 2 (Feito mas podia verificar as simétricas)

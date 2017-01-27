@@ -37,3 +37,27 @@
 		)
 	)
 )
+
+(defun n-arestas-preenchidas(tabuleiro)
+	
+		(apply '+ (mapcar 
+			 (
+			  lambda
+					 (x)
+			   (apply '+ (mapcar 
+						  (lambda 
+								  (y) 
+							(apply '+ (mapcar 
+									   (lambda (z) (cond ((null z) 0) (T 1)))
+									   y))
+							)
+						  x))
+			   )
+			 tabuleiro))
+	
+	
+	)
+
+
+
+
