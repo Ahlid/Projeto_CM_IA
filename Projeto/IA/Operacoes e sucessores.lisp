@@ -26,7 +26,7 @@
 		(
 			(elemento (elemento-por-indice (1- i) lista))
 		)
-		(cond 
+		(cond
 			((null elemento) (substituir (1- i) peca lista))
 			(t nil)
 		)
@@ -281,7 +281,7 @@
 
 ;; avaliar-folha-limite
 
-(defun avaliar-folha-limite (no)
+(defun avaliar-folha-limite (no jogador-otimizar)
 ""
 (let*
 	(
@@ -297,8 +297,11 @@
 							(t (no-numero-caixas-jogador1 no)))
 		)
 		(numero-arestas (no-numero-arestas no))
+ 		(resultado 	(f-avaliacao  tabuleiro tabuleiro-pai jogador numero-caixas numero-caixas-adversario numero-arestas))
 	)
-	(f-avaliacao  tabuleiro tabuleiro-pai jogador numero-caixas numero-caixas-adversario numero-arestas)
+	(cond
+						((= jogador jogador-otimizar) resultado)
+						(t -resultado ))
 )
 
 

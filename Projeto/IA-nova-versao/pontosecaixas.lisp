@@ -27,6 +27,7 @@
         (t (read stream))))
 
 (defun tabuleiro-teste ()
+ "serve para se testar o projeto durante o seu desenvolvimento"
   '(
     ((NIL NIL NIL 2 1 NIL NIL) (NIL NIL NIL NIL 2 1 2)
     (1 2 1 2 2 2 NIL) (2 NIL NIL NIL 1 2 NIL)
@@ -39,7 +40,7 @@
   )
 )
 
-  
+
 
 
 (defun vencedor-p (caixas-jogador1 caixas-jogador2)
@@ -101,15 +102,15 @@
 )
 
 (defun n-arestas-preenchidas(tabuleiro)
-	
-	(apply '+ (mapcar 
+	"devolve o numero de arestas que o tabuleiro contem"
+	(apply '+ (mapcar
 		 (
 		  lambda
 				 (x)
-		   (apply '+ (mapcar 
-					  (lambda 
-							  (y) 
-						(apply '+ (mapcar 
+		   (apply '+ (mapcar
+					  (lambda
+							  (y)
+						(apply '+ (mapcar
 								   (lambda (z) (cond ((null z) 0) (T 1)))
 								   y))
 						)
@@ -223,7 +224,7 @@
 		(
 			(elemento (elemento-por-indice (1- i) lista))
 		)
-		(cond 
+		(cond
 			((null elemento) (substituir (1- i) peca lista))
 			(t nil)
 		)
@@ -395,6 +396,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defun rodar90 (tabuleiro)
+ "roda o tabuleiro num angulo de 90graus"
 	(let*
 		(
 			(horizontais (get-arcos-horizontais tabuleiro))
@@ -411,6 +413,7 @@
 )
 
 (defun espelhar-horizontal (tabuleiro)
+ "espelha o tabuleiro em relação ao  eixo dos x"
 	(let*
 		(
 			(horizontais (get-arcos-horizontais tabuleiro))
@@ -428,6 +431,7 @@
 
 
 (defun espelhar-vertical (tabuleiro)
+ "espelha o tabuleiro em relação ao eixo dos y"
 	(let*
 		(
 			(horizontais (get-arcos-horizontais tabuleiro))
@@ -596,7 +600,7 @@
 
 ; TODO - GUARDAR OS SUCESSORES GERADOS NUMA HASH TABLE
 (defun sucessores-no (no operadores)
-	""
+	"devolve os sucessores do no recebido conforme os operadores recebidos"
 	(let*
 		(
 			(funcao (lambda (op) ;função que irá gerar os nós sucessores para cada operação
@@ -622,10 +626,12 @@
 
 
 (defun ordenar-crescente (sucessores)
+ "ordena uma lista de sucessores por ordem crescente"
 	(sort (mapcar 'avaliar-folha-limite sucessores) #'< )
 )
 
 (defun ordenar-decrescente (sucessores)
+ "ordena uma lista de sucessores por ordem decrescente"
 	(sort (mapcar 'avaliar-folha-limite sucessores) #'> )
 )
 
@@ -636,7 +642,7 @@
 
 
 (defun get-squares-example()
-
+"usado para testes na função de avaliação"
 '(
 ( ( (0 1 2 0) 0) ( (0 0 1 2) 0 ) ( (0 0 1 1) 0) ( (0 2 0 1) 0) ( (0 1 2 0) 0) ( (0 0 0 2) 0) ( (0 0 0 0) 0))
 ( ( (1 2 0 0) 0) ( (0 0 2 0) 0 ) ( (0 0 2 2) 0) ( (2 0 0 2) 0) ( (1 0 0 0) 0) ( (0 0 0 0) 0) ( (0 0 0 0) 0))
@@ -652,6 +658,7 @@
 
 
 (defun obter-quadrado(tabuleiro x y)
+ "função de devolve um quadrado na posição x-y do tabuleiro"
   (cond
    ((and
      (and (>= x 0) (>= y 0) )
@@ -666,12 +673,12 @@
 
 
 (defun meter-quadrado-como-fechado(quadrado)
-
+"marca uma quadrado como fechado (ou seja já visitado)"
 (list (car quadrado) '1)
 )
 
 (defun fechar-quadrado(tabuleiro x y)
-
+"função que tranforma uma quadrado do tabuleiro em fechado/visitado"
 	(cond
 		( (= 0 x ) (cons (substituir y (meter-quadrado-como-fechado (nth y (car tabuleiro))) (car tabuleiro)) (rest tabuleiro)) )
 		(T (cons (car tabuleiro) (fechar-quadrado (rest tabuleiro) (- x 1) y) ))
@@ -689,15 +696,8 @@
 	)
 )
 
-
-
-(defun contar(tabuleiro &optional (x 0) &optional (y 0) )
-
-
-)
-
 (defun is-quadrado-aberto(quadrado)
-	""
+	"serve para saber se o quadrado ja foi fechado/visitado"
 	(cond
 		((null quadrado) nil)
 		( T (= 0 (cadr quadrado)))
@@ -705,17 +705,17 @@
 )
 
 (defun n-arestas-por-preencher-quadrado (quadrado)
-	""
+	"devolve o numero de arestar por preencher o quadrado"
 	(apply '+ (mapcar (lambda (x) (cond ((= 0 x) 1) (t 0))) (car quadrado)))
 )
 
 
 
-  (let ((tabuleiro '()) )
+  (let ((tabuleiro '()) ) ;;para otimizar
 
 
-        (defun teste(x y)
-
+        (defun verificar-correntes-tabuleiro(x y)
+          "percorre todo o tabuleiro a procura de correntes e devolve uma lista em que cada elemento é o tamanho da corrente"
           (let ((quadrado (obter-quadrado tabuleiro x y))) ;;aqui vou obter o quadrado na posicao x e y
             (cond
              ((is-quadrado-aberto quadrado) ;;se o quadrado esta aberto e tem apenas 2 arestas por completas
@@ -728,14 +728,14 @@
                        (= 0 (first(first quadrado ))) ;;se nao tem no topo
                        (= 0 (third(first quadrado ))) ;;se nao tem na direita ou seja se a aresta que falte é em cima e a direita ele faz isto
                        )
-                  (+ 1 (teste (- x 1) y ) (teste x (+ y 1)))) ;;vai somar
+                  (+ 1 (verificar-correntes-tabuleiro (- x 1) y ) (verificar-correntes-tabuleiro x (+ y 1)))) ;;vai somar
                  ;;
 
                  ((and ;;segunda condicao topo-baixo
                        (= 0 (first(first quadrado ))) ;;se nao tem no topo
                        (= 0 (second(first quadrado ))) ;;se nao tem na baixo
                        )
-                  (+ 1 (teste (- x 1) y ) (teste (+ 1 x) y))) ;;vai somar
+                  (+ 1 (verificar-correntes-tabuleiro (- x 1) y ) (verificar-correntes-tabuleiro (+ 1 x) y))) ;;vai somar
 
                  ;;
 
@@ -743,26 +743,26 @@
                        (= 0 (first(first quadrado ))) ;;se nao tem no topo
                        (= 0 (fourth(first quadrado ))) ;;se nao tem na esquerda
                        )
-                  (+ 1 (teste (- x 1) y ) (teste x (- y 1)))) ;;vai somar
+                  (+ 1 (verificar-correntes-tabuleiro (- x 1) y ) (verificar-correntes-tabuleiro x (- y 1)))) ;;vai somar
 
                  ((and ;;primeira condicao baixo-direita
                        (= 0 (second(first quadrado ))) ;;se nao tem no baixo
                        (= 0 (third(first quadrado ))) ;;se nao tem na direita
                        )
-                  (+ 1 (teste (+ x 1) y ) (teste x (+ y 1)))) ;;vai somar
+                  (+ 1 (verificar-correntes-tabuleiro (+ x 1) y ) (verificar-correntes-tabuleiro x (+ y 1)))) ;;vai somar
 
                  ((and ;;primeira condicao baixo-esquerda
                        (= 0 (second(first quadrado ))) ;;se nao tem no baixo
                        (= 0 (fourth(first quadrado ))) ;;se nao tem na esquerda
                        )
-                  (+ 1 (teste (+ x 1) y ) (teste x (- y 1)))) ;;vai somar
+                  (+ 1 (verificar-correntes-tabuleiro (+ x 1) y ) (verificar-correntes-tabuleiro x (- y 1)))) ;;vai somar
 
 
                  ((and ;;primeira condicao baixo-esquerda
                        (= 0 (third(first quadrado ))) ;;se nao tem no direita
                        (= 0 (fourth(first quadrado ))) ;;se nao tem na esquerda
                        )
-                  (+ 1 (teste x (+ y 1) ) (teste x (- y 1)))) ;; vai somar
+                  (+ 1 (verificar-correntes-tabuleiro x (+ y 1) ) (verificar-correntes-tabuleiro x (- y 1)))) ;; vai somar
 
                  (T 0)
 
@@ -791,24 +791,25 @@
 
 
 			(defun f-avaliacao-no-no(tabuleiro-inicial)
+      "devolve o valor do nó"
 					(progn
 					(setf tabuleiro tabuleiro-inicial)
-					(limpa-zeros (init (- (length tabuleiro) 1) (- (length (first tabuleiro)) 1) (- (length (first tabuleiro)) 1) )))
+					(limpa-zeros (init-procura-correntes (- (length tabuleiro) 1) (- (length (first tabuleiro)) 1) (- (length (first tabuleiro)) 1) )))
 			)
 
 
-			(defun init(x y z)
-
+			(defun init-procura-correntes(x y z)
+      "inicia a procura das correntes no tabuleiro"
 				(cond
 						((= -1 x) nil )
-						((= 0 y) (cons (teste x y) (init (- x 1) z z)))
-						(t (cons (teste x y) (init x (- y 1) z )))
+						((= 0 y) (cons (verificar-correntes-tabuleiro x y) (init-procura-correntes (- x 1) z z)))
+						(t (cons (verificar-correntes-tabuleiro x y) (init-procura-correntes x (- y 1) z )))
 				)
 			)
 
 
 			(defun limpa-zeros (lista)
-
+      "retira os zeros de uma lista"
 				(cond
 					((null lista) nil)
 					((= 0 (car lista)) (limpa-zeros (rest lista)))
@@ -822,7 +823,7 @@
 
 
   (defun f-avaliacao(tabuleiro tabuleiro-pai n-jogador n-caixas-jogador n-caixas-adrevesario n-arestas)
-
+  "função de devolve a avaliação do tabuleiro (resultado da função de avaliação do tabuleiro)"
   	(cond
 
   		((< (+ n-caixas-jogador n-caixas-adrevesario) (numero-caixas-fechadas tabuleiro) ) 100 )
@@ -890,7 +891,7 @@
   	)
 
 	(defun calcular-caixas-ganhas-em-LChains(lchains &optional(primeira 1))
-
+  "funcao que recebe uma lista de Long Chains com o tamanho de cada uma e devolve quantas caixas consegue-se fazer"
 		(cond
 			((null lchains) 0)
 			((= 1 primeira) (+ (car lchains) (calcular-caixas-ganhas-em-LChains (rest lchains) 0 )))
@@ -901,7 +902,7 @@
 	)
 
 	(defun n-arestas-preenchidas(tabuleiro)
-
+  "funcao que devolve o numero de arestas que o tabuleiro tem preenchidas"
 		(apply '+ (mapcar
 			 (
 			  lambda
@@ -923,6 +924,7 @@
 
 
 	(defun obter-LChains(resultados)
+  "funcao que filta uma lista de correntes devolvendo as longas (3+)"
 		(cond
 			((null resultados) nil)
 			((> (car resultados) 2) (cons (car resultados) (obter-LChains (rest resultados))))
@@ -934,6 +936,7 @@
 
 
 	(defun obter-DChains(resultados)
+  "funcao de filtra uma lista de correntes e devolve as de tamanho 2"
 		(cond
 			((null resultados) nil)
 			((= (car resultados) 2) (cons (car resultados) (obter-DChains (rest resultados))))
@@ -945,6 +948,7 @@
 
 
 	(defun obter-SChains(resultados)
+  "funcao que filtra uma lista de correntes e devolve as de tamanho 1 (possiveis correntes)"
 		(cond
 			((null resultados) nil)
 			((= (car resultados) 1) (cons (car resultados) (obter-SChains (rest resultados))))
@@ -983,7 +987,7 @@
 
 
 (defun nil-to-zero(lista)
-
+"funcao que converte nils em 0"
 (cond
 	((null lista) nil)
 	((null (car lista)) (cons '0 (nil-to-zero (rest lista))))
@@ -994,7 +998,7 @@
 
 
 (defun numero-caixas-fechadas (tabuleiro)
-	"Devolve o n?mero fechadas num tabuleiro"
+	"Devolve o número de caixas fechadas num tabuleiro"
 	(let
 		(
 			(candidatos1 (alisa (criar-candidatos (get-arcos-horizontais tabuleiro)))) ; gera os candidatos dos arcos horizontais num lista linear
@@ -1021,7 +1025,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defun avaliar-folha (no)
-	""
+	"funcao que avalia o nó folha"
 	(let
 		(
 			(vencedor (vencedor-p (no-numero-caixas-jogador1 no) (no-numero-caixas-jogador2 no)))
@@ -1035,28 +1039,26 @@
 )
 
 (defun avaliar-folha-limite (no jogador-otimizar)
-""
+"funcao que avalia a folha limite no alfa-beta"
 (let*
 	(
-		(tabuleiro (no-estado no))
-		(tabuleiro-pai (no-estado (no-pai no)))
-		(jogador (no-jogador no))
-		(numero-caixas (cond
+		(tabuleiro (no-estado no)) ;;tabuleiro a avaliar
+		(tabuleiro-pai (no-estado (no-pai no))) ;tabuleiro pai
+		(jogador (no-jogador no)) ;;o jogador a jogar
+		(numero-caixas (cond ;;caixas do jogador
 							((= jogador *jogador1*) (no-numero-caixas-jogador1 no))
 							(t (no-numero-caixas-jogador2 no)))
 		)
-		(numero-caixas-adversario (cond
+		(numero-caixas-adversario (cond ;;caias do adversario
 							((= jogador *jogador1*) (no-numero-caixas-jogador2 no))
 							(t (no-numero-caixas-jogador1 no)))
 		)
-		(numero-arestas (no-numero-arestas no))
- 		(resultado 	(f-avaliacao  tabuleiro tabuleiro-pai jogador numero-caixas numero-caixas-adversario numero-arestas))
+		(numero-arestas (no-numero-arestas no)) ;;numero de arestas
+ 		(resultado 	(f-avaliacao  tabuleiro tabuleiro-pai jogador numero-caixas numero-caixas-adversario numero-arestas)) ;;a pontuacao
 	)
 	(cond
-						((= jogador jogador-otimizar) resultado)
+						((= jogador jogador-otimizar) resultado) ;;verifica o jogador a otimizar
 						(t (- resultado) ))
 )
 
-
 )
-

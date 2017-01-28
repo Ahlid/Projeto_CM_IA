@@ -14,7 +14,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defun log-teste(alfa beta novo-maior jogador-atual jogador-max profundidade)
-	(progn 
+	(progn
 		(cond
 			((= jogador-atual jogador-max) (write-line "Corte Alfa"))
 			(t (write-line "Corte Beta"))
@@ -28,15 +28,15 @@
 	"Passa por todos os sucessores devolvendo o valor max dos mesmos"
 	(cond
 		((null sucessores) alfa) ; caso não haja mais sucessores   //Duvidas sobre o que retornar aqui
-		(t 
+		(t
 			(let*
 				(
-				
+
 					(start-tempo (get-internal-real-time))
 					( no (first sucessores) ) ; buscar o primeiro dos sucessores
-					( valor (cond 
+					( valor (cond
 								((= (no-jogador no) jogador) ; se o jogador a jogar neste no for o jogador que queremos maximizar
-																(negamax 	no  
+																(negamax 	no
 																		(1+ (no-profundidade no)) ; incrementa a profundidade
 																		profundidade-maxima ; profundidade máxima da árvore
 																		operadores ; operadores
@@ -54,24 +54,24 @@
 																		jogador  ; jogador que queremos optimizar
 																		tempo-inicio ; tempo de inicio do negamax
 																		tempo-maximo))) ; tempo máximo para correr o negamax
-																				
+
 							)
 					)
 					( novo-maior (max valor maior) ) ; novo valor max de todos os valores calculados alteriormente
 					( novo-alfa (max valor alfa) ) ; novo alfa é o max entre o valor calculado para este nó e o alfa atual
 					(end-tempo (get-internal-real-time))
-					
+
 				)
-				(cond 
+				(cond
 					( (>= novo-alfa beta) (progn (log-teste alfa beta novo-maior (no-jogador no) jogador profundidade) novo-maior )) ; situação de corte
 					( (progn (write-line (write-to-string profundidade)) t) (max 				; Devolve o valor máximo entre o novo-alfa e o valor negamax retornado pela proxima chamada recursiva
-								novo-alfa  
+								novo-alfa
 								(negamax-max 	(rest sucessores) ; restantes sucessores
 												profundidade ; profundidade atual
 												profundidade-maxima  ; profundidade maxima
 												operadores ; operadores
 												novo-alfa ; novo-beta no lugar do alfa
-												beta ; continuamos com o mesmo beta 
+												beta ; continuamos com o mesmo beta
 												novo-maior ; mandamos os novo-maior para efeitos de comparação
 												jogador ; jogador que queremos optimizar
 												tempo-inicio ; tempo de inicio do negamax
@@ -91,11 +91,11 @@
 
 (defun negamax-simples (no profundidade profundidade-maxima operadores alfa beta jogador tempo-inicio tempo-maximo)
 	"Executa o negamax no seu mais rudimentar sem HashTables"
-	(cond 
-		( (> (- (get-internal-real-time) tempo-inicio) tempo-maximo) (avaliar-folha-limite no) ) ; excedeu o tempo-maximo devolvemos uma avaliação do tabuleiro
-		( (>= profundidade profundidade-maxima) (avaliar-folha-limite no) ) ; Devolve uma avaliação do tabuleiro
+	(cond
+		( (> (- (get-internal-real-time) tempo-inicio) tempo-maximo) (avaliar-folha-limite no jogador) ) ; excedeu o tempo-maximo devolvemos uma avaliação do tabuleiro
+		( (>= profundidade profundidade-maxima) (avaliar-folha-limite no jogador) ) ; Devolve uma avaliação do tabuleiro
 		( (vencedor-p (no-numero-caixas-jogador1 no) (no-numero-caixas-jogador2 no)) (avaliar-folha no) ) ; Devolve o valor real do nó
-		( t 
+		( t
 			(let*
 				(
 					(sucessores (sucessores-no no operadores)) ; gera os sucessores
@@ -117,8 +117,8 @@
 	)
 )
 
-(defun guarda-na-hashtable (alfa beta valor no profundidade-maxima) 
-	(cond 
+(defun guarda-na-hashtable (alfa beta valor no profundidade-maxima)
+	(cond
 		((<= valor alfa) (setf (gethash (no-estado no) *avaliacoes-hash*) (list 'LOWERBOUND profundidade-maxima valor))) ; Guarda o tabuleiro, o valor e a profundidade máxima como lowerbound
 		((>= valor beta) (setf (gethash (no-estado no) *avaliacoes-hash*) (list 'UPPERBOUND profundidade-maxima valor))) ; Guarda o tabuleiro, o valor e a profundidade-maxima como upperbound
 		( t (setf (gethash (no-estado no) *avaliacoes-hash*) (list 'EXACT profundidade-maxima valor)) ) ; ; Guarda o tabuleiro, o valor e a profundidade-maxima como valor exato
@@ -129,14 +129,14 @@
 
 (defun negamax (no profundidade profundidade-maxima operadores alfa beta jogador tempo-inicio tempo-maximo)
 	"Acrescenta ao algoritmo negamax-simples a funcionalidade de guardar tabuleiros nas hashtables de modo a optimizar o algoritmo"
-	(let* 
+	(let*
 		(
 			(valor (gethash (no-estado no) *avaliacoes-hash*)) ; Vai buscar o valor da na hashtable através do tabuleiro do no
 		)
 		(cond
 			( (or (null valor) (< (second valor) profundidade-maxima)) ; se a profundidade maxima guardada for inferior à profundidade-maxima atual nao usamos o valor
-			
-				(let 
+
+				(let
 					(
 						(resultado (negamax-simples no profundidade profundidade-maxima operadores alfa beta jogador tempo-inicio tempo-maximo)) ; Aplicamos normamente o negamax-simples
 					)
@@ -144,25 +144,25 @@
 						(guarda-na-hashtable alfa beta resultado no profundidade-maxima) ; Guarda na hashtable o valor obtido para este tabuleiro
 						resultado) ; devolve o valor obtido
 				)
-					
+
 			)
 			( (eq 'EXACT (first valor)) (third valor) ) ; Se o valor do tabuleiro é um valor exacto, devolvemos esse valor
 			( (and (eq 'LOWERBOUND (first valor)) (< (max alfa (third valor)) beta) ) ; se o valor do tabuleiro for um lowerbound e o max(alfa, valor) < beta vamos utilizar como alfa o max(alfa, valor)
-			
 
-				(let 
+
+				(let
 					(
 						(resultado (negamax-simples no profundidade profundidade-maxima operadores (max alfa (third valor)) beta jogador tempo-inicio tempo-maximo)) ;chamamos o negamax-simples com o alfa = max(alfa, valor)
 					)
 					(progn
 						(guarda-na-hashtable alfa beta resultado no profundidade-maxima) ; Guardamos na hashtable o valor retornado
 						resultado) ; devolve o valor obtido
-				)	
-			
+				)
+
 			)
 			( (and (eq 'UPPERBOUND (first valor)) (<  alfa (min (third valor) beta)) ) ; se o valor do tabuleiro for um upperbound e o min(beta, valor) > alfa vamos utilizar como beta como o min(beta, valor)
-			
-				(let 
+
+				(let
 					(
 						(resultado (negamax-simples no profundidade profundidade-maxima operadores alfa (min beta (third valor)) jogador tempo-inicio tempo-maximo) );chamamos o negamax-simples com o beta = max(beta, valor
 					)
@@ -170,7 +170,7 @@
 						(guarda-na-hashtable alfa beta resultado no profundidade-maxima) ; Guardamos na hashtable o valor retornado
 						resultado) ; devolve o valor obtido
 				)
-				
+
 			)
 			(t (third valor)) ; caso contrário devolvemos o valor
 		)
@@ -184,9 +184,9 @@
 			; (no (no-criar (tabuleiro-inicial) nil 0 (list 0 0 *jogador1*)))
 			; (operadores (criar-operacoes 7 7 #'arco-vertical #'arco-horizontal))
 			; (sucessores (sucessores-no no operadores))
-			; (resultado (escolher-jogada-aux sucessores 
+			; (resultado (escolher-jogada-aux sucessores
 						; 3
-						; operadores 
+						; operadores
 						; )
 			; )
 		; )
@@ -194,12 +194,12 @@
 ; )
 
 
-;; JUSTIFICAÇÂO: Aqui temos que aplicar o alfa beta em cada nó pois o alfa beta só garante o valor certo no topo da árvore 
-(defun escolher-jogada-aux (sucessores profundidade-maxima operadores tempo-disponivel jogador) 
+;; JUSTIFICAÇÂO: Aqui temos que aplicar o alfa beta em cada nó pois o alfa beta só garante o valor certo no topo da árvore
+(defun escolher-jogada-aux (sucessores profundidade-maxima operadores tempo-disponivel jogador)
 	"Tendo um lista de sucessores, usa o negamax em cada um deles e escolhe a melhor jogada de acordo com os valores retornados pelo negamax"
-	(cond 
+	(cond
 		((null sucessores) nil) ; se a lista de sucessores estiver vazia devolve nil
-		(t 
+		(t
 			(let*
 				(
 					( no (first sucessores) ) ; nó é o primeiro dos sucessores
@@ -223,9 +223,9 @@
 														(- tempo-disponivel (- tempo-fim tempo-inicio) ) ; retirar o tempo gasto do tempo disponível e mandar como tempo disponivel na chamada recursiva
 														jogador
 														)) ; jogador que queremos optimizar
-										
+
 				)
-				(cond 
+				(cond
 					( (null resultado) (list valor no) ) ; se o resultado for nil devolvemos uma lista com este nó e o valor
 					( (> valor (first resultado)) (list valor no) ) ; se o valor encontrado deste sucessor é maior que o devolvido devolvemos uma lista com este nó e o valor
 					( t resultado ) ; caso contrário devolvemos o resultado
@@ -252,14 +252,12 @@
 			(tempo-fim (get-internal-real-time)) ; Para o chronometro
 		)
 		(progn
-			(write-line (write-to-string (- tempo-fim tempo-inicio))) 
-			(cond	
+			(write-line (write-to-string (- tempo-fim tempo-inicio)))
+			(cond
 				((null resultado) (first sucessores)) ; se o resultado é nil devolve o primeiro sucessor por default
 				(t (second resultado)) ; devolve o nó resultante
 			)
 		)
-		
+
 	)
 )
-
-
