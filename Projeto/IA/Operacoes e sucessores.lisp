@@ -22,7 +22,15 @@
 
 (defun arco-na-posicao (i lista peca)
 	"Recebe uma lista de arcos e tenta inserir um arco na posição i"
-	(substituir (1- i) peca lista) ; substitui pela peca no indice
+	(let
+		(
+			(elemento (elemento-por-indice (1- i) lista))
+		)
+		(cond 
+			((null elemento) (substituir (1- i) peca lista))
+			(t nil)
+		)
+	)
 )
 
 (defun arco-aux (x y matriz peca)
@@ -159,6 +167,7 @@
 				( tabuleiro (funcall funcao x y (no-estado no) peca) ) ;executa a opera??o sobre o no
 			)
 			(cond
+				((null tabuleiro) nil)
 				((equal (no-estado no) tabuleiro) nil) ; se o estado do antecessor ? igual ao estado do sucessor, ? discartando devolvendo nil
 				(t
 					(let*
