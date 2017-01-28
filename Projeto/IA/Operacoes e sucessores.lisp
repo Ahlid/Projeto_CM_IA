@@ -86,32 +86,32 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defun rodar90 (tabuleiro)
-	(let* 
+	(let*
 		(
 			(horizontais (get-arcos-horizontais tabuleiro))
 			(verticais (get-arcos-verticais tabuleiro))
-			(novo-horizontais 
+			(novo-horizontais
 				(mapcar 'reverse verticais)
 			)
 			(novo-verticais
 				(reverse horizontais)
-			)			
+			)
 		)
 		(list novo-horizontais novo-verticais)
 	)
 )
 
 (defun espelhar-horizontal (tabuleiro)
-	(let* 
+	(let*
 		(
 			(horizontais (get-arcos-horizontais tabuleiro))
 			(verticais (get-arcos-verticais tabuleiro))
-			(novo-horizontais 
+			(novo-horizontais
 				(mapcar 'reverse horizontais)
 			)
 			(novo-verticais
 				(reverse  verticais)
-			)			
+			)
 		)
 		(list novo-horizontais novo-verticais)
 	)
@@ -119,16 +119,16 @@
 
 
 (defun espelhar-vertical (tabuleiro)
-	(let* 
+	(let*
 		(
 			(horizontais (get-arcos-horizontais tabuleiro))
 			(verticais (get-arcos-verticais tabuleiro))
-			(novo-horizontais 
+			(novo-horizontais
 				(reverse horizontais)
 			)
 			(novo-verticais
 				(mapcar 'reverse verticais)
-			)			
+			)
 		)
 		(list novo-horizontais novo-verticais)
 	)
@@ -160,8 +160,8 @@
 			)
 			(cond
 				((equal (no-estado no) tabuleiro) nil) ; se o estado do antecessor ? igual ao estado do sucessor, ? discartando devolvendo nil
-				(t 	
-					(let* 
+				(t
+					(let*
 						(
 							(no-resultado 	(set-no-numero-arestas (set-no-jogada ;altera a jogada do nó
 																		(set-no-profundidade  ;altera a profundidade do n?
@@ -173,7 +173,7 @@
 																		)
 																		(list funcao nome-funcao x y)
 																)
-																(cond 
+																(cond
 																	((null (no-numero-arestas no)) (1+(n-arestas-preenchidas (no-estado no))))
 																	( t (1+ (no-numero-arestas no)) )
 																)
@@ -185,7 +185,7 @@
 							((= no-numero-caixas numero-caixas) (set-no-jogador no-resultado (trocar-peca peca)));numero de caixas não mudou
 							((= peca *jogador1*) (set-no-numero-caixas-jogador1 no-resultado (1+ (no-numero-caixas-jogador1 no-resultado))));incrementa o numero de caixas do jogador
 							((= peca *jogador2*) (set-no-numero-caixas-jogador2 no-resultado (1+ (no-numero-caixas-jogador2 no-resultado))));incrementa o numero de caixas do jogador
-						)			
+						)
 					)
 				)
 			)
@@ -260,7 +260,7 @@
 		(
 			(vencedor (vencedor-p (no-numero-caixas-jogador1 no) (no-numero-caixas-jogador2 no)))
 		)
-		(cond 
+		(cond
 			((= vencedor (trocar-peca (no-jogador no))) 100)
 			((= vencedor nil) 0)
 			(t -100)
@@ -271,27 +271,28 @@
 
 
 ;; avaliar-folha-limite
+
 (defun avaliar-folha-limite (no)
-	""
-	(let* 
-		(
-			(tabuleiro (no-estado no))
-			(tabuleiro-pai (no-estado (no-pai no)))
-			(jogador (no-jogadado no))
-			(numero-caixas (cond 
-								((= jogador *jogador1*) (no-numero-caixas-jogador1 no))
-								(t (no-numero-caixas-jogador2 no)))
-			)
-			(numero-caixas-adversario (cond 
-								((= jogador *jogador1*) (no-numero-caixas-jogador2 no))
-								(t (no-numero-caixas-jogador1 no)))
-			)
-			(numero-arestas (no-numero-arestas no))
+""
+(let*
+	(
+		(tabuleiro (no-estado no))
+		(tabuleiro-pai (no-estado (no-pai no)))
+		(jogador (no-jogador no))
+		(numero-caixas (cond
+							((= jogador *jogador1*) (no-numero-caixas-jogador1 no))
+							(t (no-numero-caixas-jogador2 no)))
 		)
-	
+		(numero-caixas-adversario (cond
+							((= jogador *jogador1*) (no-numero-caixas-jogador2 no))
+							(t (no-numero-caixas-jogador1 no)))
+		)
+		(numero-arestas (no-numero-arestas no))
 	)
-	
 	(f-avaliacao  tabuleiro tabuleiro-pai jogador numero-caixas numero-caixas-adversario numero-arestas)
+)
+
+
 )
 
 
@@ -309,7 +310,7 @@
 
 (defun sucessores-sem-simetrias(sucessores)
 	"Remove os sucessores simétricos deixando apenas nós com tabuleiros únicos conceptualmente"
-	(cond 
+	(cond
 		((null sucessores) nil)
 		(t (let*
 				(
@@ -321,7 +322,7 @@
 				(rodado90-esp-v (espelhar-vertical rodado90))
 				(rodado180 (rodar90 rodado90))
 				(rodado270 (rodar90 rodado180))
-				
+
 				(s1 (remover-sucessores normal (rest sucessores)))
 				(s2 (remover-sucessores rodado90 s1))
 				(s3 (remover-sucessores rodado180 s2))
@@ -334,7 +335,7 @@
 				(cons (first sucessores) (sucessores-sem-simetrias s8))
 			)
 		)
-	)		
+	)
 )
 
 ;; sucessores-no
@@ -356,7 +357,7 @@
 			)
 			(sucessores (limpar-nils (mapcar funcao operadores)))
 		)
-		(cond 
+		(cond
 			((> (no-numero-arestas no) 20)  (sucessores-sem-simetrias sucessores)) ; optimizações de simetria até 20 arestas
 			(t sucessores)
 		)
@@ -374,7 +375,3 @@
 (defun ordenar-decrescente (sucessores)
 	(sort (mapcar 'avaliar-folha-limite sucessores) #'> )
 )
-
-
-
-

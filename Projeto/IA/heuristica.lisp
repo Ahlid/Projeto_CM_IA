@@ -199,13 +199,13 @@
 
   	(cond
 
-  		((< (+ n-caixas-jogador n-caixas-adrevesario) (numero-caixas-fechadas tabuleiro) ) 9000 )
+  		((< (+ n-caixas-jogador n-caixas-adrevesario) (numero-caixas-fechadas tabuleiro) ) 100 )
 
   		(T (let*
   			(tabuleiro-convertido (converter-tabuleiro tabuleiro);;tabuleiro convertido para calcular as correntes
   			(tabuleiro-pai-convertido (converter-tabuleiro tabuleiro-pai)) ;;tabuleiro pai convertido para calcular as correntes
-  			(resultados-tabuleiro  (sort (f-avaliacao-no-no tabuleiro-convertido)) #'>) ;;resultados das correntes do tabuleiro
-  			(resultados-tabuleiro-pai (sort (f-avaliacao-no-no tabuleiro-pai-convertido))#'>) ;;resultados das correntes do tabuleiro-pai
+  			(resultados-tabuleiro  (sort (f-avaliacao-no-no tabuleiro-convertido) #'>)) ;;resultados das correntes do tabuleiro
+  			(resultados-tabuleiro-pai (sort (f-avaliacao-no-no tabuleiro-pai-convertido)#'>)) ;;resultados das correntes do tabuleiro-pai
   			(LChains-tabuleiro (obter-LChains resultados-tabuleiro)) ; Lista correntes grandes do tabuleiro
   			(DChains-tabuleiro (obter-DChains resultados-tabuleiro)) ; Lista correntes de tamanho 2 do tabuleiro
   			(SChains-tabuleiro (obter-SChains resultados-tabuleiro)) ; Lista de uma caixa com 2 arestas por completar do tabuleiro
