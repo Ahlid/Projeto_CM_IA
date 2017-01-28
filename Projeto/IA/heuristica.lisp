@@ -195,6 +195,38 @@
 	
 	
 	
+	(defun f-avaliacao(tabuleiro tabuleiro-pai n-jogador n-caixas-jogador n-caixas-adrevesario n-arestas)
+	
+	(cond 
+		
+		((< (+ n-caixas-jogador n-caixas-adrevesario) (numero-caixas-fechadas tabuleiro) ) 9000   )
+	
+		(T (let* 
+			(tabuleiro-convertido (converter-tabuleiro tabuleiro)
+			(tabuleiro-pai-convertido (converter-tabuleiro tabuleiro-pai))
+			(resultados-tabuleiro (f-avaliacao-no-no tabuleiro-convertido))
+			(resultados-tabuleiro-pai (f-avaliacao-no-no tabuleiro-pai-convertido))
+			(LChains-tabuleiro (obter-LChains resultados-tabuleiro))
+			(DChains-tabuleiro (obter-DChains resultados-tabuleiro))
+			(SChains-tabuleiro (obter-SChains resultados-tabuleiro))
+			(LChains-tabuleiro-pai (obter-LChains resultados-tabuleiro-pai))
+			(DChains-tabuleiro-pai (obter-DChains resultados-tabuleiro-pai))
+			(SChains-tabuleiro-pai (obter-SChains resultados-tabuleiro-pai))
+			)
+		
+		
+		
+		)
+		
+		)
+		)
+	
+	
+	
+	)
+	
+	
+	
 	(defun n-arestas-preenchidas(tabuleiro)
 	
 		(apply '+ (mapcar 
@@ -214,5 +246,108 @@
 	
 	
 	)
+	
+	
+	
+	(defun obter-LChains(resultados)
+		(cond
+			((null resultados) nil)
+			((> (car resultados) 2) (cons (car resultados) (obter-LChains (rest resultados))))
+			(t (obter-LChains (rest resultados)))
+		)
+	
+	
+	)
 
+	
+	(defun obter-DChains(resultados)
+		(cond
+			((null resultados) nil)
+			((= (car resultados) 2) (cons (car resultados) (obter-DChains (rest resultados))))
+			(t (obter-DChains (rest resultados)))
+		)
+	
+	
+	)
     
+	
+	(defun obter-SChains(resultados)
+		(cond
+			((null resultados) nil)
+			((= (car resultados) 1) (cons (car resultados) (obter-SChains (rest resultados))))
+			(t (obter-SChains (rest resultados)))
+		)
+	
+	
+	)
+	
+	
+
+	
+	
+	
+	
+	
+(defun convert-top-bottom(linha)
+	"Função que junta as arestar de baixo e cima de cada caixa conforme a linha"
+	(cond
+		( (null (second linha)) nil )
+		( T
+			(cons (mapcar 'list (first linha) (second linha))  (convert-top-bottom (rest linha)));; junta e chama a proxima
+		)
+	)
+)
+
+(defun converter-tabuleiro(tabuleiro)
+ "função que converte o tabuleiro em caixas"
+	(mapcar 'converter-aux (convert-top-bottom (car tabuleiro)) (matriz2d-transposta (convert-top-bottom (car (rest tabuleiro)))) )
+)
+
+(defun converter-aux(tops-bottoms lefts-rights)
+ "função que junta os tops-bottoms e os left-rights em toda uma caixa"
+	(mapcar
+		(lambda (x y)
+				(list (append (nil-to-zero x) (reverse (nil-to-zero y))) '0)
+		)
+		tops-bottoms
+		lefts-rights
+	)
+)
+
+
+(defun nil-to-zero(lista)
+
+(cond
+	((null lista) nil)
+	((null (car lista)) (cons '0 (nil-to-zero (rest lista))))
+	(t (cons (car lista) (nil-to-zero (rest lista))))
+)
+
+)
+
+(defun matriz2d-transposta (m)
+	"Faz a transposta da matriz m"
+	(apply  #'mapcar (cons #'list m)) ; transpões a matriz
+)
+
+
+
+(defun numero-caixas-fechadas (tabuleiro)
+	"Devolve o n?mero fechadas num tabuleiro"
+	(let
+		(
+			(candidatos1 (alisa (criar-candidatos (get-arcos-horizontais tabuleiro)))) ; gera os candidatos dos arcos horizontais num lista linear
+			(candidatos2 (alisa (matriz2d-transposta (criar-candidatos (get-arcos-verticais tabuleiro))))) ; gera os candidatos dos arcos verticais numa lista linear
+		)
+		(apply  '+ 	(mapear-bool-binario ; mapeia a lista para elementos bin?rios e somas os seus valores
+						(mapcar
+							(lambda (&rest lista)
+									(and (first lista) (second lista)); aplica um and entre o candidato dos horizontais e o candidato dos verticais, caso ambos sejam t existe de facto um quadrado
+							)
+							candidatos1
+							candidatos2
+						)
+					)
+		)
+	)
+)
