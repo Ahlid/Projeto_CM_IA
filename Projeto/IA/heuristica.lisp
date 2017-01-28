@@ -192,27 +192,209 @@
 			)
 
 	)
-	
-	
-	
+
+
+
+  (defun f-avaliacao(tabuleiro tabuleiro-pai n-jogador n-caixas-jogador n-caixas-adrevesario n-arestas)
+
+  	(cond
+
+  		((< (+ n-caixas-jogador n-caixas-adrevesario) (numero-caixas-fechadas tabuleiro) ) 9000 )
+
+  		(T (let*
+  			(tabuleiro-convertido (converter-tabuleiro tabuleiro);;tabuleiro convertido para calcular as correntes
+  			(tabuleiro-pai-convertido (converter-tabuleiro tabuleiro-pai)) ;;tabuleiro pai convertido para calcular as correntes
+  			(resultados-tabuleiro  (sort (f-avaliacao-no-no tabuleiro-convertido)) #'>) ;;resultados das correntes do tabuleiro
+  			(resultados-tabuleiro-pai (sort (f-avaliacao-no-no tabuleiro-pai-convertido))#'>) ;;resultados das correntes do tabuleiro-pai
+  			(LChains-tabuleiro (obter-LChains resultados-tabuleiro)) ; Lista correntes grandes do tabuleiro
+  			(DChains-tabuleiro (obter-DChains resultados-tabuleiro)) ; Lista correntes de tamanho 2 do tabuleiro
+  			(SChains-tabuleiro (obter-SChains resultados-tabuleiro)) ; Lista de uma caixa com 2 arestas por completar do tabuleiro
+  			(LChains-tabuleiro-pai (obter-LChains resultados-tabuleiro-pai)) ; Lista correntes grandes do tabuleiro-pai
+  			(DChains-tabuleiro-pai (obter-DChains resultados-tabuleiro-pai)) ;Lista correntes de tamanho 2 do tabuleiro-pai
+  			(SChains-tabuleiro-pai (obter-SChains resultados-tabuleiro-pai)) ; Lista de uma caixa com 2 arestas por completar do tabuleiro-pai
+  			(n-LChains-tabuleiro (length LChains-tabuleiro)) ;numero correntes grandes do tabuleiro
+  			(n-DChains-tabuleiro (length DChains-tabuleiro)) ;numero correntes de tamanho 2 do tabuleiro
+  			(n-SChains-tabuleiro (length SChains-tabuleiro)) ;numero de caixas com 2 arestas por completar do tabuleiro
+  			(n-LChains-tabuleiro-pai (length LChains-tabuleiro-pai))  ;numero correntes grandes do tabuleiro-pai
+  			(n-DChains-tabuleiro-pai (length DChains-tabuleiro-pai))  ;numero correntes de tamanho 2 do tabuleiro-pai
+  			(n-SChains-tabuleiro-pai (length SChains-tabuleiro-pai))  ;numero de caixas com 2 arestas por completar do tabuleiro-pai
+
+  			)
+
+  			(cond
+  				((= 1 n-jogador ) ;somos os primeiros a jogar
+  					(cond
+  						((= 0 (mod n-LChains-tabuleiro 2));;o primeiro jogador para ganhar deve procurar um número par de LChains
+  							(- (+ (- n-caixas-jogador n-caixas-adrevesario) (calcular-caixas-ganhas-em-LChains LChains-tabuleiro) ) (1- (length LChains-tabuleiro)))
+  						)
+
+  						(T ;;quando nao tem um numero par de LChains ou seja está numa má situação
+  							(+ (- (- n-caixas-jogador n-caixas-adrevesario) (calcular-caixas-ganhas-em-LChains LChains-tabuleiro) ) (1- (length LChains-tabuleiro)))
+
+  						)
+
+  					)
+
+  				)
+  				(T ;somos os segundos a jogar
+
+
+  						(cond
+  						((= 0 (mod n-LChains-tabuleiro 2));;o segundo jogador para ganhar deve procurar um número impar de LChains
+  								(+ (- (- n-caixas-jogador n-caixas-adrevesario) (calcular-caixas-ganhas-em-LChains LChains-tabuleiro) ) (1- (length LChains-tabuleiro)))
+
+  						)
+
+  						(T ;;quando nao tem um numero par de LChains ou seja está numa má situação
+  							(- (+ (- n-caixas-jogador n-caixas-adrevesario) (calcular-caixas-ganhas-em-LChains LChains-tabuleiro) ) (1- (length LChains-tabuleiro)))
+
+  						)
+
+  					)
+
+  				)
+
+  			)
+
+  		)
+
+  		)
+  		)
+
+  	)
+
+	(defun calcular-caixas-ganhas-em-LChains(lchains &optional(primeira 1))
+
+		(cond
+			((null lchains) 0)
+			((= 1 primeira) (+ (car lchains) (calcular-caixas-ganhas-em-LChains (rest lchains) 0 )))
+			(T (+ (- (car lchains) 2) (calcular-caixas-ganhas-em-LChains (rest lchains) 0) ) )
+
+		)
+
+	)
+
 	(defun n-arestas-preenchidas(tabuleiro)
-	
-		(apply '+ (mapcar 
+
+		(apply '+ (mapcar
 			 (
 			  lambda
 					 (x)
-			   (apply '+ (mapcar 
-						  (lambda 
-								  (y) 
-							(apply '+ (mapcar 
+			   (apply '+ (mapcar
+						  (lambda
+								  (y)
+							(apply '+ (mapcar
 									   (lambda (z) (cond ((null z) 0) (T 1)))
 									   y))
 							)
 						  x))
 			   )
 			 tabuleiro))
-	
-	
+
+
 	)
 
-    
+
+
+	(defun obter-LChains(resultados)
+		(cond
+			((null resultados) nil)
+			((> (car resultados) 2) (cons (car resultados) (obter-LChains (rest resultados))))
+			(t (obter-LChains (rest resultados)))
+		)
+
+
+	)
+
+
+	(defun obter-DChains(resultados)
+		(cond
+			((null resultados) nil)
+			((= (car resultados) 2) (cons (car resultados) (obter-DChains (rest resultados))))
+			(t (obter-DChains (rest resultados)))
+		)
+
+
+	)
+
+
+	(defun obter-SChains(resultados)
+		(cond
+			((null resultados) nil)
+			((= (car resultados) 1) (cons (car resultados) (obter-SChains (rest resultados))))
+			(t (obter-SChains (rest resultados)))
+		)
+
+
+	)
+
+
+
+
+
+
+
+
+(defun convert-top-bottom(linha)
+	"Função que junta as arestar de baixo e cima de cada caixa conforme a linha"
+	(cond
+		( (null (second linha)) nil )
+		( T
+			(cons (mapcar 'list (first linha) (second linha))  (convert-top-bottom (rest linha)));; junta e chama a proxima
+		)
+	)
+)
+
+(defun converter-tabuleiro(tabuleiro)
+ "função que converte o tabuleiro em caixas"
+	(mapcar 'converter-aux (convert-top-bottom (car tabuleiro)) (matriz2d-transposta (convert-top-bottom (car (rest tabuleiro)))) )
+)
+
+(defun converter-aux(tops-bottoms lefts-rights)
+ "função que junta os tops-bottoms e os left-rights em toda uma caixa"
+	(mapcar
+		(lambda (x y)
+				(list (append (nil-to-zero x) (reverse (nil-to-zero y))) '0)
+		)
+		tops-bottoms
+		lefts-rights
+	)
+)
+
+
+(defun nil-to-zero(lista)
+
+(cond
+	((null lista) nil)
+	((null (car lista)) (cons '0 (nil-to-zero (rest lista))))
+	(t (cons (car lista) (nil-to-zero (rest lista))))
+)
+
+)
+
+(defun matriz2d-transposta (m)
+	"Faz a transposta da matriz m"
+	(apply  #'mapcar (cons #'list m)) ; transpões a matriz
+)
+
+
+
+(defun numero-caixas-fechadas (tabuleiro)
+	"Devolve o n?mero fechadas num tabuleiro"
+	(let
+		(
+			(candidatos1 (alisa (criar-candidatos (get-arcos-horizontais tabuleiro)))) ; gera os candidatos dos arcos horizontais num lista linear
+			(candidatos2 (alisa (matriz2d-transposta (criar-candidatos (get-arcos-verticais tabuleiro))))) ; gera os candidatos dos arcos verticais numa lista linear
+		)
+		(apply  '+ 	(mapear-bool-binario ; mapeia a lista para elementos bin?rios e somas os seus valores
+						(mapcar
+							(lambda (&rest lista)
+									(and (first lista) (second lista)); aplica um and entre o candidato dos horizontais e o candidato dos verticais, caso ambos sejam t existe de facto um quadrado
+							)
+							candidatos1
+							candidatos2
+						)
+					)
+		)
+	)
+)
