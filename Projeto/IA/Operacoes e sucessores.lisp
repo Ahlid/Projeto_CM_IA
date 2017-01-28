@@ -358,9 +358,13 @@
 ;(sucessores-no (no-criar '(((0 0)(0 0)(0 0))((0 0)(0 0)(0 0))) nil 0 (list 0 0 *jogador1*)) (criar-operacoes 2 2 #'arco-vertical #'arco-horizontal))
 
 
-;; TODO -  Podemos ordenar os nós através do calculo do valor heuristico.
-(defun ordenar (sucessores)
-	sucessores
+
+(defun ordenar-crescente (sucessores)
+	(sort (mapcar 'avaliar-folha-limite sucessores) #'< )
+)
+
+(defun ordenar-decrescente (sucessores)
+	(sort (mapcar 'avaliar-folha-limite sucessores) #'> )
 )
 
 

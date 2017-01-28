@@ -9,8 +9,6 @@
 
 
 
-
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Negamax
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -29,10 +27,12 @@
 (defun negamax-max(sucessores profundidade profundidade-maxima operadores alfa beta maior jogador tempo-inicio tempo-maximo)
 	"Passa por todos os sucessores devolvendo o valor max dos mesmos"
 	(cond
-		((null sucessores) alfa) ; caso não haja mais sucessores   //Duvidas aqui
+		((null sucessores) alfa) ; caso não haja mais sucessores   //Duvidas sobre o que retornar aqui
 		(t 
 			(let*
 				(
+				
+					(start-tempo (get-internal-real-time))
 					( no (first sucessores) ) ; buscar o primeiro dos sucessores
 					( valor (cond 
 								((= (no-jogador no) jogador) ; se o jogador a jogar neste no for o jogador que queremos maximizar
@@ -59,10 +59,12 @@
 					)
 					( novo-maior (max valor maior) ) ; novo valor max de todos os valores calculados alteriormente
 					( novo-alfa (max valor alfa) ) ; novo alfa é o max entre o valor calculado para este nó e o alfa atual
+					(end-tempo (get-internal-real-time))
+					
 				)
 				(cond 
 					( (>= novo-alfa beta) (progn (log-teste alfa beta novo-maior (no-jogador no) jogador profundidade) novo-maior )) ; situação de corte
-					( t (max 				; Devolve o valor máximo entre o novo-alfa e o valor negamax retornado pela proxima chamada recursiva
+					( (progn (write-line (write-to-string profundidade)) t) (max 				; Devolve o valor máximo entre o novo-alfa e o valor negamax retornado pela proxima chamada recursiva
 								novo-alfa  
 								(negamax-max 	(rest sucessores) ; restantes sucessores
 												profundidade ; profundidade atual
@@ -73,7 +75,7 @@
 												novo-maior ; mandamos os novo-maior para efeitos de comparação
 												jogador ; jogador que queremos optimizar
 												tempo-inicio ; tempo de inicio do negamax
-												tempo-maximo)) ) tempo máximo para correr o negamax
+												(max 0 (- tempo-maximo (- end-tempo start-tempo)) ))) ) ; tempo máximo para correr o negamax
 				)
 			)
 		)
@@ -150,7 +152,7 @@
 
 				(let 
 					(
-						(resultado (negamax-simples no profundidade profundidade-maxima operadores (max alfa (third valor)) beta jogador) tempo-inicio tempo-maximo) ;chamamos o negamax-simples com o alfa = max(alfa, valor)
+						(resultado (negamax-simples no profundidade profundidade-maxima operadores (max alfa (third valor)) beta jogador tempo-inicio tempo-maximo)) ;chamamos o negamax-simples com o alfa = max(alfa, valor)
 					)
 					(progn
 						(guarda-na-hashtable alfa beta resultado no profundidade-maxima) ; Guardamos na hashtable o valor retornado
@@ -219,7 +221,8 @@
 														profundidade-maxima  ; profundidade-maxima
 														operadores ; operadores
 														(- tempo-disponivel (- tempo-fim tempo-inicio) ) ; retirar o tempo gasto do tempo disponível e mandar como tempo disponivel na chamada recursiva
-														jogador)) ; jogador que queremos optimizar
+														jogador
+														)) ; jogador que queremos optimizar
 										
 				)
 				(cond 
@@ -233,7 +236,7 @@
 )
 
 
-; (imprime-tabuleiro  (no-estado (escolher-jogada (no-criar (tabuleiro-inicial) nil 0 (list 0 0 *jogador1*)) 5000)))
+; (imprime-tabuleiro  (no-estado (escolher-jogada (no-criar (tabuleiro-inicial) nil 0 (list 0 0 *jogador1* nil 0)) 5000)))
 (defun escolher-jogada (no tempo-limite)
 	"Escolhe uma jogada partindo de um nó"
 	(let*
@@ -242,7 +245,7 @@
 			(sucessores (sucessores-no no operadores)) ; Gera os sucessores apartir dos operadores e do nó recebido
 			(tempo-inicio (get-internal-real-time)) ; Começa o chronometro
 			(resultado (escolher-jogada-aux sucessores ; procura o melhor sucessor
-						5 ; Profundidade máxima
+						4 ; Profundidade máxima
 						operadores ; operadores
 						tempo-limite ; tempo disponível para realizar a escolha da jogada
 						(no-jogador no))) ; jogador que vai jogar neste nó
@@ -260,67 +263,3 @@
 )
 
 
-
-
-
-
-; 01 function negamax(node, depth, α, β, color)
-; 02     if depth = 0 or node is a terminal node
-; 03         return color * the heuristic value of node
-
-; 04     childNodes := GenerateMoves(node)
-; 05     childNodes := OrderMoves(childNodes)
-; 06     bestValue := −∞
-; 07     foreach child in childNodes
-; 08         v := −negamax(child, depth − 1, −β, −α, −color)
-; 09         bestValue := max( bestValue, v )
-; 10         α := max( α, v )
-; 11         if α ≥ β
-; 12             break
-; 13     return bestValue
-
-
-
-; function negamax(node, depth, α, β, color)
-    ; alphaOrig := α
-
-    ; // Transposition Table Lookup; node is the lookup key for ttEntry
-    ; ttEntry := TranspositionTableLookup( node )
-    ; if ttEntry is valid and ttEntry.depth ≥ depth
-        ; if ttEntry.Flag = EXACT
-            ; return ttEntry.Value
-        ; else if ttEntry.Flag = LOWERBOUND
-            ; α := max( α, ttEntry.Value)
-        ; else if ttEntry.Flag = UPPERBOUND
-            ; β := min( β, ttEntry.Value)
-        ; endif
-        ; if α ≥ β
-            ; return ttEntry.Value
-    ; endif
-
-    ; if depth = 0 or node is a terminal node
-        ; return color * the heuristic value of node
-
-    ; bestValue := -∞
-    ; childNodes := GenerateMoves(node)
-    ; childNodes := OrderMoves(childNodes)
-    ; foreach child in childNodes
-        ; v := -negamax(child, depth - 1, -β, -α, -color)
-        ; bestValue := max( bestValue, v )
-        ; α := max( α, v )
-        ; if α ≥ β
-            ; break
-
-    ; // Transposition Table Store; node is the lookup key for ttEntry
-    ; ttEntry.Value := bestValue
-    ; if bestValue ≤ alphaOrig
-        ; ttEntry.Flag := UPPERBOUND
-    ; else if bestValue ≥ β
-        ; ttEntry.Flag := LOWERBOUND
-    ; else
-        ; ttEntry.Flag := EXACT
-    ; endif
-    ; ttEntry.depth := depth 
-    ; TranspositionTableStore( node, ttEntry )
-
-    ; return bestValue

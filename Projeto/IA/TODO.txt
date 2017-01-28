@@ -1,18 +1,18 @@
 TODO:
 
 Implementação Base:
-Criar escolha da jogada(Vamos gerar o sucessores e para cada um deles invocar o negamax de modo a obter o valor da jogada, nao utilizar cortes alfa beta a este nível)
-Criar o mecanismos de tranposition tables
+Criar escolha da jogada(Vamos gerar o sucessores e para cada um deles invocar o negamax de modo a obter o valor da jogada, nao utilizar cortes alfa beta a este nível) DONE
+Criar o mecanismos de tranposition tables - Done
 
 
 
 
 PERFORMANCE:
--Transposition tables. (importante)
--Ter em conta as jogadas simétricas (importante)
--Criar um HASH TABLE para guardar os sucessores de um nó
--Ter em conta que um jogador pode fazer duas jogadas seguidas quando seleciona um arco que fecha uma caixa
--os valores de control do nó deverão guardar o número de caixas completas por cada jogador
+-Transposition tables.  -  done, falta testar
+-Ter em conta as jogadas simétricas  -  done, falta testar
+-Criar um HASH TABLE para guardar os sucessores de um nó - não feito
+-Ter em conta que um jogador pode fazer duas jogadas seguidas quando seleciona um arco que fecha uma caixa - Done, falta testar
+-os valores de control do nó deverão guardar o número de caixas completas por cada jogador - Done, falta testar
 
 
 
@@ -28,10 +28,10 @@ reais dos nós sucessores da raiz.
 
 
 Avaliacao:
- Algoritmo Alfa Beta com cortes alfa e os cortes beta 6 (A base está feita faltando optimizações)
+ Algoritmo Alfa Beta com cortes alfa e os cortes beta 6 (A base está feita faltando optimizações)  Done
  Função de avaliação dos tabuleiros 4 (Por fazer)
- Implementação do limite de tempo para o computador 2 (Por fazer)
- Operadores do jogo 2 (Feito mas podia verificar as simétricas)
- Ordenação dos nós 1 (ainda não está feito)
- Qualidadeda Codiﬁcação 1 (Refactoring no fim)
- Relatórios(Utilizador e Técnico) 4 (Por fazer)
+ Implementação do limite de tempo para o computador 2 Done, falta testar
+ Operadores do jogo 2 Done
+ Ordenação dos nós 1 (Quase feito, depende da heuristica)
+ Qualidade da Codiﬁcação 1 (Refactoring no fim)
+ Relatório Utilizador +  Relatório Tecnico 4 
