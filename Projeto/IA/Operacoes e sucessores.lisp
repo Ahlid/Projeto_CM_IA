@@ -273,17 +273,25 @@
 ;; avaliar-folha-limite
 (defun avaliar-folha-limite (no)
 	""
-	(let*
+	(let* 
 		(
-			(valor (random 100))
-			(heuristic (- (random (1+ valor)) (floor valor 2)))
-		
+			(tabuleiro (no-estado no))
+			(tabuleiro-pai (no-estado (no-pai no)))
+			(jogador (no-jogadado no))
+			(numero-caixas (cond 
+								((= jogador *jogador1*) (no-numero-caixas-jogador1 no))
+								(t (no-numero-caixas-jogador2 no)))
+			)
+			(numero-caixas-adversario (cond 
+								((= jogador *jogador1*) (no-numero-caixas-jogador2 no))
+								(t (no-numero-caixas-jogador1 no)))
+			)
+			(numero-arestas (no-numero-arestas no))
 		)
-		(cond 
-			((= (trocar-peca (no-jogador no)) *jogador1*) (- heuristic) )
-			((= (trocar-peca (no-jogador no)) *jogador2*) heuristic )
-		)
-	)	
+	
+	)
+	
+	(f-avaliacao  tabuleiro tabuleiro-pai jogador numero-caixas numero-caixas-adversario numero-arestas)
 )
 
 
