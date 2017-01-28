@@ -37,4 +37,4 @@ var styles = {
     colorRootContainer: {
         backgroundColor: '#F4F0E6'
     }
-};
+}
