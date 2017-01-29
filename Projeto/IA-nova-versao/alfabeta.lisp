@@ -6,6 +6,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defun log-teste(alfa beta novo-maior jogador-atual jogador-max profundidade)
+"para um log onde se percebe os cortes no algoritmo"
 	(progn 
 		(cond
 			((= jogador-atual jogador-max) (write-line "Corte Alfa"))
@@ -110,6 +111,7 @@
 )
 
 (defun guarda-na-hashtable (alfa beta valor no profundidade-maxima) 
+"serve para guardar um valor na hash table"
 	(cond 
 		((<= valor alfa) (setf (gethash (no-estado no) *avaliacoes-hash*) (list 'LOWERBOUND profundidade-maxima valor))) ; Guarda o tabuleiro, o valor e a profundidade máxima como lowerbound
 		((>= valor beta) (setf (gethash (no-estado no) *avaliacoes-hash*) (list 'UPPERBOUND profundidade-maxima valor))) ; Guarda o tabuleiro, o valor e a profundidade-maxima como upperbound
