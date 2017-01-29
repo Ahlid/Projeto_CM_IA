@@ -1,5 +1,4 @@
 
-(in-package :dots-boxes)
 
 ;;;;
 ;;;; Constantes:

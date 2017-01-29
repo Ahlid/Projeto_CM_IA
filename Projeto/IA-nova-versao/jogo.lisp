@@ -1,5 +1,29 @@
 
-(in-package :dots-boxes)
+(defun iniciar ()	
+"Fun��o que inicializa o programa, chamando a fun��o que apresenta o menu inicial."
+	(progn
+		(compile-file (concatenate 'string (diretoria-atual)"alfabeta.lisp"))  ;compila o ficheiro procura.lisp
+		(compile-file (concatenate 'string (diretoria-atual)"pontosecaixas.lisp"))	;compila o ficheiro puzzle.lisp
+		(load (concatenate 'string (diretoria-atual)"alfabeta.ofasl"))  ;faz load do ficheiro compilado da procura.lisp
+		(load (concatenate 'string (diretoria-atual)"pontosecaixas.ofasl")) ;faz load do ficheiro compilado do puzzle.lisp
+		(jogar)
+	)
+)
+
+(defun diretoria-atual () 
+	"Fun��o que define um caminho para leitura dos ficheiros."
+	(let (
+
+			;(path-ricardo "C:/Users/Ricardo Morais/Documents/IA_Lisp_projeto/Projeto/")
+			(path-tiago  "C:/Users/pcts/Documents/Projeto_CM_IA/Projeto/IA-nova-versao/")
+			;(path-professor (pedir-directoria))
+		)
+			
+		path-tiago
+		;path-ricardo
+		;path-professor
+	)
+)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Impressão do tabuleiro
@@ -79,5 +103,114 @@
 		stream ; stream de escrita
 	)
 )
+
+(defun jogar()
+  (let ((caixas1 0) (caixas2 0) (vez 1) (tabuleiro (tabuleiro-inicial)) (jogada '())) 
+   (loop
+   (prog (gc-generation t)
+     (cond
+      ((null (vencedor-p caixas1 caixas2))
+       (progn (setf jogada (fazer-jogada tabuleiro vez))
+         (cond 
+          ((> (car jogada) 0)
+           (cond 
+            ((= 1 vez)
+             (progn 
+               (setf caixas1 (+ 1 caixas1))
+               (setf tabuleiro (cdr jogada))					
+               )					
+             )
+            (T (progn 
+                 (setf caixas2 (+ 1 caixas2))
+                 (setf tabuleiro (cdr jogada))							
+                 )
+               )
+            )
+           )
+          (T 
+           (progn 			
+             (setf vez (cond ((= 1 vez) 2) (t 1)))
+             (setf tabuleiro (cdr jogada))
+             (list vez jogada tabuleiro)
+             )
+           )
+          )
+         
+         )
+       
+       )
+      
+      (T (return(vencedor-p caixas1 caixas2)))
+      )
+     )
+  ))
+)
+
+
+
+(defun fazer-jogada(tabuleiro vez)
+	(cond 
+		((= 1 vez) (progn 
+			(imprime-tabuleiro tabuleiro)
+				(let* ((jogada (implementar-jogada-humano tabuleiro (ler-jogada))))
+					(cons  (- (numero-caixas-fechadas jogada) (numero-caixas-fechadas tabuleiro)) jogada)
+				)
+			)
+		)
+		(T 
+		(let* ((jogada (no-estado (escolher-jogada (no-criar tabuleiro nil 0 (list 0 0 *jogador2* nil 0)) 5000))) )
+		
+			(cons (- (numero-caixas-fechadas jogada) (numero-caixas-fechadas tabuleiro)) jogada)
+		)
+		
+		
+		
+		)
+	)
+)
+
+(defun implementar-jogada-humano (tabuleiro listaComandos)
+
+	(cond 
+		((= 0(first listaComandos) )
+		 (append (list (jogada-no-tabuleiro (get-arcos-horizontais tabuleiro) (second listaComandos) (third listaComandos) 1)) (list (get-arcos-verticais tabuleiro)))
+		
+		)
+		(t
+		(append (list (get-arcos-horizontais tabuleiro)) (list (jogada-no-tabuleiro (get-arcos-verticais tabuleiro) (second listaComandos) (third listaComandos) 1)) )
+		)
+		
+	)
+
+)
+
+(defun jogada-no-tabuleiro(arco x y valor)
+(cond 
+	((= 0 x) (cons (substituir y valor (car arco)) (rest arco)))
+	(t (cons (car arco) (jogada-no-tabuleiro (rest arco) (- x 1) y valor)))
+)
+
+)
+
+
+(defun ler-jogada (&optional (i 0))
+
+(cond
+	((= 3 i) nil)
+	(t (cons (read) (ler-jogada (+ 1 i))))
+)
+
+)
+
+
+(defun substituir (i valor l)
+	"Substitui um elemento de uma lista correpondente ao índice i pelo valor"
+	(cond
+		( (null l) nil ) ; se a lista está vazia devolve nil
+		( (= i 0) (cons valor (rest l)) ) ;se o indice é igual 0, mete o valor atrás da lista
+		( t (cons (first l) (substituir (1- i) valor (rest l))) ) ; chama a função com o rest da lista e com o indice decrementado e nao receber o valor junta no ínicio o primeiro elemento da lista
+	)
+)
+
 
 

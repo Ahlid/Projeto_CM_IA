@@ -1,6 +1,4 @@
 
-(in-package :dots-boxes)
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Negamax
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -57,7 +55,7 @@
 				)
 				(cond 
 					( (>= novo-alfa beta) (progn (log-teste alfa beta novo-maior (no-jogador no) jogador profundidade) novo-maior )) ; situação de corte
-					( (progn (write-line (write-to-string profundidade)) t) (max 				; Devolve o valor máximo entre o novo-alfa e o valor negamax retornado pela proxima chamada recursiva
+					( t (max 				; Devolve o valor máximo entre o novo-alfa e o valor negamax retornado pela proxima chamada recursiva
 								novo-alfa  
 								(negamax-max 	(rest sucessores) ; restantes sucessores
 												profundidade ; profundidade atual
