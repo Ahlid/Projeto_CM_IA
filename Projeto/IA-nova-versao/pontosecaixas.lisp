@@ -5,7 +5,7 @@
 ;;;;
  (defvar *jogador2* 2)
  (defvar *jogador1* 1)
- (defparameter *avaliacoes-hash* (make-hash-table))
+ (defparameter *avaliacoes-hash* (make-hash-table :rehash-size 100000))
 
 ;;;;
 ;;;; Funcoes auxiliares:
@@ -27,16 +27,7 @@
 
 (defun tabuleiro-teste ()
  "serve para se testar o projeto durante o seu desenvolvimento"
-  '(
-    ((NIL NIL NIL 2 1 NIL NIL) (NIL NIL NIL NIL 2 1 2)
-    (1 2 1 2 2 2 NIL) (2 NIL NIL NIL 1 2 NIL)
-    (2 2 NIL NIL 2 1 NIL) (2 2 NIL 1 1 2 NIL)
-    (2 2 NIL 2 1 1 NIL) (1 1 NIL 1 2 2 NIL))
-    ((NIL NIL NIL 1 1 1 1) (NIL NIL NIL 1 1 1 1)
-    (NIL 1 NIL NIL 1 1 2) (NIL 2 1 NIL 1 2 1)
-    (1 NIL NIL 1 NIL NIL NIL) (1 NIL NIL 1 1 NIL NIL)
-    (NIL NIL 1 1 NIL NIL NIL) (NIL 2 1 2 1 NIL 2))
-  )
+  '(((NIL NIL NIL NIL NIL NIL NIL) (NIL NIL NIL NIL NIL NIL NIL) (NIL NIL NIL NIL NIL NIL NIL) (NIL NIL NIL NIL NIL NIL NIL) (NIL NIL NIL NIL NIL NIL NIL) (NIL NIL NIL NIL NIL NIL NIL) (NIL NIL NIL NIL NIL NIL NIL) (NIL NIL NIL NIL NIL NIL NIL)) ((2 2 1 2 1 2 1) (2 1 2 1 2 1 2) (1 2 1 2 1 2 1) (2 1 2 1 2 1 NIL) (NIL NIL NIL NIL NIL NIL NIL) (NIL NIL NIL NIL NIL NIL NIL) (NIL NIL NIL NIL NIL NIL NIL) (NIL NIL NIL NIL NIL NIL NIL)))
 )
 
 
@@ -820,15 +811,189 @@
 	)
 
 
+	
+	
 
-  (defun f-avaliacao(tabuleiro tabuleiro-pai n-jogador n-caixas-jogador n-caixas-adrevesario n-arestas)
-  "função de devolve a avaliação do tabuleiro (resultado da função de avaliação do tabuleiro)"
-  	(- n-caixas-jogador n-caixas-adrevesario) 
+	  (defun f-avaliacao(tabuleiro tabuleiro-pai n-jogador n-caixas-jogador n-caixas-adrevesario n-arestas)
+		"função de devolve a avaliação do tabuleiro (resultado da função de avaliação do tabuleiro)"
+		(cond
+		 
+		 ( (< 20 n-arestas) (- (numero-caixas-fechadas tabuleiro) n-caixas-adrevesario ) );;se tiver menos de 20 arestas
+		 (T (let*
+				
+				(
+				 (tabuleiro-convertido (converter-tabuleiro tabuleiro));;tabuleiro convertido para calcular as correntes
+				 (tabuleiro-pai-convertido (converter-tabuleiro tabuleiro-pai)) ;;tabuleiro pai convertido para calcular as correntes
+				 (resultados-tabuleiro  (sort (f-avaliacao-no-no tabuleiro-convertido) #'>)) ;;resultados das correntes do tabuleiro
+				 (resultados-tabuleiro-pai (sort (f-avaliacao-no-no tabuleiro-pai-convertido)#'>)) ;;resultados das correntes do tabuleiro-pai
+				 (LChains-tabuleiro (obter-LChains resultados-tabuleiro)) ; Lista correntes grandes do tabuleiro
+				 (DChains-tabuleiro (obter-DChains resultados-tabuleiro)) ; Lista correntes de tamanho 2 do tabuleiro
+				 (SChains-tabuleiro (obter-SChains resultados-tabuleiro)) ; Lista de uma caixa com 2 arestas por completar do tabuleiro
+				 (LChains-tabuleiro-pai (obter-LChains resultados-tabuleiro-pai)) ; Lista correntes grandes do tabuleiro-pai
+				 (DChains-tabuleiro-pai (obter-DChains resultados-tabuleiro-pai)) ;Lista correntes de tamanho 2 do tabuleiro-pai
+				 (SChains-tabuleiro-pai (obter-SChains resultados-tabuleiro-pai)) ; Lista de uma caixa com 2 arestas por completar do tabuleiro-pai
+				 (n-LChains-tabuleiro (length LChains-tabuleiro)) ;numero correntes grandes do tabuleiro
+				 (n-DChains-tabuleiro (length DChains-tabuleiro)) ;numero correntes de tamanho 2 do tabuleiro
+				 (n-SChains-tabuleiro (length SChains-tabuleiro)) ;numero de caixas com 2 arestas por completar do tabuleiro
+				 (n-LChains-tabuleiro-pai (length LChains-tabuleiro-pai))  ;numero correntes grandes do tabuleiro-pai
+				 (n-DChains-tabuleiro-pai (length DChains-tabuleiro-pai))  ;numero correntes de tamanho 2 do tabuleiro-pai
+				 (n-SChains-tabuleiro-pai (length SChains-tabuleiro-pai))  ;numero de caixas com 2 arestas por completar do tabuleiro-pai
+				 (n-quadrados-onde-falta-1-aresta (apply '+ (quadrados-onde-falta-1-aresta tabuleiro-convertido (- (length tabuleiro-convertido) 1) (- (length (first tabuleiro-convertido)) 1) (- (length (first tabuleiro-convertido)) 1) )) )
+				 (n-quadrados-onde-falta-1-aresta-pai (apply '+ (quadrados-onde-falta-1-aresta tabuleiro-pai-convertido (- (length tabuleiro-pai-convertido) 1) (- (length (first tabuleiro-pai-convertido)) 1) (- (length (first tabuleiro-pai-convertido)) 1) )) )
+				 
+				 )
+			  
+			  (cond 
+			   (( = ( + n-quadrados-onde-falta-1-aresta (apply '+ LChains-tabuleiro) (* 2 n-DChains-tabuleiro) n-SChains-tabuleiro ) (- 49 (numero-caixas-fechadas tabuleiro) )  ) ;;se estamos numa fase final (tested)
+				
+				(cond 
+				
+				((> (numero-caixas-fechadas tabuleiro) (numero-caixas-fechadas tabuleiro-pai)) ;;caixas foram fechadas (tested)
+					   
+					   ;;casos de quando preenche
+					   (cond
+						
+						(
+						 (and
+						  (= n-LChains-tabuleiro n-LChains-tabuleiro-pai)
+						  (= n-DChains-tabuleiro n-DChains-tabuleiro-pai)
+						  (= n-SChains-tabuleiro (- n-SChains-tabuleiro-pai 1))
+						  (= n-quadrados-onde-falta-1-aresta-pai n-quadrados-onde-falta-1-aresta)
+						  
+						  
+						  );;preencheu o fim de uma LChain e nao devia muito má jogada
+						 -100
+						 )
+						(t 
+						 100
+						 )) ;;caso contratio
+					   
+					   )
+					  
+					  
+					  
+					  
+				
+				(t  ;;situação dos pares e impares
+					(cond
+					 ((= 1 n-jogador ) ;somos os primeiros a jogar
+					  
+					  
+					   (cond
+					   ((and (= 0 (mod n-LChains-tabuleiro 2)) (= 0 (mod (+ n-DChains-tabuleiro n-SChains-tabuleiro) 2)));;caso bom para o j1
+						
+						(- (+	
+							
+							 (+ 
+							  (- (numero-caixas-fechadas tabuleiro) n-caixas-adrevesario )
+							  (calcular-caixas-ganhas-em-LChains LChains-tabuleiro) 
+							  )
+							 
+							(* 2 (floor (/ n-DChains-tabuleiro 2))))
+						   (* 2 (ceiling (/ n-DChains-tabuleiro 2) ))
+						   ))
+						   
+						   (t ;;caso mau para o j1
+						   
+						  (+ (-	
+							
+							 (- 
+							  (- (numero-caixas-fechadas tabuleiro) n-caixas-adrevesario )
+							  (calcular-caixas-ganhas-em-LChains LChains-tabuleiro) 
+							  )
+							 
+							(* 2 (floor (/ n-DChains-tabuleiro 2))))
+						   (* 2 (ceiling (/ n-DChains-tabuleiro 2) ))
+						   )
+						   )
+						  
+						  
+						  )
+					   
+					   
+					   )
+					 (T ;somos os segundos a jogar
+					  
+						(cond
+					   ((and (= 1 (mod n-LChains-tabuleiro 2)) (= 1 (mod (+ n-DChains-tabuleiro n-SChains-tabuleiro) 2)));;caso bom para o j2, quando é impar
+						(- (+	
+							
+							 (+ 
+							  (- (numero-caixas-fechadas tabuleiro) n-caixas-adrevesario )
+							  (calcular-caixas-ganhas-em-LChains LChains-tabuleiro) 
+							  )
+							 
+							(* 2 (floor (/ n-DChains-tabuleiro 2))))
+						   (* 2 (ceiling (/ n-DChains-tabuleiro 2) ))
+						   )
+						   )
+					   
+					   (t ;;caso mau para o j2
+						  (+ (-	
+							   (+ (-	
+							
+							 (- 
+							  (- (numero-caixas-fechadas tabuleiro) n-caixas-adrevesario )
+							  (calcular-caixas-ganhas-em-LChains LChains-tabuleiro) 
+							  )
+							 
+							(* 2 (floor (/ n-DChains-tabuleiro 2))))
+						   (* 2 (ceiling (/ n-DChains-tabuleiro 2) ))
+						   ) )
+						   )
+						  
+						  
+						  
+					   
+					   
+					  
+					  )
+					 )
+					
+					
+					)
+				
+				)
+	)	))		
+			   
+			   (t
+				(- (numero-caixas-fechadas tabuleiro) n-caixas-adrevesario )
+				
+				)
+			   
+			   
+			   )
+			  
+			  )
+			
+			)
+		 
+		 )	
+		
+	)
 
-  		
-  		
+		
 
-  	)
+	
+	
+	(defun quadrados-onde-falta-1-aresta (quadrados x y z)
+	"numero quadrados com 3 arestas"
+				(cond
+						((= -1 x) nil )
+						((= 0 y) (cons (quadrados-onde-falta-1-aresta-aux quadrados x y) (quadrados-onde-falta-1-aresta quadrados (- x 1) z z)))
+						(t (cons (quadrados-onde-falta-1-aresta-aux quadrados x y) (quadrados-onde-falta-1-aresta quadrados x (- y 1) z )))
+				)
+			)
+			
+	(defun quadrados-onde-falta-1-aresta-aux(tabuleiro x y)
+	
+		(cond 
+		
+		((= 1 (n-arestas-por-preencher-quadrado (obter-quadrado tabuleiro x y))) 1 )
+
+		(t 0))
+	
+	)
 
 	(defun calcular-caixas-ganhas-em-LChains(lchains &optional(primeira 1))
   "funcao que recebe uma lista de Long Chains com o tamanho de cada uma e devolve quantas caixas consegue-se fazer"
@@ -956,6 +1121,138 @@
 		)
 	)
 )
+
+
+
+
+(defun tab-pai ()
+
+'(
+    ((1 NIL NIL NIL NIL NIL NIL)
+	(NIL 1 NIL NIL NIL 2 1)
+    (NIL 2 NIL NIL 2 1 2)
+	(NIL NIL 2 2 1 2 1)
+    (NIL NIL NIL NIL NIL NIL NIL)
+	(NIL NIL NIL NIL NIL NIL NIL)
+    (NIL NIL NIL NIL NIL NIL NIL)
+	(NIL NIL NIL NIL NIL NIL NIL))
+	
+    ((2 1 2 1 2 1 2)
+	(NIL 2 1 2 1 2 1)
+    (2 1 NIL 1 2 1 2)
+	(1 2 1 NIL 1 2 1)
+    (1 2 NIL 1 2 1 2)
+	(1 NIL NIL NIL 2 1 2)
+    (NIL NIL NIL 2 1 2 1)
+	(2 NIL NIL NIL 1 2 NIL))
+
+)
+
+)
+
+
+(defun tab ()
+
+'(
+    ((1 NIL NIL NIL NIL NIL NIL)
+	(NIL 1 NIL NIL NIL 2 1)
+    (NIL 2 NIL NIL 2 1 2)
+	(NIL NIL 2 2 1 2 1)
+    (NIL NIL NIL NIL NIL NIL NIL)
+	(NIL NIL NIL NIL NIL NIL NIL)
+    (NIL NIL NIL NIL NIL NIL NIL)
+	(NIL NIL NIL NIL NIL NIL NIL))
+	
+    ((2 1 2 1 2 1 2)
+	(NIL 2 1 2 1 2 1)
+    (2 1 NIL 1 2 1 2)
+	(1 2 1 NIL 1 2 1)
+    (1 2 NIL 1 2 1 2)
+	(1 NIL NIL NIL 2 1 2)
+    (NIL NIL NIL 2 1 2 1)
+	(2 NIL NIL NIL 1 2 1))
+
+)
+
+)
+
+(defun tab-teste ()
+
+'(
+    ((1 NIL NIL NIL NIL NIL NIL)
+	(NIL 1 NIL NIL NIL 2 1)
+    (NIL 2 NIL NIL 2 1 2)
+	(NIL NIL 2 2 1 2 1)
+    (NIL NIL NIL NIL NIL NIL 2)
+	(NIL NIL NIL NIL NIL NIL 2)
+    (NIL NIL NIL NIL NIL NIL 2)
+	(NIL NIL NIL NIL NIL NIL 1))
+	
+    ((2 1 2 1 2 1 2)
+	(NIL 2 1 2 1 2 1)
+    (2 1 NIL 1 2 1 2)
+	(1 2 1 NIL 1 2 1)
+    (1 2 NIL 1 2 1 2)
+	(1 NIL NIL NIL 2 1 2)
+    (NIL NIL NIL 2 1 2 1)
+	(2 NIL NIL NIL 1 2 1))
+
+)
+
+)
+
+
+(defun tab-teste-2 ()
+
+'(
+    ((1 NIL NIL NIL NIL NIL NIL)
+	(NIL 1 NIL NIL NIL 2 1)
+    (NIL 2 NIL NIL 2 1 2)
+	(NIL NIL 2 2 1 2 1)
+    (NIL NIL NIL NIL NIL NIL NIL)
+	(NIL NIL NIL NIL NIL NIL 2)
+    (NIL NIL NIL NIL NIL NIL 2)
+	(NIL NIL NIL NIL NIL NIL 1))
+	
+    ((2 1 2 1 2 1 2)
+	(NIL 2 1 2 1 2 1)
+    (2 1 NIL 1 2 1 2)
+	(1 2 1 NIL 1 2 1)
+    (1 2 NIL 1 2 1 2)
+	(1 NIL NIL NIL 2 1 2)
+    (NIL NIL NIL 2 1 2 1)
+	(2 NIL NIL 2 1 2 1))
+
+)
+
+)
+
+(defun tab-teste-pai ()
+
+'(
+    ((1 NIL NIL NIL NIL NIL NIL)
+	(NIL 1 NIL NIL NIL 2 1)
+    (NIL 2 NIL NIL 2 1 2)
+	(NIL NIL 2 2 1 2 1)
+    (NIL NIL NIL NIL NIL NIL NIL)
+	(NIL NIL NIL NIL NIL NIL 2)
+    (NIL NIL NIL NIL NIL NIL 2)
+	(NIL NIL NIL NIL NIL NIL 1))
+	
+    ((2 1 2 1 2 1 2)
+	(NIL 2 1 2 1 2 1)
+    (2 1 NIL 1 2 1 2)
+	(1 2 1 NIL 1 2 1)
+    (1 2 NIL 1 2 1 2)
+	(1 NIL NIL NIL 2 1 2)
+    (NIL NIL NIL 2 1 2 1)
+	(2 NIL NIL NIL 1 2 1))
+
+)
+
+)
+
+
 
 
 

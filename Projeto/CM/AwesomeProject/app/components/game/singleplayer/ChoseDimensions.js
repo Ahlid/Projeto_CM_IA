@@ -18,9 +18,9 @@ export default class ChoseDimensions extends React.Component {
 
 
     onGo() {
-        if (!isNaN(this.state.hSquares*1) && this.state.hSquares > 0 && this.state.hSquares < 6
+        if (!isNaN(this.state.hSquares*1) && this.state.hSquares > 0 && this.state.hSquares < 8
             &&
-            !isNaN(this.state.vSquares*1) && this.state.vSquares > 0 && this.state.vSquares < 6) {
+            !isNaN(this.state.vSquares*1) && this.state.vSquares > 0 && this.state.vSquares < 8) {
             this.props.onGo(this.state);
         } else {
 
@@ -83,7 +83,7 @@ export default class ChoseDimensions extends React.Component {
 
                         <Slider style={{width: width/3.84}} value={this.state.hSquares}
                                 onValueChange={(value) => this.setState({hSquares: value})} step={1} minimumValue={1}
-                                maximumValue={5}/>
+                                maximumValue={7}/>
 
                     </View>
 
@@ -97,7 +97,7 @@ export default class ChoseDimensions extends React.Component {
 
                         <Slider style={{width: width/3.84}} value={this.state.vSquares}
                                 onValueChange={(value) => this.setState({vSquares: value})} step={1} minimumValue={1}
-                                maximumValue={5}/>
+                                maximumValue={7}/>
 
                     </View>
 

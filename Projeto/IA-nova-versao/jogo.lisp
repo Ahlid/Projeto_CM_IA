@@ -1,29 +1,7 @@
 
 (defun tabuleiro-teste-heuristica()
 
-'(
-(
- (NIL NIL NIL NIL NIL NIL NIL)
- (NIL NIL NIL NIL NIL NIL NIL)
- (NIL NIL NIL NIL NIL NIL NIL)
- (NIL NIL NIL NIL NIL NIL NIL) 
- (NIL NIL NIL NIL NIL NIL NIL)
- (NIL NIL NIL NIL NIL NIL NIL)
- (NIL NIL NIL NIL NIL NIL NIL)
- (NIL NIL NIL NIL NIL NIL NIL)
- ) 
- (
- (NIL NIL NIL NIL NIL NIL NIL)
- (NIL NIL NIL NIL NIL NIL NIL)
- (NIL NIL NIL NIL NIL NIL NIL)
- (NIL NIL NIL NIL NIL NIL NIL)
- (NIL NIL NIL NIL NIL NIL NIL)
- (NIL NIL NIL NIL NIL NIL NIL)
- (NIL NIL NIL NIL NIL NIL NIL)
- (NIL NIL NIL NIL NIL NIL NIL)
- )
- )
-
+'(((NIL NIL NIL NIL NIL 2 1) (NIL NIL NIL NIL NIL 2 1) (NIL NIL NIL NIL NIL 2 2) (NIL NIL NIL NIL NIL 1 2) (NIL NIL NIL NIL NIL 1 NIL) (NIL NIL NIL NIL NIL 2 NIL) (NIL NIL NIL NIL NIL NIL NIL) (NIL NIL NIL NIL NIL NIL 1)) ((2 1 2 1 2 1 2) (1 2 1 2 1 2 1) (2 1 2 1 2 1 2) (1 2 1 2 1 2 1) (2 1 2 1 1 2 1) (2 1 2 1 1 1 1) (2 2 1 2 NIL NIL NIL) (2 2 2 NIL 2 1 1)))
 )
 
 (defun iniciar ()	
@@ -140,9 +118,9 @@
        (try-move-in-generation 2 0))))
 
 (defun jogar()
-  (let ((caixas1 0) (caixas2 0) (vez 2) (tabuleiro (tabuleiro-teste-heuristica)) (jogada '())) 
+  (let ((caixas1 0) (caixas2 0) (vez 1) (tabuleiro (tabuleiro-inicial)) (jogada '())) 
    (loop
-   (progn (call-memory-functions) 
+   (progn (call-memory-functions) (defparameter *avaliacoes-hash* (make-hash-table :rehash-size 100000))
      (cond
       ((null (vencedor-p caixas1 caixas2))
        (progn (setf jogada (fazer-jogada tabuleiro vez caixas1 caixas2))
