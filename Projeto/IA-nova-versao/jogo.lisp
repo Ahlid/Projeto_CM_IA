@@ -1,4 +1,31 @@
 
+(defun tabuleiro-teste-heuristica()
+
+'(
+(
+ (NIL NIL NIL NIL NIL NIL NIL)
+ (NIL NIL NIL NIL NIL NIL NIL)
+ (NIL NIL NIL NIL NIL NIL NIL)
+ (NIL NIL NIL NIL NIL NIL NIL) 
+ (NIL NIL NIL NIL NIL NIL NIL)
+ (NIL NIL NIL NIL NIL NIL NIL)
+ (NIL NIL NIL NIL NIL NIL NIL)
+ (NIL NIL NIL NIL NIL NIL NIL)
+ ) 
+ (
+ (NIL NIL NIL NIL NIL NIL NIL)
+ (NIL NIL NIL NIL NIL NIL NIL)
+ (NIL NIL NIL NIL NIL NIL NIL)
+ (NIL NIL NIL NIL NIL NIL NIL)
+ (NIL NIL NIL NIL NIL NIL NIL)
+ (NIL NIL NIL NIL NIL NIL NIL)
+ (NIL NIL NIL NIL NIL NIL NIL)
+ (NIL NIL NIL NIL NIL NIL NIL)
+ )
+ )
+
+)
+
 (defun iniciar ()	
 "Fun��o que inicializa o programa, chamando a fun��o que apresenta o menu inicial."
 	(progn
@@ -6,7 +33,7 @@
 		(compile-file (concatenate 'string (diretoria-atual)"pontosecaixas.lisp"))	;compila o ficheiro puzzle.lisp
 		(load (concatenate 'string (diretoria-atual)"alfabeta.ofasl"))  ;faz load do ficheiro compilado da procura.lisp
 		(load (concatenate 'string (diretoria-atual)"pontosecaixas.ofasl")) ;faz load do ficheiro compilado do puzzle.lisp
-		(jogar)
+		
 	)
 )
 
@@ -104,13 +131,21 @@
 	)
 )
 
+(defun call-memory-functions()
+  (gc-generation t)          ; first collect all dead objects
+  (multiple-value-bind (tf tsb tlb)
+      (check-fragmentation 2) ; check the fragmentation
+    (when  (and (> 10000000 tlb)         
+                (> (ash tf -2) tlb))
+       (try-move-in-generation 2 0))))
+
 (defun jogar()
-  (let ((caixas1 0) (caixas2 0) (vez 1) (tabuleiro (tabuleiro-inicial)) (jogada '())) 
+  (let ((caixas1 0) (caixas2 0) (vez 2) (tabuleiro (tabuleiro-teste-heuristica)) (jogada '())) 
    (loop
-   (prog (gc-generation t)
+   (progn (call-memory-functions) 
      (cond
       ((null (vencedor-p caixas1 caixas2))
-       (progn (setf jogada (fazer-jogada tabuleiro vez))
+       (progn (setf jogada (fazer-jogada tabuleiro vez caixas1 caixas2))
          (cond 
           ((> (car jogada) 0)
            (cond 
@@ -148,17 +183,17 @@
 
 
 
-(defun fazer-jogada(tabuleiro vez)
+(defun fazer-jogada(tabuleiro vez caixas1 caixas2)
 	(cond 
 		((= 1 vez) (progn 
-			(imprime-tabuleiro tabuleiro)
+			(imprime-tabuleiro tabuleiro) (format t "~A" tabuleiro) (format t "~%")
 				(let* ((jogada (implementar-jogada-humano tabuleiro (ler-jogada))))
 					(cons  (- (numero-caixas-fechadas jogada) (numero-caixas-fechadas tabuleiro)) jogada)
 				)
 			)
 		)
 		(T 
-		(let* ((jogada (no-estado (escolher-jogada (no-criar tabuleiro nil 0 (list 0 0 *jogador2* nil 0)) 5000))) )
+		(let* ((jogada (no-estado (escolher-jogada (no-criar tabuleiro nil 0 (list caixas1 caixas2 *jogador2* nil 0)) 5000))) )
 		
 			(cons (- (numero-caixas-fechadas jogada) (numero-caixas-fechadas tabuleiro)) jogada)
 		)

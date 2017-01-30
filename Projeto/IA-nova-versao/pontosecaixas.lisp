@@ -823,69 +823,10 @@
 
   (defun f-avaliacao(tabuleiro tabuleiro-pai n-jogador n-caixas-jogador n-caixas-adrevesario n-arestas)
   "função de devolve a avaliação do tabuleiro (resultado da função de avaliação do tabuleiro)"
-  	(cond
+  	(- n-caixas-jogador n-caixas-adrevesario) 
 
-  		((< (+ n-caixas-jogador n-caixas-adrevesario) (numero-caixas-fechadas tabuleiro) ) 100 )
-
-  		(T (let*
-  			(tabuleiro-convertido (converter-tabuleiro tabuleiro);;tabuleiro convertido para calcular as correntes
-  			(tabuleiro-pai-convertido (converter-tabuleiro tabuleiro-pai)) ;;tabuleiro pai convertido para calcular as correntes
-  			(resultados-tabuleiro  (sort (f-avaliacao-no-no tabuleiro-convertido) #'>)) ;;resultados das correntes do tabuleiro
-  			(resultados-tabuleiro-pai (sort (f-avaliacao-no-no tabuleiro-pai-convertido)#'>)) ;;resultados das correntes do tabuleiro-pai
-  			(LChains-tabuleiro (obter-LChains resultados-tabuleiro)) ; Lista correntes grandes do tabuleiro
-  			(DChains-tabuleiro (obter-DChains resultados-tabuleiro)) ; Lista correntes de tamanho 2 do tabuleiro
-  			(SChains-tabuleiro (obter-SChains resultados-tabuleiro)) ; Lista de uma caixa com 2 arestas por completar do tabuleiro
-  			(LChains-tabuleiro-pai (obter-LChains resultados-tabuleiro-pai)) ; Lista correntes grandes do tabuleiro-pai
-  			(DChains-tabuleiro-pai (obter-DChains resultados-tabuleiro-pai)) ;Lista correntes de tamanho 2 do tabuleiro-pai
-  			(SChains-tabuleiro-pai (obter-SChains resultados-tabuleiro-pai)) ; Lista de uma caixa com 2 arestas por completar do tabuleiro-pai
-  			(n-LChains-tabuleiro (length LChains-tabuleiro)) ;numero correntes grandes do tabuleiro
-  			(n-DChains-tabuleiro (length DChains-tabuleiro)) ;numero correntes de tamanho 2 do tabuleiro
-  			(n-SChains-tabuleiro (length SChains-tabuleiro)) ;numero de caixas com 2 arestas por completar do tabuleiro
-  			(n-LChains-tabuleiro-pai (length LChains-tabuleiro-pai))  ;numero correntes grandes do tabuleiro-pai
-  			(n-DChains-tabuleiro-pai (length DChains-tabuleiro-pai))  ;numero correntes de tamanho 2 do tabuleiro-pai
-  			(n-SChains-tabuleiro-pai (length SChains-tabuleiro-pai))  ;numero de caixas com 2 arestas por completar do tabuleiro-pai
-
-  			)
-
-  			(cond
-  				((= 1 n-jogador ) ;somos os primeiros a jogar
-  					(cond
-  						((= 0 (mod n-LChains-tabuleiro 2));;o primeiro jogador para ganhar deve procurar um número par de LChains
-  							(- (+ (- n-caixas-jogador n-caixas-adrevesario) (calcular-caixas-ganhas-em-LChains LChains-tabuleiro) ) (1- (length LChains-tabuleiro)))
-  						)
-
-  						(T ;;quando nao tem um numero par de LChains ou seja está numa má situação
-  							(+ (- (- n-caixas-jogador n-caixas-adrevesario) (calcular-caixas-ganhas-em-LChains LChains-tabuleiro) ) (1- (length LChains-tabuleiro)))
-
-  						)
-
-  					)
-
-  				)
-  				(T ;somos os segundos a jogar
-
-
-  						(cond
-  						((= 0 (mod n-LChains-tabuleiro 2));;o segundo jogador para ganhar deve procurar um número impar de LChains
-  								(+ (- (- n-caixas-jogador n-caixas-adrevesario) (calcular-caixas-ganhas-em-LChains LChains-tabuleiro) ) (1- (length LChains-tabuleiro)))
-
-  						)
-
-  						(T ;;quando nao tem um numero par de LChains ou seja está numa má situação
-  							(- (+ (- n-caixas-jogador n-caixas-adrevesario) (calcular-caixas-ganhas-em-LChains LChains-tabuleiro) ) (1- (length LChains-tabuleiro)))
-
-  						)
-
-  					)
-
-  				)
-
-  			)
-
-  		)
-
-  		)
-  		)
+  		
+  		
 
   	)
 
