@@ -818,7 +818,23 @@
 		"função de devolve a avaliação do tabuleiro (resultado da função de avaliação do tabuleiro)"
 		(cond
 		 
-		 ( (< 20 n-arestas) (- (numero-caixas-fechadas tabuleiro) n-caixas-adrevesario ) );;se tiver menos de 20 arestas
+		 ( (< 20 n-arestas) (cond 
+				((> (numero-caixas-fechadas tabuleiro) (numero-caixas-fechadas tabuleiro-pai)) (1000))
+				 (t (let* 
+						( 
+						(tabuleiro-convertido (converter-tabuleiro tabuleiro));;tabuleiro convertido para calcular as correntes)
+						(n-quadrados-onde-falta-1-aresta (apply '+ (quadrados-onde-falta-1-aresta tabuleiro-convertido (- (length tabuleiro-convertido) 1) (- (length (first tabuleiro-convertido)) 1) (- (length (first tabuleiro-convertido)) 1) )) )
+				
+						)
+					(cond
+					((> n-quadrados-onde-falta-1-aresta 0) (progn (write-line "69!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!11")(- 69)))
+					(t (- (numero-caixas-fechadas tabuleiro) (* 20 n-caixas-adrevesario )) )
+					)
+					)
+				 
+				 
+				 )
+				));;se tiver menos de 20 arestas
 		 (T (let*
 				
 				(
@@ -957,8 +973,22 @@
 	)	))		
 			   
 			   (t
-				(- (numero-caixas-fechadas tabuleiro) n-caixas-adrevesario )
+				(cond 
+				((> (numero-caixas-fechadas tabuleiro) (numero-caixas-fechadas tabuleiro-pai)) 100)
+				 (t 
+					(let* 
+						( 
+						(tabuleiro-convertido (converter-tabuleiro tabuleiro));;tabuleiro convertido para calcular as correntes)
+						(n-quadrados-onde-falta-1-aresta (apply '+ (quadrados-onde-falta-1-aresta tabuleiro-convertido (- (length tabuleiro-convertido) 1) (- (length (first tabuleiro-convertido)) 1) (- (length (first tabuleiro-convertido)) 1) )) )
 				
+						)
+					(cond
+					((> n-quadrados-onde-falta-1-aresta 0) (progn (write-line "69!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!11")(- 69)))
+					(t (- (numero-caixas-fechadas tabuleiro) (* 20 n-caixas-adrevesario )) )
+					)
+					)
+				 )
+				)
 				)
 			   
 			   
@@ -1294,8 +1324,8 @@
  		(resultado 	(f-avaliacao  tabuleiro tabuleiro-pai jogador numero-caixas numero-caixas-adversario numero-arestas)) ;;a pontuacao
 	)
 	(cond
-						((= jogador jogador-otimizar) resultado) ;;verifica o jogador a otimizar
-						(t (- resultado) ))
+						((= jogador jogador-otimizar) (- resultado)) ;;verifica o jogador a otimizar
+						(t resultado))
 )
 
 )

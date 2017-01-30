@@ -6,12 +6,26 @@
 (defun log-teste(alfa beta novo-maior jogador-atual jogador-max profundidade)
 "para um log onde se percebe os cortes no algoritmo"
 	(progn 
+	(write-line (concatenate 'string "A: " (write-to-string alfa)) )
+	(write-line (concatenate 'string "B: " (write-to-string beta)) )
 		(cond
-			((= jogador-atual jogador-max) (write-line "Corte Alfa"))
-			(t (write-line "Corte Beta"))
+			((= jogador-atual jogador-max) (write-line "Corte Alfa")) ; estamos num nó max
+			(t (write-line "Corte Beta")) ; estamos num nó min
 		)
 		(write-line (concatenate 'string "Profundidade: " (write-to-string profundidade)))
 	)
+)
+
+(defun log-teste2(alfa beta jogador-atual jogador-max)
+"para um log onde se percebe os cortes no algoritmo"
+	(progn 
+	(cond
+			((= jogador-atual jogador-max) (write-line "NO MAX")) ; estamos num nó max
+			(t (write-line "NO MIN")) ; estamos num nó min
+	)
+	(write-line (concatenate 'string "A: " (write-to-string alfa)) )
+	(write-line (concatenate 'string "B: " (write-to-string beta)) )
+	)	
 )
 
 
@@ -52,7 +66,9 @@
 					( novo-alfa (max valor alfa) ) ; novo alfa é o max entre o valor calculado para este nó e o alfa atual
 					(end-tempo (get-internal-real-time))
 					
-				)
+				)(progn 
+					;;(log-teste2 alfa beta (no-jogador no) jogador)
+				
 				(cond 
 					( (>= novo-alfa beta) (progn (log-teste alfa beta novo-maior (no-jogador no) jogador profundidade) novo-maior )) ; situação de corte
 					( t (max 				; Devolve o valor máximo entre o novo-alfa e o valor negamax retornado pela proxima chamada recursiva
@@ -67,7 +83,7 @@
 												jogador ; jogador que queremos optimizar
 												tempo-inicio ; tempo de inicio do negamax
 												(max 0 (- tempo-maximo (- end-tempo start-tempo)) ))) ) ; tempo máximo para correr o negamax
-				)
+				))
 			)
 		)
 	)

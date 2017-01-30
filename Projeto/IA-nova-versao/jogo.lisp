@@ -11,7 +11,7 @@
 		(compile-file (concatenate 'string (diretoria-atual)"pontosecaixas.lisp"))	;compila o ficheiro puzzle.lisp
 		(load (concatenate 'string (diretoria-atual)"alfabeta.ofasl"))  ;faz load do ficheiro compilado da procura.lisp
 		(load (concatenate 'string (diretoria-atual)"pontosecaixas.ofasl")) ;faz load do ficheiro compilado do puzzle.lisp
-		
+		(jogar)
 	)
 )
 
@@ -21,13 +21,26 @@
 
 			;(path-ricardo "C:/Users/Ricardo Morais/Documents/IA_Lisp_projeto/Projeto/")
 			(path-tiago  "C:/Users/pcts/Documents/Projeto_CM_IA/Projeto/IA-nova-versao/")
-			;(path-professor (pedir-directoria))
+			(path-professor (pedir-directoria))
 		)
 			
-		path-tiago
+		;path-tiago
 		;path-ricardo
-		;path-professor
+		path-professor
 	)
+)
+
+(let ((diretoria nil))
+(defun pedir-directoria ()
+	"Pede a directoria dos ficheiros ao utilizador"
+	(cond
+	((null diretoria) (progn
+		(format t "Insira o diret�rio: ")
+		(setf diretoria (read))
+	))
+	(t diretoria)
+	)
+)
 )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -164,7 +177,7 @@
 (defun fazer-jogada(tabuleiro vez caixas1 caixas2)
 	(cond 
 		((= 1 vez) (progn 
-			(imprime-tabuleiro tabuleiro) (format t "~A" tabuleiro) (format t "~%")
+			(imprime-tabuleiro tabuleiro) (format t "~%")
 				(let* ((jogada (implementar-jogada-humano tabuleiro (ler-jogada))))
 					(cons  (- (numero-caixas-fechadas jogada) (numero-caixas-fechadas tabuleiro)) jogada)
 				)
