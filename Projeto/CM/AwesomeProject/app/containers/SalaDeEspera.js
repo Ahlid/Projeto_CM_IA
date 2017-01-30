@@ -31,7 +31,7 @@ class SalaDeEspera extends React.Component{
     _onCancel(){
         this.props.socket.emit('leaveRoom','');
         this.state.socket.removeAllListeners('userJoined')
-        Actions.salas();
+        Actions.salas({type: 'reset'});
     }
 
     _onUserJoined(){

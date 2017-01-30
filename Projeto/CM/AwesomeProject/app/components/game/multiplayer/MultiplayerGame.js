@@ -1,15 +1,16 @@
 import React, {Component} from 'react';
-import {Modal, Text, TouchableHighlight, View, TextInput, Button} from 'react-native';
+import {Modal, Text, TouchableHighlight,BackAndroid, View, TextInput, Button} from 'react-native';
 import {connect} from 'react-redux';
 import WinScreen from './WinScreen';
 import Score from './Score';
 import DrawScreen from './DrawScreen';
 import LostScreen from './LostScreen';
+import WinForfeitScreen from './WinForfeitScreen';
 import Board from '../../board/Board';
 import BoardModel from'../../../models/BoardModel';
 import {ActionCreators} from '../../../actions'
 import {bindActionCreators} from 'redux'
-
+import { Actions } from 'react-native-router-flux'
 
 class MultiplayerGame extends React.Component {
 
@@ -21,6 +22,7 @@ class MultiplayerGame extends React.Component {
             hasWinner: false,
             haveIWon: false,
             isDraw: false,
+            isForfeit: false,
             width: 0,
             height: 0,
             scorePlayer1: 0,
@@ -30,14 +32,30 @@ class MultiplayerGame extends React.Component {
     }
 
     componentDidMount() {
-        //this.props.socket.on('userLeave', this._winner.bind(this));
+        this.props.socket.on('userLeave', this._userLeave.bind(this));
         this.props.socket.on('start', this._startGame.bind(this));
         this.props.socket.on('receiveMove', this._receiveMove.bind(this));
         this.props.socket.emit('gameReady');
+
+
+         let handler = function() {
+            // this.onMainScreen and this.goBack are just examples, you need to use your own implementation here
+            // Typically you would use the navigator here to go to the last state.
+            this.props.socket.emit('forfeit', {});
+            BackAndroid.removeEventListener('hardwareBackPress', handler);
+             Actions.salas({type: 'reset'});
+            this.props.socket.emit('logToServer', 'User back button pressed');
+            return true;
+
+
+
+        }.bind(this);
+
+        BackAndroid.addEventListener('hardwareBackPress', handler);
     }
 
     componentWillUnmount() {
-        //this.props.socket.removeAllListeners('userLeave');
+        this.props.socket.removeAllListeners('userLeave');
         this.props.socket.removeAllListeners('start');
         this.props.socket.removeAllListeners('receiveMove');
         this.props.socket.removeAllListeners('ackMove');
@@ -61,6 +79,15 @@ class MultiplayerGame extends React.Component {
 
 
         return newState;
+    }
+
+    _userLeave(){
+        let newState = Object.assign({}, this.state);
+        newState.hasWinner = true;
+        newState.isForfeit = true;
+        this.setState(newState);
+
+        this.props.socket.emit('logToServer', 'User leave received');
     }
 
     _startGame(data) {
@@ -245,6 +272,13 @@ class MultiplayerGame extends React.Component {
                     onLayout={onLayout} style={[styleBoardBaseContainer]}>
                     <DrawScreen width={this.state.width}
                                height={this.state.height}/></View>
+            }
+
+            if(this.state.isForfeit){
+                return <View
+                    onLayout={onLayout} style={[styleBoardBaseContainer]}>
+                    <WinForfeitScreen width={this.state.width}
+                                height={this.state.height}/></View>
             }
 
             if(this.state.haveIWon){

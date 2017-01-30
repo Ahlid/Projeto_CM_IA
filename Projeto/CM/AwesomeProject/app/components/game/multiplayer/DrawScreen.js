@@ -12,7 +12,7 @@ export default class DrawScreen extends React.Component {
             <Text style={{fontSize: this.props.width / 10}}>{text}</Text>
             <Text style={{fontSize: this.props.width / 9}}>Empate</Text>
             <View style={{marginTop: 20,flexDirection: 'row',justifyContent: 'center', alignItems: 'center'}}>
-                <TouchableHighlight onPress={function(){Actions.menu()}}
+                <TouchableHighlight onPress={function(){Actions.salas({type: 'reset'});}}
                                     style={{marginLeft: 4,width: this.props.width / 2.5}}>
 
                     <View style={{backgroundColor: '#444849',justifyContent: 'center',

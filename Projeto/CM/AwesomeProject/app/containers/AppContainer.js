@@ -24,38 +24,46 @@ class AppContainer extends React.Component {
                     <Scene
                         key="login"
                         component={Login}
+                        type="replace"
                     />
 
                     <Scene
                         key="menu"
                         title="menu"
                         component={Menu}
-                        type="BackAction"
+                        type="replace"
                         initial={true}
+
                     />
 
                     <Scene
                         key="salas"
                         title="salas"
                         component={Salas}
+                        type="replace"
                     />
 
                     <Scene
                         key="salaespera"
                         title="salaespera"
                         component={SalaDeEspera}
+                        type="replace"
+
                     />
 
                     <Scene
                         key="jogo"
                         title="jogo"
                         component={Jogo}
+                        type="replace"
+
                     />
 
                     <Scene
                         key="singlePlayer"
                         title="singlePlayer"
                         component={SinglePlayer}
+                        type="replace"
                     />
 
                 </Scene>

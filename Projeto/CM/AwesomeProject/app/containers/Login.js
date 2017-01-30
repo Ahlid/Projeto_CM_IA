@@ -2,7 +2,7 @@
  * Created by pcts on 1/11/2017.
  */
 import React, {Component} from 'react';
-import {View, Text, Button, TextInput, Alert, Dimensions, TouchableHighlight, Image} from 'react-native';
+import {View, Text, Button, TextInput, Alert, Dimensions, BackAndroid, TouchableHighlight, Image} from 'react-native';
 import {connect} from 'react-redux';
 import { ActionCreators } from '../actions'
 import { bindActionCreators } from 'redux'
@@ -10,6 +10,8 @@ import { Actions } from 'react-native-router-flux'
 
 
 class Login extends React.Component{
+
+
 
     constructor(props){
         super(props)
@@ -19,6 +21,18 @@ class Login extends React.Component{
             err:false,
             waiting: false
         }
+
+        let handler = function() {
+            // this.onMainScreen and this.goBack are just examples, you need to use your own implementation here
+            // Typically you would use the navigator here to go to the last state.
+
+            BackAndroid.removeEventListener('hardwareBackPress', handler);
+            Actions.menu({type: 'reset'});
+            return true;
+
+        }.bind(this);
+
+        BackAndroid.addEventListener('hardwareBackPress', handler);
     }
 
     onclick(){

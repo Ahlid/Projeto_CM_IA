@@ -2,7 +2,7 @@
  * Created by pcts on 1/11/2017.
  */
 import React, {Component} from 'react';
-import {View, Text, Button, Modal, TouchableHighlight, ScrollView, StyleSheet, Dimensions} from 'react-native';
+import {View, Text, Button, Modal, TouchableHighlight, ScrollView, StyleSheet, Dimensions, BackAndroid} from 'react-native';
 import {connect} from 'react-redux';
 import AddSala from './AddSala';
 import {Actions} from 'react-native-router-flux';
@@ -26,6 +26,19 @@ class Sala extends React.Component {
     componentDidMount() {
         this.state.socket.on('viewRooms', this._socketOnViewRooms.bind(this))
         this.state.socket.emit('viewRooms', '');
+
+        let handler = function() {
+            // this.onMainScreen and this.goBack are just examples, you need to use your own implementation here
+            // Typically you would use the navigator here to go to the last state.
+
+            BackAndroid.removeEventListener('hardwareBackPress', handler);
+            Actions.menu({type: 'reset'});
+            return true;
+
+        }.bind(this);
+
+        BackAndroid.addEventListener('hardwareBackPress', handler);
+
     }
 
     componentWillUnmount() {
@@ -51,7 +64,7 @@ class Sala extends React.Component {
             hSquares: size.hSquares,
             vSquares: size.vSquares
         });
-        Actions.salaespera();
+        Actions.salaespera({type: 'reset'});
     }
 
     _addSalaOnCancelar() {
@@ -71,7 +84,8 @@ class Sala extends React.Component {
         if (data.id == id) {
             //confirma-se que é a sala dele entao vamos dar inicio ao jogo
             this.state.socket.removeAllListeners('joinConfirm');
-            Actions.jogo();
+
+            Actions.jogo({type: 'reset'});
 
         }
     }
