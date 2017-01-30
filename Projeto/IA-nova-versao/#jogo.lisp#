@@ -5,7 +5,7 @@
 )
 
 (defun iniciar ()	
-"Fun��o que inicializa o programa, chamando a fun��o que apresenta o menu inicial."
+"Funï¿½ï¿½o que inicializa o programa, chamando a funï¿½ï¿½o que apresenta o menu inicial."
 	(progn
 		(compile-file (concatenate 'string (diretoria-atual)"alfabeta.lisp"))  ;compila o ficheiro procura.lisp
 		(compile-file (concatenate 'string (diretoria-atual)"pontosecaixas.lisp"))	;compila o ficheiro puzzle.lisp
@@ -16,11 +16,11 @@
 )
 
 (defun diretoria-atual () 
-	"Fun��o que define um caminho para leitura dos ficheiros."
+	"Funï¿½ï¿½o que define um caminho para leitura dos ficheiros."
 	(let (
 
 			;(path-ricardo "C:/Users/Ricardo Morais/Documents/IA_Lisp_projeto/Projeto/")
-			;(path-tiago  "C:/Users/pcts/Documents/Projeto_CM_IA/Projeto/IA-nova-versao/")
+			(path-tiago  "C:/Users/pcts/Documents/Projeto_CM_IA/Projeto/IA-nova-versao/")
 			(path-professor (pedir-directoria))
 		)
 			
@@ -35,7 +35,7 @@
 	"Pede a directoria dos ficheiros ao utilizador"
 	(cond
 	((null diretoria) (progn
-		(format t "Insira o diret�rio: ")
+		(format t "Insira o diretï¿½rio: ")
 		(setf diretoria (read))
 	))
 	(t diretoria)
@@ -44,7 +44,7 @@
 )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Impressão do tabuleiro
+;; ImpressÃ£o do tabuleiro
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;(imprime-tabuleiro (no-estado (teste-preencher 7 7 *jogador2*)))
@@ -231,13 +231,14 @@
 
 
 (defun substituir (i valor l)
-	"Substitui um elemento de uma lista correpondente ao índice i pelo valor"
+	"Substitui um elemento de uma lista correpondente ao Ã­ndice i pelo valor"
 	(cond
-		( (null l) nil ) ; se a lista está vazia devolve nil
-		( (= i 0) (cons valor (rest l)) ) ;se o indice é igual 0, mete o valor atrás da lista
-		( t (cons (first l) (substituir (1- i) valor (rest l))) ) ; chama a função com o rest da lista e com o indice decrementado e nao receber o valor junta no ínicio o primeiro elemento da lista
+		( (null l) nil ) ; se a lista estÃ¡ vazia devolve nil
+		( (= i 0) (cons valor (rest l)) ) ;se o indice Ã© igual 0, mete o valor atrÃ¡s da lista
+		( t (cons (first l) (substituir (1- i) valor (rest l))) ) ; chama a funÃ§Ã£o com o rest da lista e com o indice decrementado e nao receber o valor junta no Ã­nicio o primeiro elemento da lista
 	)
 )
 
 
 
+ 

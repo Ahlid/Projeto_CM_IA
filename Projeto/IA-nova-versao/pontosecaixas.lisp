@@ -816,26 +816,8 @@
 
 	  (defun f-avaliacao(tabuleiro tabuleiro-pai n-jogador n-caixas-jogador n-caixas-adrevesario n-arestas)
 		"função de devolve a avaliação do tabuleiro (resultado da função de avaliação do tabuleiro)"
-		(cond
-		 
-		 ( (< 20 n-arestas) (cond 
-				((> (numero-caixas-fechadas tabuleiro) (numero-caixas-fechadas tabuleiro-pai)) (1000))
-				 (t (let* 
-						( 
-						(tabuleiro-convertido (converter-tabuleiro tabuleiro));;tabuleiro convertido para calcular as correntes)
-						(n-quadrados-onde-falta-1-aresta (apply '+ (quadrados-onde-falta-1-aresta tabuleiro-convertido (- (length tabuleiro-convertido) 1) (- (length (first tabuleiro-convertido)) 1) (- (length (first tabuleiro-convertido)) 1) )) )
-				
-						)
-					(cond
-					((> n-quadrados-onde-falta-1-aresta 0) (progn (write-line "69!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!11")(- 69)))
-					(t (- (numero-caixas-fechadas tabuleiro) (* 20 n-caixas-adrevesario )) )
-					)
-					)
-				 
-				 
-				 )
-				));;se tiver menos de 20 arestas
-		 (T (let*
+		
+		  (let*
 				
 				(
 				 (tabuleiro-convertido (converter-tabuleiro tabuleiro));;tabuleiro convertido para calcular as correntes
@@ -974,7 +956,7 @@
 			   
 			   (t
 				(cond 
-				((> (numero-caixas-fechadas tabuleiro) (numero-caixas-fechadas tabuleiro-pai)) 100)
+				((> (numero-caixas-fechadas tabuleiro) (numero-caixas-fechadas tabuleiro-pai)) (progn (write-line "posso caixa") (+ 0 100)))
 				 (t 
 					(let* 
 						( 
@@ -983,8 +965,8 @@
 				
 						)
 					(cond
-					((> n-quadrados-onde-falta-1-aresta 0) (progn (write-line "69!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!11")(- 69)))
-					(t (- (numero-caixas-fechadas tabuleiro) (* 20 n-caixas-adrevesario )) )
+					((> n-quadrados-onde-falta-1-aresta 0) (- (expt 3  n-quadrados-onde-falta-1-aresta )))
+					(t (+ (- (numero-caixas-fechadas tabuleiro)  (* 3 n-caixas-adrevesario) ) (* 4 n-caixas-jogador)  ) )
 					)
 					)
 				 )
@@ -996,9 +978,9 @@
 			  
 			  )
 			
-			)
+			
 		 
-		 )	
+		 	
 		
 	)
 
@@ -1325,7 +1307,7 @@
 	)
 	(cond
 						((= jogador jogador-otimizar) (- resultado)) ;;verifica o jogador a otimizar
-						(t resultado))
+						(t  (- resultado)))
 )
 
 )
