@@ -1,0 +1,4 @@
+simple-server\simple-server\simple-server.asd
+simple-server\__MACOSX\simple-server\._simple-server.asd
+simple-server\simple-server\apps\dots-boxes\dots-boxes.asd
+simple-server\__MACOSX\simple-server\apps\dots-boxes\._dots-boxes.asd

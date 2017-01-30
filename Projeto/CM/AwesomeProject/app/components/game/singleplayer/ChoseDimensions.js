@@ -14,6 +14,7 @@ export default class ChoseDimensions extends React.Component {
             hSquares :5,
             vSquares : 5
         }
+
     }
 
 

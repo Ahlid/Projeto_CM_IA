@@ -2,7 +2,7 @@
  * Created by pcts on 1/11/2017.
  */
 import React, {Component} from 'react';
-import {View, Text, Button, TextInput, Alert, StyleSheet, Image, Dimensions, TouchableHighlight} from 'react-native';
+import {View, Text, Button, TextInput, Alert, StyleSheet,BackAndroid, Image, Dimensions, TouchableHighlight} from 'react-native';
 import {connect} from 'react-redux';
 import {Actions} from 'react-native-router-flux';
 import {BoxShadow} from 'react-native-shadow';
@@ -12,6 +12,17 @@ class Menu extends React.Component {
     constructor(props) {
         super(props);
 
+        let handler = function() {
+            // this.onMainScreen and this.goBack are just examples, you need to use your own implementation here
+            // Typically you would use the navigator here to go to the last state.
+
+            BackAndroid.removeEventListener('hardwareBackPress', handler);
+            BackAndroid.exitApp();
+            return true;
+
+        }.bind(this);
+
+        BackAndroid.addEventListener('hardwareBackPress', handler);
 
     }
 
@@ -57,11 +68,8 @@ class Menu extends React.Component {
         console.log('render');
         const {height, width} = Dimensions.get('window');
         const orientation = (width > height) ? 'LANDSCAPE' : 'PORTRAIT';
-        this.newStyles()
+        this.newStyles();
         const styleImagem = (orientation == 'PORTRAIT') ?{ width: width/2, height : width/2} : { width: height/2.5, height : height/2.5} ;
-
-//eu nao fiz assim atença isto é um teste, como está está feito tipo merda experimenta sff
-
 
         return (
             <View onLayout={function () {
@@ -145,9 +153,3 @@ const styles = StyleSheet.create({
 
 });
 
-
-/*
- *
- *
- *
- * */

@@ -5,7 +5,8 @@ import {
     TouchableHighlight,
     View,
     TextInput,
-    Button
+    Button,
+    BackAndroid
 } from 'react-native';
 
 import Board from '../../board/Board';
@@ -14,6 +15,7 @@ import Score from './Score';
 import DrawScreen from './DrawScreen';
 import WinnerScreen from './WinnerScreen';
 import ChoseDimensions from './ChoseDimensions';
+import { Actions } from 'react-native-router-flux'
 
 export default class SinglePlayer extends React.Component{
 
@@ -34,6 +36,20 @@ export default class SinglePlayer extends React.Component{
             scorePlayer2: 0,
             turn: "player1"
         }
+
+
+        let handler = function() {
+            // this.onMainScreen and this.goBack are just examples, you need to use your own implementation here
+            // Typically you would use the navigator here to go to the last state.
+
+            BackAndroid.removeEventListener('hardwareBackPress', handler);
+            Actions.menu();
+            return true;
+
+        }.bind(this);
+
+        BackAndroid.addEventListener('hardwareBackPress', handler);
+
     }
 
 

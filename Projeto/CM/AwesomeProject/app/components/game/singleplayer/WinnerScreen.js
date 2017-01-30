@@ -25,7 +25,7 @@ export default class WinnerScreen extends React.Component {
 
 
                 </TouchableHighlight>
-                <TouchableHighlight onPress={function(){Actions.menu()}}
+                <TouchableHighlight onPress={function(){Actions.menu({type: 'reset'})}}
                                     style={{marginLeft: 4,width: this.props.width / 2.5}}>
 
                     <View style={{backgroundColor: '#444849',justifyContent: 'center',
