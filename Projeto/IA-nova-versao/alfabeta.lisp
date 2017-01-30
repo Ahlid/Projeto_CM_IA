@@ -260,7 +260,7 @@
 				(resultado (escolher-jogada-aux sucessores ; procura o melhor sucessor
 							4 ; Profundidade máxima
 							operadores ; operadores
-							tempo-limite ; tempo disponível para realizar a escolha da jogada
+							(- tempo-limite 3000) ; tempo disponível para realizar a escolha da jogada
 							(no-jogador no))) ; jogador que vai jogar neste nó
 				(tempo-fim (get-internal-real-time)) ; Para o chronometro
 				(tempo-gasto (- tempo-fim tempo-inicio))
