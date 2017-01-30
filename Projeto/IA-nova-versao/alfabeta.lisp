@@ -9,8 +9,8 @@
 	(write-line (concatenate 'string "A: " (write-to-string alfa)) )
 	(write-line (concatenate 'string "B: " (write-to-string beta)) )
 		(cond
-			((= jogador-atual jogador-max) (write-line "Corte Alfa")) ; estamos num nó max
-			(t (write-line "Corte Beta")) ; estamos num nó min
+			((= jogador-atual jogador-max) (setf *cortes-alfa* (1+ *cortes-alfa*))) ; estamos num nó max
+			(t (setf *cortes-beta* (1+ *cortes-beta*))) ; estamos num nó min
 		)
 		(write-line (concatenate 'string "Profundidade: " (write-to-string profundidade)))
 	)
@@ -247,26 +247,58 @@
 ; (imprime-tabuleiro  (no-estado (escolher-jogada (no-criar (tabuleiro-inicial) nil 0 (list 0 0 *jogador1* nil 0)) 5000)))
 (defun escolher-jogada (no tempo-limite)
 	"Escolhe uma jogada partindo de um nó"
-	(let*
-		(
-			(operadores (criar-operacoes 7 7 #'arco-vertical #'arco-horizontal)) ; Gera os operadores de um tabuleiro 7 por 7
-			(sucessores (sucessores-no no operadores)) ; Gera os sucessores apartir dos operadores e do nó recebido
-			(tempo-inicio (get-internal-real-time)) ; Começa o chronometro
-			(resultado (escolher-jogada-aux sucessores ; procura o melhor sucessor
-						4 ; Profundidade máxima
-						operadores ; operadores
-						tempo-limite ; tempo disponível para realizar a escolha da jogada
-						(no-jogador no))) ; jogador que vai jogar neste nó
-			(tempo-fim (get-internal-real-time)) ; Para o chronometro
-		)
-		(progn
-			(write-line (write-to-string (- tempo-fim tempo-inicio))) 
+	(progn
+		(defvar *cortes-alfa* 0)
+		(defvar *cortes-beta* 0)
+		(defvar *sucessores* 0)
+	
+		(let*
+			(
+				(operadores (criar-operacoes 7 7 #'arco-vertical #'arco-horizontal)) ; Gera os operadores de um tabuleiro 7 por 7
+				(sucessores (sucessores-no no operadores)) ; Gera os sucessores apartir dos operadores e do nó recebido
+				(tempo-inicio (get-internal-real-time)) ; Começa o chronometro
+				(resultado (escolher-jogada-aux sucessores ; procura o melhor sucessor
+							4 ; Profundidade máxima
+							operadores ; operadores
+							tempo-limite ; tempo disponível para realizar a escolha da jogada
+							(no-jogador no))) ; jogador que vai jogar neste nó
+				(tempo-fim (get-internal-real-time)) ; Para o chronometro
+				(tempo-gasto (- tempo-fim tempo-inicio))
+				(path "C:/Users/Ricardo Morais/Documents/")
+				;(path-tiago  "C:\\Users\\pcts\\Desktop\\ProjIA\\Projeto\\"))
+			)
+			
 			(cond	
 				((null resultado) (first sucessores)) ; se o resultado é nil devolve o primeiro sucessor por default
-				(t (second resultado)) ; devolve o nó resultante
+				(t 
+					(progn
+						
+						(write-line (format nil "Cortes alfa: ~a" *cortes-alfa*) )
+						(write-line (format nil "Cortes beta: ~a" *cortes-beta*) )
+						(write-line (format nil "Sucessores: ~a" *sucessores*) )
+						(write-line (format nil "Operação: ~a" (second (no-jogada (second resultado)))))
+						(write-line (format nil "X: ~a" (third (no-jogada (second resultado)))))
+						(write-line (format nil "Y: ~a" (third (no-jogada (second resultado)))))
+						(write-line (format nil "Tempo gasto: ~a" tempo-gasto) )
+						(with-open-file (ficheiro (concatenate 'string path "log.dat") :direction :output
+									:if-exists :append
+									:if-does-not-exist :create)
+							(write-line (format nil "Cortes alfa: ~a" *cortes-alfa*)  ficheiro )
+							(write-line (format nil "Cortes beta: ~a" *cortes-beta*) ficheiro )
+							(write-line (format nil "Sucessores: ~a" *sucessores*) ficheiro )
+							(write-line (format nil "Operação: ~a" (second (no-jogada (second resultado)))) ficheiro)
+							(write-line (format nil "X: ~a" (third (no-jogada (second resultado)))) ficheiro)
+							(write-line (format nil "Y: ~a" (third (no-jogada (second resultado)))) ficheiro)
+							(write-line (format nil "Tempo gasto: ~a" tempo-gasto)  ficheiro)
+						)
+						
+						(second resultado) ; devolve o nó resultante
+					)
+				)
 			)
+			
+			
 		)
-		
 	)
 )
 
