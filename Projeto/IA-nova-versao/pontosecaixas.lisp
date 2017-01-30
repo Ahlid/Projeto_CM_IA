@@ -5,6 +5,9 @@
 ;;;;
  (defvar *jogador2* 2)
  (defvar *jogador1* 1)
+ (defvar *cortes-alfa* 0)
+(defvar *cortes-beta* 0)
+(defvar *sucessores* 0)
  (defparameter *avaliacoes-hash* (make-hash-table :rehash-size 100000))
 
 ;;;;
@@ -598,11 +601,15 @@
 					)
 			)
 			(sucessores (limpar-nils (mapcar funcao operadores)))
+			(resultado (cond
+							((> (no-numero-arestas no) 20)  (sucessores-sem-simetrias sucessores)) ; optimizações de simetria até 20 arestas
+							(t sucessores)
+						))
 		)
-		(cond
-			((> (no-numero-arestas no) 20)  (sucessores-sem-simetrias sucessores)) ; optimizações de simetria até 20 arestas
-			(t sucessores)
+		(progn (setf *sucessores* (+ *sucessores* (length resultado)))
+			resultado
 		)
+		
 	)
 )
 ;(sucessores-no (no-criar (tabuleiro-inicial) nil 0 (list 0 0 *jogador1*)) (criar-operacoes 7 7 #'arco-vertical #'arco-horizontal))
